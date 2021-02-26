@@ -1,0 +1,764 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <title>Tergum - Professional Translation Service</title>
+      <meta content="" name="descriptison">
+      <meta content="" name="keywords">
+      <!-- Favicons -->
+      <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      <!-- Vendor CSS Files -->
+      <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/venobox/venobox.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/aos/aos.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+      <!-- Stripe JS File -->
+      <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+      <script src="https://js.stripe.com/v3/"></script>
+      <!--  Main CSS File -->
+      <link href="{% static 'order/css/style.css' %}" rel="stylesheet">
+      <style>
+         .radio-tile-group {
+         display: -webkit-box;
+         display: flex;
+         flex-wrap: wrap;
+         -webkit-box-pack: center;
+         justify-content: center;
+         }
+         .radio-tile-group .input-container {
+         position: relative;
+         height: 16rem;
+         width: 10rem;
+         margin: 0.5rem;
+         }
+         .radio-tile-group .input-container .radio-button {
+         opacity: 0;
+         position: absolute;
+         top: 0;
+         left: 0;
+         height: 100%;
+         width: 100%;
+         margin: 0;
+         cursor: pointer;
+         }
+         .radio-tile-group .input-container .radio-tile {
+         display: -webkit-box;
+         display: flex;
+         -webkit-box-orient: vertical;
+         -webkit-box-direction: normal;
+         flex-direction: column;
+         -webkit-box-align: center;
+         align-items: center;
+         -webkit-box-pack: center;
+         justify-content: center;
+         width: 100%;
+         height: 100%;
+         border: 2px solid #26bd8a;
+         border-radius: 5px;
+         padding: 0.4rem;
+         -webkit-transition: -webkit-transform 300ms ease;
+         transition: -webkit-transform 300ms ease;
+         transition: transform 300ms ease;
+         transition: transform 300ms ease, -webkit-transform 300ms ease;
+         }
+         .radio-tile-group .input-container .icon svg {
+         fill:#26bd8a;
+         width: 3rem;
+         height: 3rem;
+         }
+         .radio-tile-group .input-container .radio-tile-label {
+         text-align: center;
+         font-size: 0.65rem;
+         font-weight: 600;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         color:#26bd8a;
+         }
+         .radio-tile-group .input-container .radio-tile-heading {
+         text-align: center;
+         font-size: 1.2rem;
+         font-weight: 600;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         color:#26bd8a;
+         }
+         .radio-tile-group .input-container .radio-tile-subheading {
+         text-align: center;
+         font-size: 1.4rem;
+         font-weight: 600;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         color:#26bd8a;
+         }
+         .radio-tile-group .input-container .radio-button:checked + .radio-tile {
+         background-color: #26bd8a;
+         border: 2px solid #26bd8a;
+         color: white;
+         -webkit-transform: scale(1.1, 1.1);
+         transform: scale(1.1, 1.1);
+         }
+         .radio-tile-group .input-container .radio-button:checked + .radio-tile .icon svg {
+         fill: white;
+         background-color:#26bd8a;
+         }
+         .radio-tile-group .input-container .radio-button:checked + .radio-tile .radio-tile-label {
+         color: white;
+         background-color:#26bd8a;
+         }
+         .radio-tile-group .input-container .radio-button:checked + .radio-tile .radio-tile-heading {
+         color: white;
+         background-color:#26bd8a;
+         }
+         .radio-tile-group .input-container .radio-button:checked + .radio-tile .radio-tile-subheading {
+         color: white;
+         background-color:#26bd8a;
+         }
+         @-webkit-keyframes click-wave {
+         0% {
+         height: 40px;
+         width: 40px;
+         opacity: 0.35;
+         position: relative;
+         }
+         100% {
+         height: 200px;
+         width: 200px;
+         margin-left: -80px;
+         margin-top: -80px;
+         opacity: 0;
+         }
+         }
+         @-moz-keyframes click-wave {
+         0% {
+         height: 40px;
+         width: 40px;
+         opacity: 0.35;
+         position: relative;
+         }
+         100% {
+         height: 200px;
+         width: 200px;
+         margin-left: -80px;
+         margin-top: -80px;
+         opacity: 0;
+         }
+         }
+         @keyframes click-wave {
+         0% {
+         height: 40px;
+         width: 40px;
+         opacity: 0.35;
+         position: relative;
+         }
+         100% {
+         height: 200px;
+         width: 200px;
+         margin-left: -80px;
+         margin-top: -80px;
+         opacity: 0;
+         }
+         }
+         .option-input {
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         -ms-appearance: none;
+         -o-appearance: none;
+         appearance: none;
+         position: relative;
+         top: 13.3333333333px;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         height: 40px;
+         width: 40px;
+         -webkit-transition: all 0.15s ease-out 0s;
+         -moz-transition: all 0.15s ease-out 0s;
+         transition: all 0.15s ease-out 0s;
+         background: #cbd1d8;
+         border: none;
+         color: #fff;
+         cursor: pointer;
+         display: inline-block;
+         margin-right: 0.5rem;
+         outline: none;
+         position: relative;
+         z-index: 1000;
+         }
+         .option-input:hover {
+         background: #9faab7;
+         }
+         .option-input:checked {
+         background:#26bd8a;
+         }
+         .option-input:checked::before {
+         height: 40px;
+         width: 40px;
+         position: absolute;
+         content: '\2714';
+         display: inline-block;
+         font-size: 26.6666666667px;
+         text-align: center;
+         line-height: 40px;
+         }
+         .option-input:checked::after {
+         -webkit-animation: click-wave 0.65s;
+         -moz-animation: click-wave 0.65s;
+         animation: click-wave 0.65s;
+         background: #26bd8a;
+         content: '';
+         display: block;
+         position: relative;
+         z-index: 100;
+         }
+         .option-input.radio {
+         border-radius: 50%;
+         }
+         .option-input.radio::after {
+         border-radius: 50%;
+         }
+         .radio-tile-subheading {
+         text-align: center;
+         font-size: 1.4rem;
+         font-weight: 600;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         color:#26bd8a;
+         }
+      </style>
+      <link rel="stylesheet" type="text/css" href="{% static 'order/css/TvMultiSelectPanel.min.css' %}"/>
+   </head>
+   <body onresize="myFunction()">
+      <!--  Header -->
+      <header id="header" class="fixed-top d-flex align-items-center">
+         <div class="container">
+            <div class="header-container d-flex align-items-center">
+               <div class="logo mr-auto">
+                  <a href="index.html"><img src="{% static '/base/images/tergum_text.png' %}" alt="" class="img-fluid"></a>
+               </div>
+               <nav class="nav-menu d-none d-md-block">
+                  <ul>
+                     <li><a href="#" style="cursor: pointer;" onclick="window.location.href='/';">SAVE AS DRAFT</a></li>
+                     <li><a href="#" style="cursor: pointer;" onclick="window.location.href='/order/delete/{{job_obj.job_id}}';">DISCARD</a></li>
+                     <li class="get-started"><a href="/order/step-1/{{job_obj.job_id}}">Add more files</a></li>
+                  </ul>
+               </nav>
+            </div>
+         </div>
+      </header>
+      <!-- End Header -->
+      <br><br>
+      <main id="main">
+         <input type="hidden" name="job_id" value="{{job_obj.job_id}}">          
+         <section id="team" class="team">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        <h2>Step 2</h2>
+                     </div>
+                     <h4 class="my-3" id="size1">Translate to</h4>
+                     <div id="data"  class="tv-select-panel"></div>
+                     <div style="text-align: center; margin-top: 15px"></div>
+                     <div class="col-md-12 order-md-1">
+                        <h4 class="mb-3">Select Quality</h4>
+                        <form class="needs-validation" novalidate>
+                        <div class="member aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                           <div class="bg-white rounded box-shadow">
+                              <div class="container">
+                                 <div class="radio-tile-group">
+                                    {% for quality in quality_types %}
+                                    <div class="input-container">
+                                       <input id="{{quality.pk}}" class="radio-button" type="radio" name="quality" value= "{{quality.rate_multiplier}}"/>
+                                       <div class="radio-tile">
+                                          <div class ="heading mb-4">
+                                             <label  class="radio-tile-heading">{{quality.quality_name}}</label>
+                                          </div>
+                                          <div class="icon walk-icon">
+                                             <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/>
+                                             </svg>
+                                          </div>
+                                          <label class="radio-tile-label">1 translator</label>
+                                          <div class ="mt-3">
+                                             <label  class="radio-tile-subheading">x{{quality.rate_multiplier}}</label>
+                                          </div>
+                                          <label  class="radio-tile-label ml-2">per word</label>
+                                       </div>
+                                    </div>
+                                    {%endfor%}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!--content type card-->
+                        <div class="mt-4">
+                           <h4 class="mb-3">Select Content Type</h4>
+                           <div class="member aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                              <div class="bg-white rounded box-shadow">
+                                 <div>
+                                    {% for content in content_types %}
+                                    <label class="mx-4">
+                                       <input type="radio" value = "{{content.pk}}" class="option-input radio " name="content" />
+                                       <samll>{{content.content_name}}</samll>
+                                    </label>
+                                    {%endfor%}
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!--end content type card-->
+                        <!--orders details-->
+                        <div class="mt-4">
+                           <h4 class="mb-3">Your Orders</h4>
+                           <div class="member aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                              <div class="bg-white rounded box-shadow">
+                                 <div>
+                                    <div class="mt-4">
+                                       <h4 class="mb-3">Your Orders</h4>
+                                       <div class="member aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                                          <div class="bg-white rounded box-shadow">
+                                             <div>
+                                                <div class="row">
+                                                   <div class="col">
+                                                      <strong>Source</strong>
+                                                   </div>
+                                                   <div class="col d-none d-md-block">
+                                                      <strong>Target Language</strong>
+                                                   </div>
+                                                   <div class="col d-none d-md-block">
+                                                      <strong> Price per word</strong>
+                                                   </div>
+                                                   <div class="col d-none d-md-block">
+                                                      <strong>Total words</strong>
+                                                   </div>
+                                                   <div class="col d-none d-md-block">
+                                                      <strong>Total per language</strong>
+                                                   </div>
+                                                   <div class="col">
+                                                      <strong>Total Price</strong>
+                                                   </div>
+                                                </div>
+                                                <hr>
+                                                {% for attachment in job_obj.attachments.all %}
+                                                <div class="row">
+                                                   <div class="col" style="vertical-align : middle">
+                                                      <strong>{{attachment.orignal_filename}}</strong> <br>({{job_obj.source_language.language_name}})
+                                                   </div>
+                                                   <div class="col d-none d-md-block langs langs_{{ forloop.counter0 }}">
+                                                      <div class="row mx-auto">
+                                                         -
+                                                      </div>
+                                                   </div>
+                                                   <div class="col d-none d-md-block price_per_word price_per_word_{{ forloop.counter0 }}">
+                                                      <div class="row mx-auto">
+                                                         -
+                                                      </div>
+                                                   </div>
+                                                   <div class="col d-none d-md-block">
+                                                      × {{attachment.word_count}}
+                                                   </div>
+                                                   <div class="col d-none d-md-block  price_per_lang price_per_lang_{{ forloop.counter0 }}">
+                                                      <div class="row mx-auto">
+                                                         -
+                                                      </div>
+                                                   </div>
+                                                   <div class="col total_per_file total_per_file_{{ forloop.counter0 }}">
+                                                      -
+                                                   </div>
+                                                </div>
+                                                <hr>
+                                                {%endfor%}
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    </tbody>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!--end orders details-->
+                        <br>
+                        <button id="checkout-button" disabled class="btn btn-continue btn-lg btn-block" type="submit">Confirm order and pay -</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+      <!--  Footer  -->
+      <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+      <!-- Vendor JS Files -->
+      <script src="{% static 'order/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'order/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'order/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+      <script src="{% static 'order/vendor/php-email-form/validate.js' %}"></script>
+      <script src="{% static 'order/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+      <script src="{% static 'order/vendor/counterup/counterup.min.js' %}"></script>
+      <script src="{% static 'order/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+      <script src="{% static 'order/vendor/venobox/venobox.min.js' %}"></script>
+      <script src="{% static 'order/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'order/vendor/aos/aos.js' %}"></script>
+      <!--  Main JS File -->
+      <script src="{% static 'order/js/main.js' %}"></script>
+      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+      <script>
+         $('#login').click(function(e) {
+         e.preventDefault();
+         $('#login').prop('disabled', true);
+         $('#google-btn').prop('disabled', true);
+         
+         
+         $("#login").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+         $.ajax({
+             type: 'POST',
+             url: "{% url 'users:login_api' %}",
+             data: {
+                 email: $('#email').val(),
+                 password: $('#password').val(),
+                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                 action: 'post'
+             },
+         
+         
+         
+             success: function(json) {
+                 if (json.access_granted == false) {
+                     $('#login').prop('disabled', false);
+                     $('#google-btn').prop('disabled', false);
+                     $("#login").html('<small>' + json.error + '</small>');
+                     setTimeout(function() {
+                         $("#login").html('Login');
+                     }, 2000);
+                 } else if (json.access_granted == true) {
+                     window.location.replace('/');
+                 }
+         
+         
+             },
+             error: function(xhr, errmsg, err) {
+                 $('#login').prop('disabled', false);
+                 $('#google-btn').prop('disabled', false);
+                 $("#login").html('<small>Something went wrong, try again later.</small>');
+                 setTimeout(function() {
+                     $("#login").html('Login');
+                 }, 2000);
+             },
+         
+         
+         
+         });
+         });
+         
+         (function($) {
+           'use strict';
+         
+           $(function() {
+         
+             $(document).ready(function() {
+               function triggerClick(elem) {
+                 $(elem).click();
+               }
+               var $progressWizard = $('.stepper'),
+                 $tab_active,
+                 $tab_prev,
+                 $tab_next,
+                 $btn_prev = $progressWizard.find('.prev-step'),
+                 $btn_next = $progressWizard.find('.next-step'),
+                 $tab_toggle = $progressWizard.find('[data-toggle="tab"]'),
+                 $tooltips = $progressWizard.find('[data-toggle="tab"][title]');
+         
+               // To do:
+               // Disable User select drop-down after first step.
+               // Add support for payment type switching.
+         
+               //Initialize tooltips
+               $tooltips.tooltip();
+         
+               //Wizard
+               $tab_toggle.on('show.bs.tab', function(e) {
+                 var $target = $(e.target);
+         
+                 if (!$target.parent().hasClass('active, disabled')) {
+                   $target.parent().prev().addClass('completed');
+                 }
+                 if ($target.parent().hasClass('disabled')) {
+                   return false;
+                 }
+               });
+         
+               $btn_next.on('click', function() {
+                 $tab_active = $progressWizard.find('.active');
+         
+                 $tab_active.next().removeClass('disabled');
+         
+                 $tab_next = $tab_active.next().find('a[data-toggle="tab"]');
+                 triggerClick($tab_next);
+         
+               });
+               $btn_prev.click(function() {
+                 $tab_active = $progressWizard.find('.active');
+                 $tab_prev = $tab_active.prev().find('a[data-toggle="tab"]');
+                 triggerClick($tab_prev);
+               });
+             });
+           });
+         
+         }(jQuery, this));
+         
+           
+      </script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="{% static 'order/js/TvMultiSelectPanel.min.js' %}"></script>
+      <script type="text/javascript">
+         // <![CDATA[
+         var data = [];
+         
+         function setData(index) {
+             data.push({key: 1, value: 'A'});
+             data.push({key: 2, value: '-'});
+             data.push({key: 3, value: 'H'});
+             data.push({key: 4, value: 'I'});
+             data.push({key: 5, value: 'H'});
+             data.push({key: 6, value: 'I'});
+             data.push({key: 7, value: '-'});
+         }
+         
+         let index =0;
+         for(let index =0; index < 80; index++) {
+             setData(index)
+         }
+         
+         $(window).on('load', function () {
+          var grand_total = 0;
+         
+             var quality = $("input[name=quality]")[0].checked = true;;
+             var quality = $("input[name=content]")[0].checked = true;;
+         
+             
+             let source = [
+             {% for language in languages %}
+             {"key": {{language.pk}}, "value": "{{language.language_name}}"},
+             {% endfor %}
+            ];
+         
+            let pricing = [
+             {% for rate in rates %}
+             {"key": {{rate.target_language.pk}}, "value": {{rate.base_rate}}},  
+             {% endfor %}
+            ];
+         
+            let attachments = [
+            {% for attachment in job_obj.attachments.all %}
+               {"key": {{ forloop.counter0 }}, "word_count": {{attachment.word_count}}},  
+            {% endfor %}
+            ]
+         
+          
+            let key_language_relation = [
+             {% for language in languages %}
+             {"key":  {{ forloop.counter0 }}, "value": {{language.pk}}},
+             {% endfor %}
+            ];
+            
+            
+             var result = $('#data').panelMultiSelect({
+                 dataSource: source
+             });
+              
+             function selectedLanguageIDs() {
+              var selected_ids_int = [];
+         var seleted_ids = result.getSelectedResult().split(",");
+         seleted_ids.forEach(function(id) {
+             if (id != "") {
+                 selected_ids_int.push(parseInt(id));
+             }
+             console.log(selected_ids_int);
+         
+         });
+                 return selected_ids_int
+             }
+         
+             function selectedQualityIDs() {
+                 var quality = $("input[name=quality]");
+                 var checkedValue = quality.filter(":checked").val();
+                 return checkedValue
+             }
+         
+             function selectedContentTypeIDs() {
+                 var content = $("input[name=content]");
+                 var checkedValue = content.filter(":checked").val();
+                 return checkedValue
+             }
+         
+         
+         
+             function price_cacl() {
+         
+             
+         
+               var selected_ids_int = selectedLanguageIDs();
+         
+         
+         //console.log(selected_ids_int.length);
+         if (selected_ids_int.length > 0) {
+           $('#checkout-button').prop('disabled', false);
+         
+             grand_total = 0;
+             $(".price_per_lang").empty()
+             $(".total_per_file").empty()
+             attachments.forEach(function(attachment, attachments_loopcout) {
+                 var total = 0;
+                 $(".langs").empty()
+                 $(".price_per_word").empty()
+                 selected_ids_int.forEach(function(selected_lang_ids, loopcount) {
+                     //console.log(selectedQualityIDs())
+         
+                     var ppw = Math.round((pricing[selected_lang_ids]["value"] * attachment.word_count * selectedQualityIDs() + Number.EPSILON) * 100) / 100;
+                     $(".price_per_lang_" + attachments_loopcout).append('<div class="row mx-auto">$' + ppw + '</div>');
+                     $(".langs").append('<div class="row mx-auto">' + source[selected_lang_ids]["value"] + '</div>');
+                     $(".price_per_word").append('<div class="row mx-auto">' + Math.round((parseFloat(pricing[selected_lang_ids]["value"]) * selectedQualityIDs()+ Number.EPSILON) * 100) / 100 + '</div>');
+         
+                     total = (total + ppw) 
+                      total = Math.round((total + Number.EPSILON) * 100) / 100;
+                    
+                     $(".total_per_file_" + attachments_loopcout).html('<div class="row mx-auto">$' + total + '</div>');
+                 })
+                 total = Math.round((total + Number.EPSILON) * 100) / 100;
+                     grand_total = grand_total + total;
+             $("#checkout-button").html('Confirm order and pay $'+ Math.round((grand_total+ Number.EPSILON) * 100) / 100);
+         
+             })
+         } else {
+           $('#checkout-button').prop('disabled', true);
+           $("#checkout-button").html('Confirm order and pay -');
+         
+             $(".langs").empty()
+             $(".langs").append('<div class="row mx-auto">-</div>');
+         
+             $(".price_per_word").empty()
+             $(".price_per_word").append('<div class="row mx-auto">-</div>');
+         
+             $(".price_per_lang").empty()
+             $(".price_per_lang").append('<div class="row mx-auto">-</div>');
+         
+             $(".total_per_file").empty()
+             $(".total_per_file").append('<div class="row mx-auto">-</div>');
+         }   
+         
+         
+             }
+         
+             
+             $(document).on('click', '.radio-button', function(event) {
+               price_cacl()
+         
+         });
+         
+         $(document).on('click', '.tv-select-element', function(event) {
+         
+         
+         price_cacl()
+         
+         });
+         
+               $(document).on('click', '.option-input', function(event){
+                 //console.log(selectedLanguageIDs(), '|', selectedQualityIDs(),'|', selectedContentTypeIDs())
+                 
+               });
+         
+                
+         
+         
+               $('#checkout-button').click(function(e) {
+            e.preventDefault();
+            $('#checkout-button').prop('disabled', true);
+            var target_lang_pks = [];
+         
+            job_id = $('input[name=job_id]').val(),
+            
+            selectedLanguageIDs().forEach(function(selected_lang_ids) {
+              target_lang_pks.push(key_language_relation[selected_lang_ids]["value"])
+            })
+            var stripe = Stripe("pk_test_51HyPQKKiFsp51XcEyyYSe5iSj4wkCsznU46BDLkJ729PwmVysGZo5hx4p2odgDd1A0cDRpZPxW4zIblYLgM64eJ400zATUFI4i");
+            var quality = $("input[name=quality]");
+            var quality_pk= quality.filter(":checked").attr('id');
+            $("#checkout-button").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+            $.ajax({
+                type: 'POST',
+                url: "/en/api/job/finalize",
+                data: {
+                    job_id: job_id,
+                    selectedLanguageIDs: target_lang_pks,
+                    selectedQualityIDs: quality_pk,
+                    selectedContentTypeIDs: selectedContentTypeIDs(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    action: 'post'
+                },
+         
+         
+         
+                success: function(data, textStatus, xhr) {
+                   console.log(data);
+                    if (xhr.status == 200) {
+                        $('#checkout-button').prop('disabled', false);
+                        $("#checkout-button").html('<small>' + data.error + '</small>');
+                        setTimeout(function() {
+                           $("#checkout-button").html('Confirm order and pay $'+ Math.round((grand_total+ Number.EPSILON) * 100) / 100);
+                        }, 2000);
+                    } else if (xhr.status == 202) {
+                           stripe.redirectToCheckout({ sessionId: data.id });
+                        //window.location.replace('/');
+                    }
+         
+         
+                },
+                error: function(xhr, errmsg, err) {
+                    $('#checkout-button').prop('disabled', false);
+                    $("#checkout-button").html('<small>Something went wrong, try again later.</small>');
+                    setTimeout(function() {
+                      $("#checkout-button").html('Confirm order and pay $'+ Math.round((grand_total+ Number.EPSILON) * 100) / 100);
+                    }, 2000);
+                },
+         
+         
+         
+            });
+         });
+         
+         
+         
+         
+         });
+         
+         
+      </script>
+      </div>
+      <script>
+         function myFunction() {
+               
+               var w = document.getElementById('size1').getBoundingClientRect().width - 20;
+               var h = window.innerHeight;
+               var x = document.getElementById("data_button_wrapper") ;
+               var y = document.getElementById("tv-select-panel-content-wrapper");
+                 x.style.width = w+'px';
+                 y.style.width = w+'px';
+         
+                }
+      </script>
+   </body>
+</html>

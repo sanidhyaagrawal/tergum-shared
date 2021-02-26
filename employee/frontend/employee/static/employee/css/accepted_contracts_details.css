@@ -1,0 +1,262 @@
+.input-file-container {
+    position: relative;
+    width: 100%;
+    } 
+    .js .input-file-trigger {
+    display: block;
+    color:#00cc95;
+    transition: all .4s;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: transparent;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    }
+    .js .input-file {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    opacity: 0;
+    padding: 12px 0;
+    cursor: pointer;
+    }
+    .js .input-file:hover + .input-file-trigger,
+    .js .input-file:focus + .input-file-trigger,
+    .js .input-file-trigger:hover,
+    .js .input-file-trigger:focus {
+    color: #00cc95;
+    text-decoration: underline;
+    }
+    .file-return {
+    margin: 0;
+    }
+    .file-return:not(:empty) {
+    margin: 0.25em 0;
+    }
+    .js .file-return {
+    font-style: italic;
+    font-size: .9em;
+    font-weight: bold;
+    }
+    .js .file-return:not(:empty):before {
+    content: "Selected file: ";
+    font-style: normal;
+    font-weight: normal;
+    }
+    .reset-btn {
+    background:#DAA520;
+    color: #fff;
+    border-radius: 10px;
+    margin: 0 10px;
+    border: none;
+    padding: 8px 25px;
+    }
+    .delete-btn {
+    background:#b61414;
+    color: #fff;
+    border-radius: 10px;
+    margin: 0 10px;
+    border: none;
+    padding: 8px 25px;
+    }
+    .send-btn {
+    background:#009970;
+    color: #fff;
+    border-radius: 10px;
+    text-align: right;
+    margin: 0 10px;
+    border: none;
+    padding: 8px 25px;
+    }
+    .heading{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    }
+    .heading  h1 {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #7A7B7F;
+    }
+    .heading span {
+    flex: 1;
+    text-align: right;
+    font-size: 12px;
+    color: #999;
+    }
+    .ways ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    }
+    .ways li {
+    align-self: center;
+    flex: 1;
+    background-color: #F5F7FA;
+    text-align: center;
+    cursor: pointer;
+    padding: 15px 0;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border: 1px solid #ddd;
+    }
+    .ways li:first-child {
+    border-right: 0;
+    }
+    .ways li:last-child {
+    border-left: 0;
+    }
+    .ways li.active {
+    border: 2px solid  #009970;
+    color: #66676C;
+    }
+    .ways li.active::before {
+    content: '\f00c';
+    font-family: 'fontawesome';
+    color:  #009970;
+    }
+    .ways li:not(.active) {
+    padding: 16px 0;
+    }
+    section {
+    display: none;
+    }
+    section.active {
+    display: block;
+    }
+    section input,
+    section textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    outline: 0;
+    background-color: #F5F7FA;
+    padding: 10px;
+    margin-bottom: 10px;
+    letter-spacing: 1.4px;
+    }
+    section textarea {
+    min-height: 200px;
+    }
+    section select {
+    display: none;
+    }
+    .select-option {
+    background-color: #F5F7FA;
+    color: #999;
+    font-size: 15px;
+    position: relative;
+    cursor: pointer;
+    }
+    .select-option::before {
+    content: '\f107';
+    font-family: 'fontawesome';
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 9px;
+    margin-right: 10px;
+    font-size: 20px;
+    }
+    .select-option div:not(.option) {
+    padding: 10px 10px;
+    border: 1px solid #ddd;
+    }
+    .select-option div:last-child,
+    .select-option .head {
+    border-bottom: 1px solid #ddd;
+    }
+    .select-option .option {
+    display: none;
+    }
+    .select-option .option div {
+    text-transform: capitalize;
+    }
+    .select-option.active .option {
+    display: block;
+    position: absolute;
+    width: 100%;
+    background-color: #F5F7FA;
+    box-sizing: border-box;
+    padding: 0;
+    margin-top: -1px;
+    z-index: 2;
+    }
+    .select-option .option div {
+    border-bottom: 0;
+    }
+    .create-btn{
+    transition: all .5s ease;
+    width: 100%;
+    border-radius: 8px;
+    color:#008080;
+    font-weight: 600;
+    background-color: #fff;
+    border: 1px solid #008080;
+    margin-top: 0.25em;
+    margin-bottom: 0;
+    padding: 12px 0px;
+    }
+    .upload-btn{
+    transition: all .5s ease;
+    width: 100%;
+    border-radius: 8px;
+    color:#fff;
+    font-weight: 600;
+    background-color:#009970;
+    border: 1px solid #009970;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    padding: 12px 0px;
+    }
+    .container .chat-log {
+    background: #E5DDD5 url("https://www.toptal.com/designers/subtlepatterns/patterns/sports.png") fixed;
+    }
+    .chat-log {
+    padding: 40px 0 114px;
+    height: auto;
+    overflow: auto;
+    }
+    .chat-log__item {
+    background: #fafafa;
+    padding: 10px;
+    margin: 0 auto 20px;
+    max-width: 80%;
+    float: left;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    clear: both;
+    }
+    .chat-log__item.chat-log__item--own {
+    float: right;
+    background: #DCF8C6;
+    text-align: right;
+    }
+    .chat-form {
+    background: #DDDDDD;
+    padding: 40px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    }
+    .chat-log__author {
+    margin: 0 auto .5em;
+    font-size: 14px;
+    font-weight: bold;
+    }
+    hr{
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+    padding: 2px 2px;
+    }

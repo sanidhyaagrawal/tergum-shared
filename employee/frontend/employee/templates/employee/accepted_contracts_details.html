@@ -1,0 +1,770 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Accepted job</title>
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+	<!-- Custom fonts for this template-->
+	<link href="{% static 'employee/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+	<!-- Custom styles for this template-->
+	<link href="{% static 'employee/css/style.css' %}" rel="stylesheet">
+	<link href="{% static 'employee/css/accepted_contracts_details.css' %}" rel="stylesheet">
+	<style>
+	.category-btn {
+		background: #009970;
+		color: #fff;
+		border-radius: 10px;
+		text-align: right;
+		border: none;
+		padding: 8px 25px;
+	}
+	
+	::-webkit-scrollbar {
+		width: 10px
+	}
+	
+	::-webkit-scrollbar-track {
+		background: #eee
+	}
+	
+	::-webkit-scrollbar-thumb {
+		background: #888
+	}
+	
+	::-webkit-scrollbar-thumb:hover {
+		background: #555
+	}
+	
+	.main {
+		background-color: #eee;
+		width: 100%;
+		position: relative;
+		border-radius: 8px;
+		box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 4px 0 rgba(0, 0, 0, 0.19);
+		padding: 6px 0px 0px 0px
+	}
+	
+	.scroll {
+		overflow-y: scroll;
+		scroll-behavior: smooth;
+		height: 260px;
+	}
+	
+	.img1 {
+		border-radius: 50%;
+		background-color: #66BB6A
+	}
+	
+	.name {
+		font-size: 8px
+	}
+	
+	.msg {
+		background-color: #fff;
+		font-size: 11px;
+		padding: 5px;
+		border-radius: 5px;
+		font-weight: 500;
+		color: #3e3c3c
+	}
+	
+	.between {
+		font-size: 8px;
+		font-weight: 500;
+		color: #a09e9e
+	}
+	
+	.navbar {
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: 8px;
+	}
+	
+	.form-control {
+		font-size: 12px;
+		font-weight: 400;
+		width: 80%;
+		height: 33px;
+		border: none
+	}
+	
+	form-control: focus {
+		box-shadow: none;
+		overflow: hidden;
+		border: none
+	}
+	
+	.btn-tertiary {
+		color: #555;
+		line-height: 40px;
+		display: block;
+		border: 2px solid #555;
+		margin-top: 0.25em;
+		margin-bottom: 0;
+		padding: 10px 0px;
+	}
+	
+	.btn-tertiary:hover,
+	.btn-tertiary:focus {
+		color: #888888;
+		border-color: #888888;
+	}
+	/* input file style */
+	
+	.input-file {
+		width: 0.1px;
+		height: 0.1px;
+		opacity: 0;
+		overflow: hidden;
+		position: absolute;
+		z-index: -1;
+	}
+	
+	.input-file + .js-labelFile {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		padding: 0 10px;
+		cursor: pointer;
+	}
+	
+	.input-file + .js-labelFile .icon:before {
+		content: "";
+	}
+	
+	.input-file + .js-labelFile.has-file .icon:before {
+		content: "";
+		color: #5AAC7B;
+	}
+	
+	.form-control:focus {
+		box-shadow: none !important
+	}
+	
+	.icon2 {
+		color: #66BB6A !important;
+		font-size: 28px !important;
+		position: relative;
+		left: 8px;
+		bottom: 6px;
+		padding: 0px;
+		cursor: pointer
+	}
+	
+	.icondiv {
+		border-radius: 50%;
+		width: 15px;
+		height: 15px;
+		padding: 2px;
+		position: relative;
+		bottom: 1px;
+	}
+	
+	.upload-btn {
+		transition: all .5s ease;
+		width: 100%;
+		border-radius: 5px;
+		color: #fff;
+		font-weight: 300;
+		background-color: #009970;
+		border: 1px solid #009970;
+		margin-top: 0.25em;
+		margin-bottom: 0;
+		padding: 12px 2px;
+	}
+	
+	.create-btn {
+		transition: all .5s ease;
+		width: 100%;
+		border-radius: 8px;
+		color: #008080;
+		font-weight: 600;
+		background-color: #fff;
+		border: 1px solid #008080;
+		margin-top: 0.25em;
+		margin-bottom: 0;
+		padding: 10px 0px;
+	}
+	
+	#fileUpload {
+		display: none;
+		/* do not display the actual file upload button */
+	}
+	
+	#customButton {
+		/* style the dummy upload button */
+		background: yellow;
+		border: 1px solid red;
+		border-radius: 5px;
+		padding: 5px;
+		display: inline-block;
+		cursor: pointer;
+		color: red;
+	}
+	
+	.submit-btn {
+		background: #fff;
+		color: #009970;
+		border-radius: 6px;
+		width: 100%;
+		border: 2px solid;
+		border-color: #009970;
+		padding: 8px 8px;
+		outline: none;
+	}
+	</style>
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		{% if user.is_superuser %}
+		  {% include 'administrator/sidebar.html' %}
+		  {% else %}
+		  {% include 'employee/sidebar.html' %}
+
+		  {% endif %}
+		<!-- End of Sidebar -->
+		
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->{% include 'base/navbar.html' %}
+				<!-- End of Topbar -->
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+					<!-- Content -->
+					<div class="section-title" data-aos="fade-right"> {% if contract.completed %}
+						<h2>Completed Contract </h2> {%else%}
+						<h2>Contract #{{contract.contract_id}}</h2> {% endif %} </div> {% for submission in contract.submissions.all %} {% if not submission.proofreading_contract %}
+					<!--row start-->
+					<div class="row mb-2">
+						<div class="col-lg-8 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row d-flex">
+										<div class="col ml-2">
+											<h3 style="font-family: sans-serif;">{{submission.refrence_attachment.orignal_filename}}</h3>
+											<div style="color: #999;">
+												<p>{{submission.refrence_attachment.word_count}} words</p>
+											</div>
+										</div> {% if submission.is_submitted %}
+										<div class="col-auto my-auto ">
+											<a href="{{submission.refrence_attachment.file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
+										</div>
+										<div class="col-auto my-auto mx-1">
+											<a href="{{submission.submission_file.url}}" download> <i class="fas fa-check fa-2x text-green-300"></i></a>
+										</div> {% else %}
+										<div class="col-auto my-auto mx-3">
+											<a href="{{submission.refrence_attachment.file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
+										</div> {% endif %} </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 mb-4">
+							<div class="card border-left-success shadow h-100">
+								<div class="card-body pr-1">
+									<div class="row no-gutters align-items-center my-3 mx-2 ">
+										<div class="col-lg-8 ml-1">
+											<form id='{{submission.refrence_attachment.attachment_id}}' name='{{submission.refrence_attachment.attachment_id}}' novalidate>
+												<input type="hidden" id="attachment_id" name="attachment_id" value="{{submission.refrence_attachment.attachment_id}}">
+												<input type="hidden" id="contract_id" name="contract_id" value="{{contract.contract_id}}"> {% if submission.is_submitted %} <a href="{{submission.submission_file.url}}" target="_blank">  {{submission.submission_filename}} </a>
+												<br> {% endif %}
+												<input type="file" accept=".txt" id="submission" name="submission">
+										</div>
+										<div class="col-lg-2 ml-1">
+											<button class="upload-btn" value="{{submission.refrence_attachment.attachment_id}}">Upload</button>
+										</div>
+										</form>
+										<div class="col-auto mx-2" style="margin-top: 0;">
+											<p class="file-return-{{submission.refrence_attachment.attachment_id}}"> </p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> {%else%}
+					<div class="row mb-2">
+						<div class="col-lg-4 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row d-flex">
+										<div class="col ml-2">
+											<h4 class="mb-0" style="font-family: sans-serif;">{{submission.refrence_attachment.orignal_filename}}</h4>
+											<div style="color: #999;">
+												<p>Posted on {{contract.job.posted_date}} </p>
+											</div>
+										</div>
+										<div class="col-auto my-auto ">
+											<a href="{{submission.refrence_attachment.file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
+										</div>
+										<div class="col-auto my-auto mx-1">
+											<a> <i class="fas fa-check fa-2x text-green-300"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row d-flex">
+										<div class="col ml-2">
+											<h6 class="mb-0" style="font-family: sans-serif;"> <strong>{{submission.submission_dependency.filename}}</strong></h6>
+											<div style="color: #999;">
+												<p>Translated on {{submission.submission_dependency.submit_date}}</p>
+											</div>
+										</div> {% if submission.is_submitted %}
+										<div class="col-auto my-auto ">
+											<a href="{{submission.submission_dependency.submission_file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
+										</div>
+										<div class="col-auto my-auto mx-1">
+											<a href="{{submission.submission_file.url}}" download> <i class="fas fa-check fa-2x text-green-300"></i></a>
+										</div> {% else %}
+										<div class="col-auto my-auto mx-3">
+											<a href="{{submission.submission_dependency.submission_file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
+										</div> {% endif %} </div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 mb-4">
+							<div class="card border-left-success shadow h-100">
+								<div class="card-body pr-1">
+									<div class="row no-gutters align-items-center my-3 mx-2 ">
+										<div class="col-lg-8 ml-1">
+											<form id='{{submission.refrence_attachment.attachment_id}}' name='{{submission.refrence_attachment.attachment_id}}' novalidate>
+												<input type="hidden" id="attachment_id" name="attachment_id" value="{{submission.refrence_attachment.attachment_id}}">
+												<input type="hidden" id="contract_id" name="contract_id" value="{{contract.contract_id}}"> {% if submission.is_submitted %} <a href="{{submission.submission_file.url}}" target="_blank">  {{submission.submission_filename}} </a>
+												<br> {% endif %}
+												<input type="file" accept=".txt" id="submission" name="submission">
+										</div>
+										<div class="col-lg-2 ml-1">
+											<button class="upload-btn" value="{{submission.refrence_attachment.attachment_id}}">Upload</button>
+										</div>
+										</form>
+										<div class="col-auto mx-2" style="margin-top: 0;">
+											<p class="file-return-{{submission.refrence_attachment.attachment_id}}"> </p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--row end-->{%endif%}
+					<!--row end-->{% endfor %} {% if contract.all_submitted %} {% if not contract.completed %}
+					<div class="row no-gutters align-items-center justify-content-center align-content-center my-3 mx-2">
+						<div class="col-lg-10">
+							<button class="submit-btn" id="mark_resolved" style="text-align: center;" value="{{contract.contract_id}}"><strong>Mark Completed</strong> </div>
+					</div> {% endif %} {% endif %}
+					<!--row -->
+					<div class="row my-2">
+					<!--chatbox-->
+					<input type="hidden" id="job_id" name="job_id" value="{{contract.job.job_id}}"> 
+					<input type="hidden" id="staff_user" name="staff_user" value="{{request.user.is_staff}}"> 
+
+    <div class="col-lg-4 mb-3">
+        <div class="main">
+            <div class="justify-content-end align-content-right text-right mr-2"><i id="chat_refresh" class="fas fa-redo"></i></button> </div>
+
+            <div id="chat" class="px-2 scroll">
+    
+           
+            </div>
+            <br>
+            <nav class="navbar bg-white navbar-expand-sm d-flex justify-content-between">
+                <input type="text number" name="text" id="message" class="form-control" placeholder="Type a message...">
+
+                <div class="justify-content-end align-content-center text-center"><button class="type-btn" id="send">Send</button> </div>
+
+            </nav>
+        </div>
+    </div>
+        <!--end chatbox-->
+						<div class="col-lg-5 mb-3">
+							<div class="card border-left-success shadow h-100 pb-0">
+								<div class="card-body pb-1">
+									<div class="heading">
+										<h3>Contract Details</h3> <span>CID #{{contract.contract_id}}</span> </div>
+									<div class="row ml-1"> <span>Created on {{contract.job.posted_date  | date:"d F,  Y"}}</span> </div>
+									<div class="row ml-1">
+										<p>Signed on {{contract.signing_date}}</p>
+									</div>
+									<div class="row my-2">
+										<div class="col-lg-6 my-2">
+											<div class="language-btn my-3" style="text-align: center;"><strong>{{contract.job.source_language}} -> {{contract.target_language}}</strong></div>
+											<div class="type-btn" style="text-align: center;"><strong>{{contract.job.quality}}</strong></div>
+										</div>
+										<div class="col-lg-6 my-2">
+											<div class="quality-btn my-3" style="text-align: center;"><strong>{{contract.job.content}}</strong></div>
+											<div class="type-btn" style="text-align: center;"><strong>{{contract.status_verbose }}</strong></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 mb-3">
+							<div class="row mb-4">
+								<div class="col-lg-12">
+									<div class="card border-left-success shadow h-100 pb-0">
+										<div class="card-body pb-1">
+											<div class="heading">
+												<h3></h3> <span>pending</span> </div>
+											<div class="row my-4">
+												<div class="col mr-2">
+													<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Amount </div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800">{{contract.contract_price|floatformat:2 }}</div>
+												</div>
+												<div class="col-auto"> <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-lg-12">
+									<div class="card border-left-success shadow h-100 pb-0">
+										<div class="card-body pb-1">
+											<div class="heading">
+												<h3></h3> <span>{{contract.completeds_submissions}}/{{contract.total_submissions}}</span> </div>
+											<div class="row my-4">
+												<div class="col mr-2">
+													<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Project Completed </div>
+													<div class="row no-gutters align-items-center">
+														<div class="col-auto">
+															<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{contract.completion_percentage | floatformat:2}}%</div>
+														</div>
+														<div class="col">
+															<div class="progress progress-sm mr-2">
+																<div class="progress-bar bg-success" role="progressbar" style="width: {{contract.completion_percentage}}%" aria-valuenow="{{contract.completion_percentage}}" aria-valuemin="{{contract.completion_percentage}}" aria-valuemax="100"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-auto"> <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--row end-->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto"> <span>Copyright &copy; Tergum 2020</span> </div>
+				</div>
+			</footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"></i> </a>
+	<!-- Bootstrap core JavaScript-->
+	<script src="{% static 'employee/js/vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'employee/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="{% static 'employee/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="{% static 'employee/js/sb-admin-2.min.js' %}"></script>
+	<!-- Page level custom scripts -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+	<script>
+	$('#mark_resolved').click(function(e) {
+		e.preventDefault();
+		$('#mark_resolved').prop('disabled', true);
+		$("#mark_resolved").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+		$.ajax({
+			type: 'POST',
+			url: "/en/api/translator/contract/complete/",
+			data: {
+				contract_id: $(this).val(),
+				action: 'post'
+			},
+			success: function(data, textStatus, xhr) {
+				console.log(data);
+				if(xhr.status == 200) {
+					$('#mark_resolved').prop('disabled', false);
+					$("#mark_resolved").html('<small>' + data.error + '</small>');
+					setTimeout(function() {
+						$("#mark_resolved").html('<strong>Mark Completed</strong>');
+					}, 2000);
+				} else if(xhr.status == 202) {
+					window.location.replace('/en/contracts/completed');
+				}
+			},
+			error: function(xhr, errmsg, err) {
+				$('#mark_resolved').prop('disabled', false);
+				$("#mark_resolved").html('<small>Something went wrong, try again later.</small>');
+				setTimeout(function() {
+					$("#mark_resolved").html('<strong>Mark Completed</strong>');
+				}, 2000);
+			},
+		});
+	});
+	</script> {% for attachment in contract.job.attachments.all %}
+	<script>
+	function enableButtons(id) {
+		var cusid_ele2 = document.getElementsByClassName('input-file');
+		for(var i = 0; i < cusid_ele2.length; ++i) {
+			var item = cusid_ele2[i];
+			item.disabled = false;
+		}
+		var cusid_ele2 = document.getElementsByClassName('js-fileName');
+		for(var i = 0; i < cusid_ele2.length; ++i) {
+			var item = cusid_ele2[i];
+			item.disabled = false;
+		}
+		var cusid_ele = document.getElementsByClassName('upload-btn');
+		for(var i = 0; i < cusid_ele.length; ++i) {
+			var item = cusid_ele[i];
+			item.disabled = false;
+			if(item.value == id) {
+				var target = item
+				$(target).html('Upload');
+			}
+		}
+	}
+	</script>
+	<script>
+	$('#{{attachment.attachment_id}}').submit(function(e) {
+		e.preventDefault()
+		$form = $(this)
+		var id = "{{attachment.attachment_id}}";
+		var cusid_ele2 = document.getElementsByClassName('input-file');
+		for(var i = 0; i < cusid_ele2.length; ++i) {
+			var item = cusid_ele2[i];
+			item.disabled = true;
+		}
+		var cusid_ele2 = document.getElementsByClassName('js-fileName');
+		for(var i = 0; i < cusid_ele2.length; ++i) {
+			var item = cusid_ele2[i];
+			item.disabled = true;
+		}
+		var cusid_ele = document.getElementsByClassName('upload-btn');
+		for(var i = 0; i < cusid_ele.length; ++i) {
+			var item = cusid_ele[i];
+			item.disabled = true;
+			if(item.value == id) {
+				$(item).html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+			}
+		}
+		var formData = new FormData(this);
+		console.log(formData);
+		$("#add_to_order").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+		$.ajax({
+			url: "/en/api/translator/contract/file/submit/",
+			type: 'POST',
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data, textStatus, xhr) {
+				if(xhr.status == 202) {
+					window.location.reload();
+				}
+				if(xhr.status == 200) {
+					enableButtons(id)
+					var error_box = document.getElementsByClassName('file-return-{{attachment.attachment_id}}');
+					$(error_box[0]).html('<small>' + data.message + '</small>');
+					setTimeout(function() {
+						$(error_box[0]).html('');
+					}, 2000);
+				}
+			},
+			error: function(xhr, errmsg, err) {
+				enableButtons(id)
+				var error_box = document.getElementsByClassName('file-return-{{attachment.attachment_id}}');
+				$(error_box[0]).html('<small>Something went wrong, try again later.</small>');
+				setTimeout(function() {
+					$(error_box[0]).html('');
+				}, 2000);
+			},
+		});
+	});
+	</script> {% endfor %}
+	<script>
+	(function() {
+		'use strict';
+		$('.input-file').each(function() {
+			var $input = $(this),
+				$label = $input.next('.js-labelFile'),
+				labelVal = $label.html();
+			$input.on('change', function(element) {
+				var fileName = '';
+				if(element.target.value) fileName = element.target.value.split('\\').pop();
+				fileName ? $label.addClass('has-file').find('.js-fileName').html(fileName) : $label.removeClass('has-file').html(labelVal);
+			});
+		});
+	})();
+	</script>
+
+	
+
+
+
+<script>
+    function append_messages(data)
+            {
+                    var is_staff = $("#staff_user").val()
+					//alert(is_staff);
+                        if(is_staff == "True"){
+							for (i = 0; i < data.length; i++) {
+
+                            if(data[i]["employee"]){
+                            $("#chat").append('<div class="d-flex align-items-center text-right justify-content-end "><div class="pr-2"> <span class="name" id="username">'+data[i]["username"]+'</span><p class="msg">'+data[i]["text"]+'</p></div><div></div></div>')
+                            }
+                            else{
+                            $("#chat").append('<div class="d-flex align-items-center"><div class="text-left pr-1"></div><div class="pr-2 pl-1"> <span class="name">'+data[i]["username"]+'</span><p class="msg">'+data[i]["text"]+'</p></div></div>')
+                            }
+                        }
+					}
+                        else{
+
+							for (i = 0; i < data.length; i++) {
+
+                            if(data[i]["employee"]  == false ){
+                            $("#chat").append('<div class="d-flex align-items-center text-right justify-content-end "><div class="pr-2"> <span class="name" id="username">'+data[i]["username"]+'</span><p class="msg">'+data[i]["text"]+'</p></div><div></div></div>')
+                            }
+                            else{
+                            $("#chat").append('<div class="d-flex align-items-center"><div class="text-left pr-1"></div><div class="pr-2 pl-1"> <span class="name">'+data[i]["username"]+'</span><p class="msg">'+data[i]["text"]+'</p></div></div>')
+                            }
+                        }
+					}
+                        
+                        
+                        var newmsg_top = parseInt($('#chat')[0].scrollHeight );
+                        $('#chat').scrollTop(newmsg_top);
+                    }
+</script>
+
+<script>
+
+function refresh_chat(){
+    $.ajax({
+            type: 'POST',
+            url: "/en/api/jobs/chat/get/",
+            data: {
+                job_id: $('#job_id').val(),
+                action: 'post'
+            },
+    
+            success: function(data, textStatus, xhr) {
+                $("#message").attr("placeholder", "Type a message...");
+                
+               console.log(data);
+                if (xhr.status == 200) {
+                    $('#send').prop('disabled', false);
+                    $("#send").html('<small>' + data.error + '</small>');
+                    setTimeout(function() {
+                        $("#send").html('Send');
+                    }, 2000);
+                } else if (xhr.status == 202) {
+                    $("#chat").empty()
+                    $('#message').val('');
+                    $('#send').prop('disabled', false);
+                    $("#send").html('Send');
+                    append_messages(data);
+                }
+    
+    
+            },
+            error: function(xhr, errmsg, err) {
+                $("#message").attr("placeholder", "Failed to load the chat, please refresh.");
+
+                $("#send").html('<small>Failed! Please refresh.</small>');
+                
+            },
+        });
+}
+
+</script>
+<script>
+$( document ).ready(function() {
+    $('#send').prop('disabled', true);
+    $("#send").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+    $("#message").attr("placeholder", "Chat is loading...");
+    refresh_chat();
+    console.log( "Chat is ready!" );
+});
+</script>
+
+<script>
+    $('#chat_refresh').click(function(e) {
+        $('#send').prop('disabled', true);
+        $("#send").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+        $("#message").attr("placeholder", "Looking for new messages...");
+        refresh_chat();
+    });
+</script>
+
+<script>
+     
+    $('#send').click(function(e) {
+        e.preventDefault();
+        $('#send').prop('disabled', true);
+        $("#send").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+        $.ajax({
+            type: 'POST',
+            url: "/en/api/jobs/chat/send/",
+            data: {
+                job_id: $('#job_id').val(),
+                message: $('#message').val(),
+                action: 'post'
+            },
+    
+    
+    
+            success: function(data, textStatus, xhr) {
+               console.log(data);
+                if (xhr.status == 200) {
+                    $('#send').prop('disabled', false);
+                    $("#send").html('<small>' + data.error + '</small>');
+                    setTimeout(function() {
+                        $("#send").html('Send');
+                    }, 2000);
+                } else if (xhr.status == 202) {
+                    $("#chat").empty()
+                    $('#message').val('');
+                    $('#send').prop('disabled', false);
+                    $("#send").html('Send');
+                    append_messages(data);
+                }
+    
+    
+            },
+            error: function(xhr, errmsg, err) {
+                $('#send').prop('disabled', false);
+                $("#send").html('<small>Failed! try again later</small>');
+                setTimeout(function() {
+                    $("#send").html('Send');
+                }, 2000);
+            },
+    
+    
+    
+        });
+    });
+          </script>
+</body>
+
+</html>

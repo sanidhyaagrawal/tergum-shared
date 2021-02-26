@@ -1,0 +1,389 @@
+{% load static %}
+{% load socialaccount %}
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="generator" content="Jekyll v4.1.1">
+      <title>Professional Translation at Tergum</title>
+      <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Bootstrap core CSS -->
+      <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+      <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style>
+         body {
+         font-family: "Karla", sans-serif;
+         background-color: #f0f0eb;
+         min-height: 100vh; }
+         .bd-placeholder-img {
+         font-size: 1.125rem;
+         text-anchor: middle;
+         -webkit-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+         }
+         @media (min-width: 768px) {
+         .bd-placeholder-img-lg {
+         font-size: 3.5rem;
+         }
+         }
+         .site-header a {
+         color: #000000;
+         transition: ease-in-out color .30s;
+         font-weight: 500;
+         font-size: 1.5em; /* 40px/16=2.5em */
+         }
+         .site-header a:hover {
+         color: #999;
+         text-decoration: none;
+         }
+         .hide {
+         display: none;
+         }
+         .to-hover:hover .hide {
+         display: block;
+         }
+         .steps {
+         box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.3);
+         background-color: #FFF;
+         padding: 24px 0;
+         position: relative;
+         margin: auto;
+         }
+         .steps::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         height: 24px;
+         width: 1px;
+         background-color: rgba(0, 0, 0, 0.2);
+         left: calc(50px / 2);
+         z-index: 1;
+         }
+         .steps::after {
+         content: '';
+         position: absolute;
+         height: 13px;
+         width: 13px;
+         background-color: var(--primary-color);
+         box-shadow: 0px 0px 5px 0px var(--primary-color);
+         border-radius: 15px;
+         left: calc(50px / 2);
+         bottom: 24px;
+         transform: translateX(-45%);
+         z-index: 2;
+         }
+         .step {
+         padding: 0 20px 24px 50px;
+         position: relative;
+         transition: all 0.4s ease-in-out;
+         background-color: #FFF;
+         }
+         .step::before {
+         content: '';
+         position: absolute;
+         height: 13px;
+         width: 13px;
+         background-color: rgb(198, 198, 198);
+         border-radius: 15px;
+         left: calc(50px / 2);
+         transform: translateX(-45%);
+         z-index: 2;
+         }
+         .step::after {
+         content: '';
+         position: absolute;
+         height: 100%;
+         width: 1px;
+         background-color: rgb(198, 198, 198);
+         left: calc(50px / 2);
+         top: 0;
+         z-index: 1;
+         }
+         .step.minimized {
+         background-color: #FFF;
+         transition: background-color 0.3s ease-in-out;
+         cursor: pointer;
+         }
+         .headerstep {
+         user-select: none;
+         font-size: 16px;
+         }
+         .subheaderstep {
+         user-select: none;
+         font-size: 14px;
+         color: rgba(0, 0, 0, 0.4);
+         }
+         .step-content {
+         transition: all 0.3s ease-in-out;
+         overflow: hidden;
+         position: relative;
+         }
+         .step.minimized > .step-content {
+         height: 0px;
+         }
+         .step-content.one {
+         height: 460px;
+         width: 100%;
+         background-color: rgb(248, 246, 246);
+         border-radius: 4px;
+         margin-top: 10px;
+         }
+         .step-content.two {
+         height: 600px;
+         width: 100%;
+         background-color: rgba(247, 243, 243, 0.952);
+         border-radius: 4px;
+         margin-top: 10px;
+         }
+         .step-content.three {
+         height: 400px;
+         width: 100%;
+         background-color: rgba(241, 233, 233, 0.993);
+         border-radius: 4px;
+         margin-top: 10px;
+         }
+         .next-btn {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         border: 0;
+         padding: 10px 20px;
+         border-radius: 4px;
+         background-color: red;
+         box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+         color: #FFF;
+         transition: background-color 0.3s ease-in-out;
+         cursor: pointer;
+         transform: translate(-50%, -50%);
+         }
+         .close-btn {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         border: 0;
+         padding: 10px 20px;
+         border-radius: 4px;
+         background-color: rgb(255, 0, 255);
+         box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.3);
+         color: #FFF;
+         transition: background-color 0.3s ease-in-out;
+         cursor: pointer;
+         transform: translate(-50%, -50%);
+         }
+         /* Irrelevant styling things */
+         .close-btn:hover {
+         background-color: rgba(255, 0, 255, 0.6);
+         }
+         .close-btn:focus {
+         outline: 0;
+         }
+         .next-btn:hover {
+         background-color: rgba(255, 0, 0, 0.6);
+         }
+         .next-btn:focus {
+         outline: 0;
+         }
+         .step.minimized:hover {
+         background-color: rgba(0, 0, 0, 0.06);
+         }
+         .quality_selection {
+         margin: auto;
+         }
+         .quality_selection .quality_option {
+         width: 267px;
+         display: inline-block;
+         border: 1px solid rgb(71, 69, 69);
+         padding: 15px 15px;
+         margin: 10px 0 10px 10px;
+         cursor: pointer;
+         border-radius: 16px
+         }
+         .card-deck .card {
+         min-width: 130px;
+         }
+         .login-card {
+         border: 0;
+         border-radius: 27.5px;
+         box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+         overflow: hidden;
+         }
+         .login-card-img {
+         border-radius: 0;
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         -o-object-fit: cover;
+         object-fit: cover; 
+         }
+         .login-card .card-body {
+         padding: 5vh 9vh 3vh ; 
+         }
+         @media (max-width: 422px) {
+         .login-card .card-body {
+         padding: 35px 24px; } }
+         .login-card-description {
+         font-size: 25px;
+         color: #000;
+         font-weight: normal;
+         margin-bottom: 25px; }
+         .login-card form {
+         max-width: 526px; }
+         .login-card .form-control {
+         border: 1px solid #d5dae2;
+         padding: 15px 25px;
+         margin-bottom: 20px;
+         min-height: 45px;
+         font-size: 13px;
+         line-height: 15;
+         font-weight: normal; }
+         .login-card .form-control::-webkit-input-placeholder {
+         color: #919aa3; }
+         .login-card .form-control::-moz-placeholder {
+         color: #919aa3; }
+         .login-card .form-control:-ms-input-placeholder {
+         color: #919aa3; }
+         .login-card .form-control::-ms-input-placeholder {
+         color: #919aa3; }
+         .login-card .form-control::placeholder {
+         color: #919aa3; }
+         .login-card .login-btn {
+         padding: 13px 20px 12px;
+         background-color: #009970;
+;
+         border-radius: 4px;
+         font-size: 17px;
+         font-weight: bold;
+         line-height: 20px;
+         color: #fff;
+         margin-bottom: 24px; }
+         .login-card .google-btn {
+         padding: 13px 20px 12px;
+         border: 1px solid #000;
+         background-color: transparent;
+         border-radius: 4px;
+         font-size: 17px;
+         font-weight: bold;
+         line-height: 20px;
+         color: #000;
+         margin-bottom: 24px; }
+         .login-card .google-btn:hover {
+         background-color: #000;
+         color: #fff; }
+         .login-card .forgot-password-link {
+         font-size: 14px;
+         color: #919aa3;
+         margin-bottom: 12px; }
+         .login-card-footer-text {
+         font-size: 16px;
+         color: #0d2366;
+         margin-bottom: 60px; }
+         @media (max-width: 767px) {
+         .login-card-footer-text {
+         margin-bottom: 24px; } }
+         .login-card-footer-nav a {
+         font-size: 14px;
+         color: #919aa3; }
+      </style>
+   </head>
+   <body>
+      <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+         <div class="container">
+            <div class="card login-card">
+               <div class="row no-gutters">
+                  <div class="col-md-5">
+                     <img src="{% static '/users/images/login_placeholder.jpg' %}" alt="login" class="login-card-img">
+                  </div>
+                  <div class="col-md-7">
+                     <div class="card-body">
+                        <div class="brand-wrapper">
+                           <img class="my-1" src="{% static '/base/images/tergum_green.png' %}" alt=""  height="40">
+                        </div>
+                        <p class="login-card-description">Login into your account</p>
+                        <button  id="google-btn" class="btn btn-block google-btn mb-2" style="cursor: pointer;" onclick="window.location.href='{% provider_login_url 'google' %}';" role="button">
+                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Continue with Google
+                        </button>
+                        <form action="#!">
+                           {% csrf_token %}
+                           <div class="col-auto d-flex justify-content-center mb-2">or</div>
+                           <div class="form-group">
+                              <label for="email" class="sr-only">Email</label>
+                              <input type="email" name="email" id="email" class="form-control" placeholder="Email address" autocomplete="email">
+                           </div>
+                           <div class="form-group mb-4">
+                              <label for="password" class="sr-only">Password</label>
+                              <input type="password" name="password" id="password" class="form-control" placeholder="Password" autocomplete="current-password">
+                           </div>
+                           <button class="btn btn-block login-btn mb-0" name="login" id="login" id="add_to_order">Login</button>
+                        </form>
+                        <a href="#!" class="forgot-password-link">Forgot password?</a>
+                        <p class="login-card-footer-text">Don't have an account? <a href="{% url 'users:signup' %}" class="text-reset">Sign Up here</a></p>
+                        <nav class="login-card-footer-nav">
+                           <a href="#!">Terms of use.</a>
+                           <a href="#!">Privacy policy</a>
+                        </nav>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </main>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="{% static 'base/js/bootstrap.bundle.min.js' %}"></script>
+      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script>
+$('#login').click(function(e) {
+    e.preventDefault();
+    $('#login').prop('disabled', true);
+    $('#google-btn').prop('disabled', true);
+
+
+    $("#login").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'users:login_api' %}",
+        data: {
+            email: $('#email').val(),
+            password: $('#password').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            action: 'post'
+        },
+
+
+
+        success: function(data, textStatus, xhr) {
+           console.log(data);
+            if (xhr.status == 200) {
+                $('#login').prop('disabled', false);
+                $('#google-btn').prop('disabled', false);
+                $("#login").html('<small>' + data.error + '</small>');
+                setTimeout(function() {
+                    $("#login").html('Login');
+                }, 2000);
+            } else if (xhr.status == 202) {
+                window.location.replace('/');
+            }
+
+
+        },
+        error: function(xhr, errmsg, err) {
+            $('#login').prop('disabled', false);
+            $('#google-btn').prop('disabled', false);
+            $("#login").html('<small>Something went wrong, try again later.</small>');
+            setTimeout(function() {
+                $("#login").html('Login');
+            }, 2000);
+        },
+
+
+
+    });
+});
+      </script>
+   </body>
+</html>

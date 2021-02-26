@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Dashboard</title>
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+	<!-- Custom fonts for this template-->{% include "base/exception_head.html" %}
+	<link href="{% static 'employee/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+	<link href="{% static 'employee/css/style.css' %}" rel="stylesheet"> </head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->{% include 'employee/sidebar.html' %}
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->{% include 'base/navbar.html' %}
+				<!-- End of Topbar -->
+				<!-- Begin container-fluid -->
+				<div class="container-fluid">
+					<!-- Content Row -->
+					<div class="section-title" data-aos="fade-right">
+						<h2>Dashboard</h2> </div>
+					<div class="row">
+						<!-- Earnings Card -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Total Earnings </div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">${{total_earning|floatformat:2}}</div>
+										</div>
+										<div class="col-auto"> <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Ongoing Projects Card  -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Ongoing Projects </div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">{{ongoing_projects}}</div>
+										</div>
+										<div class="col-auto"> <i class="fas fa-calendar fa-2x text-gray-300"></i> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- feedback Card Example -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> User Feedback </div>
+											<div class="h6 mb-0 font-weight-bold text-gray-800"><i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star text-gray-300"></i> </div>
+										</div>
+										<div class="col-auto"> <i class="fas fa-user fa-2x text-gray-300"></i> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Pending Requests Card -->
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Pending Requests </div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+										</div>
+										<div class="col-auto"> <i class="fas fa-comments fa-2x text-gray-300"></i> </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					 {%if not translation_contracts and not proofreading_contracts%}
+					<div class="row">
+						<div class="col-md-6 align-self-center"> {% include 'base/exception.html' %} </div>
+						<div class="col-md-6 align-self-center">
+							<h2>No contracts available</h2>
+							<p>There are no contacts available matching to your skill set. </p>
+						</div>
+					</div> 
+					{%else%} 
+					{%if translation_contracts%}
+					<div class="section-title" data-aos="fade-right">
+						<h3>Translation Contracts</h3> </div>
+					<!--contracts listings-->
+					<div class="row"> {%for contract in translation_contracts%}
+						<div class="col-lg-6 my-2">
+							<div class="card border-left-success shadow h-100 py-0">
+								<div class="card-body">
+									<div class="row mb-3">
+										<div class="col sm-4">
+											<!--<p>Job #{{contract.job.job_id}}</p>-->
+											<p>#c{{contract.contract_id}}</p>
+											<p>{{contract.job.posted_date | date:"d F, Y"}}</p>
+										</div>
+										<div class="col-sm-8 text-right pull-right">
+											<button class="language-btn mt-1">{{contract.job.source_language}} -> {{contract.target_language}}</button>
+											<button class="type-btn mt-1">{{contract.job.content}}</button>
+											<button class="quality-btn mt-1">{{contract.job.quality}}</button>
+										</div>
+									</div>
+									<div class="row my-3">
+										<div class="col-lg-6"> {% for attachment in contract.job.attachments.all %}
+											<div class="row my-2">
+												<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
+												<div class="col-lg-6"> {{attachment.word_count}} words </div>
+											</div> {% endfor %} </div>
+										<div class="col-lg-6 text-right pull-right px-4 my-auto">
+											<h2>${{contract.contract_price|floatformat:2 }}</h2> </div>
+									</div>
+									<div class="row mt-2">
+										<div class="col lg-12 text-right pull-right mr-2">
+											<button id="jobaccept" class="accept-btn" data-toggle="modal" data-target="#exampleModalCenter" value="{{contract.contract_id}}">Accept Contract</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div> {% endfor %} </div>
+					<!--job listing end-->
+					<br> {% endif %} {%if proofreading_contracts%}
+					<div class="section-title" data-aos="fade-right">
+						<h3>Proof-Reading Contracts</h3> </div>
+					<!--Contracts listings-->
+					<div class="row"> {%for contract in proofreading_contracts%}
+						<div class="col-lg-6 my-2">
+							<div class="card border-left-success shadow h-100 py-0">
+								<div class="card-body">
+									<div class="row mb-3">
+										<div class="col sm-4">
+											<p>Job #{{contract.job.job_id}}</p>
+											<p>{{contract.job.posted_date | date:"d F, Y"}}</p>
+										</div>
+										<div class="col-sm-8 text-right pull-right">
+											<button class="language-btn mt-1">{{contract.job.source_language}} -> {{contract.target_language}}</button>
+											<button class="type-btn mt-1">{{contract.job.content}}</button>
+											<button class="quality-btn mt-1">{{contract.job.quality}}</button>
+										</div>
+									</div>
+									<div class="row my-3">
+										<div class="col-lg-6"> {% for attachment in contract.job.attachments.all %}
+											<div class="row my-2">
+												<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
+												<div class="col-lg-6"> {{attachment.word_count}} words </div>
+											</div> {% endfor %} </div>
+										<div class="col-lg-6 text-right pull-right px-4 my-auto">
+											<h2>${{contract.contract_price|floatformat:2 }}</h2> </div>
+									</div>
+									<div class="row mt-2">
+										<div class="col lg-12 text-right pull-right mr-2">
+											<button id="jobaccept" class="accept-btn" data-toggle="modal" data-target="#exampleModalCenter" value="{{contract.contract_id}}">Accept Contract</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div> {% endfor %} </div> {% endif %} {% endif %}
+					<!--model start-->
+					<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content border-left-success shadow h-100 py-0" style="background-color: #Fff">
+								<div class="modal-body  ml-2" style="font-weight: bolder;">
+									<div class="ml-4" style="justify-content: center; align-items: center; text-align: center;">
+										<h5>Are you sure you want to sign this contract?</h5> </div>
+								</div>
+								<div class="modal-footer" style="justify-content: center;align-items: center;">
+									<button class="type-btn" id="accept_job"> Sign this contract </a>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--modal end-->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto"> <span>Copyright &copy; Tergum 2020</span> </div>
+				</div>
+			</footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"></i> </a>
+	<!-- Bootstrap core JavaScript-->
+	<script src="{% static 'employee/js/vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'employee/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="{% static 'employee/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="{% static 'employee/js/sb-admin-2.min.js' %}"></script>
+	<!-- Page level custom scripts -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+	<script src='https://harvesthq.github.io/chosen/chosen.jquery.js'></script>
+	<script>
+	var contract_id;
+	$("button").click(function() {
+		contract_id = $(this).val();
+		document.getElementById("accept_job").value = contract_id;
+		console.log(document.getElementById("accept_job").value);
+	});
+	</script>
+	<script>
+	$('#accept_job').click(function(e) {
+		e.preventDefault();
+		console.log(contract_id);
+		$('#accept_job').prop('disabled', true);
+		$("#accept_job").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+		$.ajax({
+			type: 'POST',
+			url: "api/translator/contract/sign/",
+			data: {
+				contract_id: contract_id,
+				action: 'post'
+			},
+			success: function(data, textStatus, xhr) {
+				console.log(data);
+				if(xhr.status == 200) {
+					$('#accept_job').prop('disabled', false);
+					$("#accept_job").html('<small>' + data.error + '</small>');
+					setTimeout(function() {
+						$("#accept_job").html('Yes, I want to accept!');
+					}, 2000);
+				} else if(xhr.status == 202) {
+					window.location.replace('employee/contract/details/' + data.contract_id);
+				}
+			},
+			error: function(xhr, errmsg, err) {
+				$('#accept_job').prop('disabled', false);
+				$("#accept_job").html('<small>Something went wrong, try again later.</small>');
+				setTimeout(function() {
+					$("#accept_job").html('Yes, I want to accept!');
+				}, 2000);
+			},
+		});
+	});
+	</script>
+</body>
+
+</html>

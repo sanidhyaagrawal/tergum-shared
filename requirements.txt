@@ -1,0 +1,10 @@
+Django==3.0.8
+pytz==2020.1
+stripe==2.55.1
+PyJWT==1.7.1
+django-allauth
+django-cleanup
+djangorestframework
+Pillow
+whitenoise
+psycopg2-binary

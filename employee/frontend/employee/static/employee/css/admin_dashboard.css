@@ -1,0 +1,62 @@
+.chart{
+    vertical-align: middle;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    display: inline-block;
+  
+  }
+  
+  canvas{
+    height: 100%;
+  }
+           .send-btn {
+      background:#009970;
+      color: #fff;
+      border-radius: 10px;
+      text-align: right;
+      margin: 0 10px;
+      border: none;
+      padding: 8px 15px;
+      }
+  
+      .btn-tertiary {
+      background:#030303;
+      color: #fff;
+      border-radius: 10px;
+      text-align: right;
+      margin: 0 10px;
+      border: none;
+      padding: 8px 10px;
+      }
+  
+      .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .trans-profile {
+    height: 50px;
+    width: 50px;
+  }
+  
+  .card .chart-legend {
+          position: relative;
+          float: left;
+          margin-top: 30px;
+          margin-left: -30px;
+          width: calc(100% + 60px);
+          padding: 7px 30px 5px 30px;
+          border-radius: 0 0 0.2em 0.2em;
+  }
+  
+  .card .chart-legend h3,
+  .card .chart-legend p {
+          font-size: 14px;
+          text-align: center;
+          font-weight: 200;
+          letter-spacing: 1px;
+          line-height: 25px;
+  }

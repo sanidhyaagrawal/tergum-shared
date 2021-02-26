@@ -1,0 +1,457 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Translator edit</title>
+	<!-- Favicons -->
+	<link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+	<!-- Custom fonts for this template-->
+	<link href="{% static 'employee/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel='stylesheet' href='https://adminlte.io/themes/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css'>
+	<link rel='stylesheet' href='https://adminlte.io/themes/AdminLTE/bower_components/Ionicons/css/ionicons.min.css'>
+	<link rel='stylesheet' href='https://adminlte.io/themes/AdminLTE/dist/css/AdminLTE.min.css'>
+	<link rel='stylesheet' href='https://adminlte.io/themes/AdminLTE/dist/css/skins/_all-skins.min.css'>
+	<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+	<!-- Custom styles for this template-->
+	<link href="{% static 'employee/css/style.css' %}" rel="stylesheet">
+	<style>
+	@charset "UTF-8";
+	hr {
+		width: 100%;
+		text-align: left;
+		margin-left: 0;
+		margin: 0;
+		padding: 3px;
+	}
+	
+	input[type=text] {
+		border: none;
+		background-color: #f8f9fc;
+		outline: 0;
+		font-size: 15px;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		font-family: sans-serif;
+		color: grey;
+	}
+	
+	textarea {
+		border: none;
+		background-color: #f8f9fc;
+		outline: 0;
+		font-size: 15px;
+		width: 100%;
+		margin: 0;
+		font-family: sans-serif;
+		color: grey;
+	}
+	
+	input[type=text]:focus {
+		border: none;
+		background-color: none;
+		outline: 0;
+	}
+	
+	.editbtn {
+		background: #fff;
+		color: #009970;
+		border-radius: 15px;
+		margin: 0 2px;
+		border: 2px solid;
+		border-color: #009970;
+		padding: 8px 25px;
+	}
+	
+	.cancelbtn {
+		background: #fff;
+		color: #000000;
+		border-radius: 15px;
+		margin: 0 2px;
+		border: 2px solid;
+		border-color: #000000;
+		padding: 8px 25px;
+	}
+	
+	.btn-create {
+		display: block;
+		float: right;
+		line-height: 24pt;
+		padding: 0 20px;
+		border: none;
+		background: #009970;
+		color: white;
+		letter-spacing: 2px;
+		transition: 0.2s all ease-in-out;
+		border-bottom: 2px solid transparent;
+		outline: none;
+		border-radius: 15px;
+	}
+	
+	.btn-create:hover {
+		background: inherit;
+		color: #009970;
+		border-bottom: 2px solid #009970;
+		border-radius: 15px;
+	}
+	
+	::selection {
+		background: #fff;
+	}
+	
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus {
+		border: 1px solid #6bd4b1;
+		-webkit-text-fill-color: #2A293E;
+		-webkit-box-shadow: 0 0 0px 1000px #f8f4e5 inset;
+		transition: background-color 5000s ease-in-out 0s;
+	}
+	
+	hr {
+		text-align: left,
+	}
+	
+	.profile-user-img {
+		width: 45%;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+		border-radius: 50%;
+	}
+	
+	.avatar-upload {
+		position: relative;
+		max-width: 205px;
+		margin: auto;
+		margin-bottom: 20px;
+	}
+	
+	.avatar-upload .avatar-edit {
+		position: absolute;
+		right: 60%;
+		z-index: 1;
+		top: 64%;
+	}
+	
+	.avatar-upload .avatar-edit input {
+		display: none;
+	}
+	
+	.avatar-upload .avatar-edit input + label {
+		display: inline-block;
+		width: 33px;
+		height: 33px;
+		margin-bottom: 0;
+		border-radius: 100%;
+		background: #FFFFFF;
+		border: 1px solid #d2d6de;
+		box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+		cursor: pointer;
+		font-weight: normal;
+		transition: all 0.2s ease-in-out;
+	}
+	
+	.avatar-upload .avatar-edit input + label:hover {
+		background: #f1f1f1;
+		border-color: #d6d6d6;
+	}
+	
+	.avatar-upload .avatar-edit input + label:after {
+		content: "";
+		font-family: "FontAwesome";
+		color: #009970;
+		position: absolute;
+		left: 0;
+		right: 0;
+		text-align: center;
+		line-height: 34px;
+		border-radius: 50%;
+		margin: auto;
+	}
+	</style>
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->{% include 'employee/sidebar.html' %}
+		<!-- End of Sidebar -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->{% include 'base/navbar.html' %}
+				<!-- End of Topbar -->
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+					<!-- Content -->
+					<div class="section-title" data-aos="fade-right">
+						<h2>Settings</h2> </div>
+					<div class="forbtn text-right pull-right mx-4 mb-3">
+						<div id="tohide">
+							<button class="editbtn mb-5" onclick="myFunction();">Edit</button>
+						</div>
+						<div id="toshow" style="display: none;">
+							<button id="save" class="editbtn mx-3">Save</button>
+							<button id="cancel" class="cancelbtn" onClick="refreshPage()">Cancel</button>
+						</div>
+					</div>
+					<div class="container">
+						<div class="row mt-3">
+							<div class="col-lg-10">
+								<form id="edit" name="edit">
+									<!--name-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">First Name</h5> </div>
+										<div class="row ml-1">
+											<input class="first_name" id="first_name" name="first_name" type="text" maxlength="50" value="{{profile.user.first_name}}" disabled="" /> </div>
+										<hr/>
+										<div class="row ml-1">
+											<p id="demo" style="font-family: sans-serif;font-size: 12px;">Your name appears on your Profile page, as your byline, and in your responses. It is a required field</p>
+										</div>
+									</div>
+									<!--name end-->
+									<!--name-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">Last Name</h5> </div>
+										<div class="row ml-1">
+											<input class="last_name" id="last_name" name="last_name" type="text" maxlength="50" value="{{profile.user.last_name}}" disabled="" /> </div>
+										<hr/>
+										<div class="row ml-1">
+											<p id="demo" style="font-family: sans-serif;font-size: 12px;">Your name appears on your Profile page, as your byline, and in your responses. It is a required field</p>
+										</div>
+									</div>
+									<!--name end-->
+									<!--Bio-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">Bio</h5> </div>
+										<div class="row ml-1">
+											<textarea class="bio" id="customerNote" id="bio" name="bio" name="customerNote" rows="4" maxlength="250" disabled>{{profile.bio}}</textarea>
+										</div>
+										<hr>
+										<div class="row ml-1">
+											<p style="font-family: sans-serif;font-size: 12px;">Your bio appears on your Profile page. Max 250 characters.</p>
+										</div>
+									</div>
+									<!--Bio end-->
+									<!--profile-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">Profile</h5> </div>
+										<div class="row">
+											<div class="col">
+												<br>
+												<p style="font-family: sans-serif;font-size: 12px;">Your photo appears on your Profile page.</p>
+												<br>
+												<p style="font-family: sans-serif;font-size: 12px;margin-top: 0.25rem;">Recommended size: Square, at least 1000 pixels per side. File type: JPG, PNG or JPEG.</p>
+											</div>
+											<div class="col-auto ml-4">
+												<div class="avatar-upload">
+													<div class="avatar-edit">
+														<input class="profile" type='file' id="imageUpload" name="profile" accept=".png, .jpg, .jpeg" disabled/>
+														<label for="imageUpload"></label>
+													</div>
+													<div class="avatar-preview"> <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="{{profile.image.url}}" alt="User profile picture"> </div>
+												</div>
+											</div>
+										</div>
+										<hr> </div>
+									<!--profile end-->
+									<!--Username-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">Username</h5> </div>
+										<div class="row ml-1">
+											<input class="username" type="text" id="username" name="username" maxlength="160" value="{{profile.user.username}}" disabled="" /> </div>
+										<hr>
+										<div class="row ml-1">
+											<p style="font-family: sans-serif;font-size: 12px;">Your username appears on your Profile page.</p>
+										</div>
+									</div>
+									<!--username end-->
+									<!--email id-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">Email-address</h5> </div>
+										<div class="row ml-1">
+											<input class="email" type="text" maxlength="160" value="{{profile.user.email}}" disabled="" /> </div>
+										<hr>
+										<div class="row ml-1">
+											<p style="font-family: sans-serif;font-size: 12px;">You can not change your email, please ask admin if need to.</p>
+										</div>
+									</div>
+									<!--email id close-->
+									<!--country-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">Country</h5> </div>
+										<div class="row ml-1">
+											<input class="country" type="text" maxlength="160" value="{{profile.country}}" id="country" name="country" disabled="" /> </div>
+										<hr>
+										<div class="row ml-1">
+											<p style="font-family: sans-serif;font-size: 12px;">Country will only be visible to admin</p>
+										</div>
+									</div>
+									<!--country close-->
+									<!--city-->
+									<div class="my-5">
+										<div class="row ml-1">
+											<h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">City</h5> </div>
+										<div class="row ml-1">
+											<input class="city" type="text" maxlength="160" value="{{profile.city}}" id="city" name="city" disabled="" /> </div>
+										<hr>
+										<div class="row ml-1">
+											<p style="font-family: sans-serif;font-size: 12px;">City will only be visible to admin</p>
+										</div>
+									</div>
+									<!--city close-->
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+			<!-- Footer -->
+			<footer class="sticky-footer">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto"> <span>Copyright &copy; Tergum 2020</span> </div>
+				</div>
+			</footer>
+			<!-- End of Footer -->
+		</div>
+		<!-- End of Content Wrapper -->
+	</div>
+	<!-- End of Page Wrapper -->
+	<!-- Scroll to Top Button-->
+	<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"></i> </a>
+	<!-- Bootstrap core JavaScript-->
+	<script src="{% static 'employee/js/vendor/jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'employee/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="{% static 'employee/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="{% static 'employee/js/sb-admin-2.min.js' %}"></script>
+	<script>
+	$(document).ready(function() {
+		var readURL = function(input) {
+			if(input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					$('.profile-pic').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		$(".file-upload").on('change', function() {
+			readURL(this);
+		});
+		$(".upload-button").on('click', function() {
+			$(".file-upload").click();
+		});
+	});
+	</script>
+	<script>
+	function myFunction() {
+		editdetails();
+		showfxn();
+		hidefxn();
+	}
+	</script>
+	<script>
+	function editdetails() {
+		document.getElementsByClassName("first_name")[0].disabled = false;
+		document.getElementsByClassName("last_name")[0].disabled = false;
+		document.getElementsByClassName("bio")[0].disabled = false;
+		document.getElementsByClassName("profile")[0].disabled = false;
+		document.getElementsByClassName("username")[0].disabled = false;
+		document.getElementsByClassName("country")[0].disabled = false;
+		document.getElementsByClassName("city")[0].disabled = false;
+	}
+
+	function showfxn() {
+		document.getElementById("toshow").style.display = "block";
+	}
+
+	function hidefxn() {
+		document.getElementById("tohide").style.display = "none";
+	}
+	</script>
+	<script>
+	function refreshPage() {
+		window.location.reload();
+	}
+	</script>
+	<script>
+	$(document).ready(function() {
+		$("#imageUpload").change(function(data) {
+			var imageFile = data.target.files[0];
+			var reader = new FileReader();
+			reader.readAsDataURL(imageFile);
+			reader.onload = function(evt) {
+				$('#imagePreview').attr('src', evt.target.result);
+				$('#imagePreview').hide();
+				$('#imagePreview').fadeIn(650);
+			}
+		});
+	});
+	</script>
+	<script>
+	$('#save').click(function(e) {
+		e.preventDefault();
+		var myform = document.getElementById("edit");
+		var formData = new FormData(myform);
+		$('#save').prop('disabled', true);
+		$('#cancel').prop('disabled', true);
+		$("#save").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+		$.ajax({
+			url: "/en/api/translator/edit",
+			type: 'POST',
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data, textStatus, xhr) {
+				console.log(data);
+				if(xhr.status == 200) {
+					$('#save').prop('disabled', false);
+					$('#cancel').prop('disabled', false);
+					$("#save").html('<small>' + data.error + '</small>');
+					setTimeout(function() {
+						$("#save").html('Save');
+					}, 2000);
+				} else if(xhr.status == 202) {
+					window.location.reload();
+				}
+			},
+			error: function(xhr, errmsg, err) {
+				$('#save').prop('disabled', false);
+				$('#cancel').prop('disabled', false);
+				$("#save").html('<small>Something went wrong, try again later.</small>');
+				setTimeout(function() {
+					$("#save").html('Save');
+				}, 2000);
+			},
+		});
+	});
+	</script>
+</body>
+
+</html>

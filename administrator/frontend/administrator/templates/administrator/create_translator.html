@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Create Translator</title>
+       <!-- Favicons -->
+       <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <link href="{% static 'administrator/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+      <link rel='stylesheet' href='https://flatlogic.github.io/awesome-bootstrap-checkbox/bower_components/Font-Awesome/css/font-awesome.css'>
+      <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+      <link href="{% static 'administrator/css/style.css' %}" rel="stylesheet">
+      <link href="{% static 'administrator/css/create_translator.css' %}" rel="stylesheet">
+   </head>
+   <body id="page-top">
+      <!-- Page Wrapper -->
+      <div id="wrapper">
+         <!-- Sidebar -->{% include 'administrator/sidebar.html' %}
+         <!-- End of Sidebar -->
+         <!-- Content Wrapper -->
+         <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+               <!-- Topbar -->{% include 'base/navbar.html' %}
+               <!-- End of Topbar -->
+               <!-- Begin Page Content -->
+               <div class="container-fluid">
+                  <!-- Content -->
+                  <div class="container">
+                     <div class="section-title" data-aos="fade-right">
+                        <h2>Create Translator</h2>
+                     </div>
+                     <div id="result"> </div>
+                     <div class="row mt-3">
+                        <div class="col-lg-10">
+                           <form id="form1">
+                              <!--first_name-->
+                              <div class="my-2">
+                                 <div class="row ml-1"> <strong>First Name</strong> </div>
+                                 <div class="row ml-1">
+                                    <input class="name" type="text" maxlength="50" id="first_name" /> 
+                                 </div>
+                                 <hr/>
+                              </div>
+                              <!--first_name end-->
+                              <!--last_name-->
+                              <div class="my-5">
+                                 <div class="row ml-1"> <strong>Last Name</strong> </div>
+                                 <div class="row ml-1">
+                                    <input class="name" type="text" maxlength="50" id="last_name" /> 
+                                 </div>
+                                 <hr>
+                              </div>
+                              <!--last_name close-->
+                              <!--email id-->
+                              <div class="my-5">
+                                 <div class="row ml-1"> <strong>Email address</strong> </div>
+                                 <div class="row ml-1">
+                                    <input type="text" maxlength="160" id="email" /> 
+                                 </div>
+                                 <hr>
+                              </div>
+                              <!--email id close-->
+                              <!--skills-->
+                              <div class="my-5">
+                                 <div class="row ml-1"> <strong>Skills</h5>
+                                 </div>
+                                 <!--row-->   
+                                 <div class="row my-3 text-align:left ">
+                                    {%for type in content_types%}
+                                    <label class="mx-3 my-2">
+                                    <input type="checkbox" class="option-input radio" name="skill" value ="{{type.pk}}" id="{{type.pk}}"/>
+                                    {{type.content_name}}
+                                    </label>
+                                    {%endfor%}
+                                 </div>
+                                 <!--row end-->
+                              </div>
+                              <hr>
+                              <!--skill close-->
+                              <!-- language-->
+                              <div class="my-3" style="display: flex; flex-wrap: wrap;">
+                                 <div class="row my-3 ">
+                                    <div class="col-lg-6  my-3">
+                                       <div class="row d-flex ml-1">
+                                          <h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">From</h5>
+                                       </div>
+                                       <div class="row my-3 justify-content-center ">
+                                          <div class="custom-choose mb-3">
+                                             {%for language in languages%}
+                                             <input type="checkbox" id="ch-opt-{{language.pk}}" value="{{language.pk}}" name="sourcelang">
+                                             <label for="ch-opt-{{language.pk}}">
+                                             {{language.language_name}}
+                                             </label>
+                                             {%endfor%}
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="col-lg-6  my-3">
+                                       <div class="row d-flex ml-1">
+                                          <h5 style="font-family: sans-serif;font-size: 17px;font-weight: bold;">To</h5>
+                                       </div>
+                                       <div class="row my-3 justify-content-center">
+                                          <div class="custom-choose mb-3">
+                                             {%for language in languages%}
+                                             <input type="checkbox" id="to-lang-{{language.pk}}" value="{{language.pk}}" name="targetlang">
+                                             <label for="to-lang-{{language.pk}}">
+                                             {{language.language_name}}
+                                             </label>
+                                             {%endfor%}
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <!--language end-->
+                              <!--language end-->
+                           </form>
+                           <div class="my-5">
+                              <div class="row no-gutters align-items-center justify-content-center my-3 mx-2">
+                                 <div class="col-lg-8">
+                                    <button class ="skillbtn" id="create" style="cursor: pointer;" onclick="selectskill();selectsource();selecttarget();">Create</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!--container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer">
+               <div class="container my-auto">
+                  <div class="copyright text-center my-auto">
+                     <span>Copyright &copy; Tergum 2020</span>
+                  </div>
+               </div>
+            </footer>
+            <!-- End of Footer -->
+         </div>
+         <!-- End of Content Wrapper -->
+      </div>
+      <!-- End of Page Wrapper -->
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+      </a>
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'administrator/js/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'administrator/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="{% static 'administrator/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="{% static 'administrator/js/sb-admin-2.min.js' %}"></script>
+      <script> 
+         var array_for_skills = [];
+         
+         function selectskill() { 
+         var ele = document.getElementsByName('skill'); 
+           
+         for(i = 0; i < ele.length; i++) { 
+             if(ele[i].checked) {
+                 array_for_skills.push(ele[i].value);
+             }   
+         } 
+         } 
+         
+         var array_for_sourcelanguage = [];
+         
+         function selectsource() { 
+         var ele = document.getElementsByName('sourcelang'); 
+         
+         for(i = 0; i < ele.length; i++) { 
+         if(ele[i].checked) {
+             array_for_sourcelanguage.push(ele[i].value);
+         }   
+         } 
+         } 
+         var array_for_targetlanguage = [];
+         
+         function selecttarget() { 
+         var ele = document.getElementsByName('targetlang'); 
+         
+         for(i = 0; i < ele.length; i++) { 
+         if(ele[i].checked) {
+             array_for_targetlanguage.push(ele[i].value);
+         }   
+         } 
+         } 
+         function jump(h){
+         var url = location.href;               //Save down the URL without hash.
+         location.href = "#"+h;                 //Go to the target element.
+         history.replaceState(null,null,url);   //Don't like hashes. Changing it back.
+         }
+         $('#create').click(function(e) {
+         e.preventDefault();
+         $('#create').prop('disabled', true);
+         $("#create").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+         $.ajax({
+         type: 'POST',
+         url: "/en/api/translator/create/",
+         data: {
+             first_name: $('#first_name').val(),
+             email: $('#email').val(),
+             last_name: $('#last_name').val(),
+             skills: array_for_skills,
+             source_languages: array_for_sourcelanguage,
+             target_languages: array_for_targetlanguage,
+             action: 'post'
+         },
+         
+         success: function(data, textStatus, xhr) {
+            console.log(data);
+             if (xhr.status == 200) {
+                 $('#create').prop('disabled', false);
+                 $("#create").html('<small>' + data.error + '</small>');
+                 setTimeout(function() {
+                     $("#create").html('Create');
+                 }, 2000);
+             } else if (xhr.status == 202) {
+                 $('#create').prop('disabled', false);
+                 $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Profile created successfully, an email has been sent to the provided email with invitaion link.</div>')
+         $('#form1 input[type="text"]').val('');
+                 $("input:checkbox").each(function() {
+                     $(this).prop('checked', false);                    
+                 });
+                 $("#create").html('Create');
+                 jump("page-top")
+         
+             }
+         },
+         error: function(xhr, errmsg, err) {
+             $('#create').prop('disabled', false);
+             $("#create").html('<small>Something went wrong, try again later.</small>');
+             setTimeout(function() {
+                 $("#create").html('Create');
+             }, 2000);
+         },
+         });
+         });
+      </script>
+   </body>
+</html>

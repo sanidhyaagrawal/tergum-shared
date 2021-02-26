@@ -1,0 +1,350 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>View Employee</title>
+        <!-- Favicons -->
+        <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Custom fonts for this template-->
+      <link href="{% static 'administrator/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+      <!-- Custom styles for this template-->
+      <link href="{% static 'administrator/css/style.css' %}" rel="stylesheet">
+      <style>
+         .img-thumbnail {
+         padding: 0.25rem;
+         background-color: #fff;
+         border: 1px solid #dddfeb;
+         border-radius: 0.35rem;
+         max-width: 50%;
+         max-width: 50%;
+         }
+         .rounded-circle {
+         border-radius: 45% !important;
+         }
+         @-webkit-keyframes click-wave {
+         0% {
+         height: 40px;
+         width: 40px;
+         opacity: 0.35;
+         position: relative;
+         }
+         100% {
+         height: 200px;
+         width: 200px;
+         margin-left: -80px;
+         margin-top: -80px;
+         opacity: 0;
+         }
+         }
+         @-moz-keyframes click-wave {
+         0% {
+         height: 40px;
+         width: 40px;
+         opacity: 0.35;
+         position: relative;
+         }
+         100% {
+         height: 200px;
+         width: 200px;
+         margin-left: -80px;
+         margin-top: -80px;
+         opacity: 0;
+         }
+         }
+         @keyframes click-wave {
+         0% {
+         height: 40px;
+         width: 40px;
+         opacity: 0.35;
+         position: relative;
+         }
+         100% {
+         height: 200px;
+         width: 200px;
+         margin-left: -80px;
+         margin-top: -80px;
+         opacity: 0;
+         }
+         }
+         .option-input {
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         -ms-appearance: none;
+         -o-appearance: none;
+         appearance: none;
+         position: relative;
+         top: 13.3333333333px;
+         right: 13;
+         bottom: 0;
+         left: 0;
+         height: 40px;
+         width: 40px;
+         -webkit-transition: all 0.15s ease-out 0s;
+         -moz-transition: all 0.15s ease-out 0s;
+         transition: all 0.15s ease-out 0s;
+         background: #cbd1d8;
+         border: none;
+         color: #fff;
+         cursor: pointer;
+         display: inline-block;
+         margin-right: 0.5rem;
+         outline: none;
+         position: relative;
+         z-index: 1000;
+         }
+         .option-input:hover {
+         background: #9faab7;
+         }
+         .option-input:checked {
+         background:  #26bd8a;
+         }
+         .option-input:checked::before {
+         height: 40px;
+         width: 40px;
+         position: absolute;
+         content: '\2714';
+         display: inline-block;
+         font-size: 26.6666666667px;
+         text-align: center;
+         line-height: 40px;
+         }
+         .option-input:checked::after {
+         -webkit-animation: click-wave 0.65s;
+         -moz-animation: click-wave 0.65s;
+         animation: click-wave 0.65s;
+         background:  #26bd8a;
+         content: '';
+         display: block;
+         position: relative;
+         z-index: 100;
+         }
+         .option-input.radio {
+         border-radius: 50%;
+         }
+         .option-input.radio::after {
+         border-radius: 50%;
+         }
+         .due-btn {
+         background: rgb(218, 63, 63);
+         color: #fff;
+         border-radius: 6px;
+         border: 2px solid;
+         border-color:  rgb(218, 63, 63);
+         padding: 8px 18px;
+         outline: none;
+         }
+         .by-btn {
+         background:#009970;
+         color: #fff;
+         border-radius: 6px;
+         text-align: right;
+         border: none;
+         padding: 11px 25px;
+         }
+      </style>
+   </head>
+   <body id="page-top">
+      <!-- Page Wrapper -->
+      <div id="wrapper">
+         <!-- Sidebar -->
+         {% include 'administrator/sidebar.html' %}
+         <!-- End of Sidebar -->
+         <!-- Content Wrapper -->
+         <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+               <!-- Topbar -->
+               {% include 'base/navbar.html' %}
+               <!-- End of Topbar -->
+               <!-- Begin Page Content -->
+               <div class="container-fluid">
+                  <!-- Content Row -->
+                  <div class="row">
+                     <div class="col-lg-3 mb-3">
+                        <div class="card shadow h-100 py-0">
+                           <div class="card-body">
+                              <div class="text-center card-box">
+                                 <div class="member-card pt-2 pb-2">
+                                    <div class="thumb-lg member-thumb mx-auto">
+                                       <img src="{{profile_obj.image.url}}" class="rounded-circle img-thumbnail" alt="profile-image">
+                                    </div>
+                                    <div class="mt-3">
+                                       <h5 style="font-weight: bold;">{{profile_obj.user.get_full_name}}</h5>
+                                    </div>
+                                    <hr>
+                                    <div class="my-0">
+                                       <p class="mb-2" style="font-family: sans-serif; font-weight: bold;text-align: left;">Profile info</p>
+                                    </div>
+                                    <div class="row ml-1 mt-1">
+                                       <i class="fas fa-user mt-1" style="color: #009970;"></i>  &nbsp; &nbsp;
+                                       <p style="font-family: sans-serif;text-align: left;">{{profile_obj.user.username}}</p>
+                                    </div>
+                                    <div class="row ml-1 mt-1">
+                                       <i class="fas fa-envelope mt-1" style="color: #009970;"></i>  &nbsp; &nbsp;
+                                       <p style="font-family: sans-serif;text-align: left;">{{profile_obj.user.email}}</p>
+                                    </div>
+                                    {% if profile_obj.country%}
+                                    <div class="row ml-1 mt-1">
+                                       <i class="fas fa-globe mt-1" style="color: #009970;"></i>  &nbsp; &nbsp;
+                                       <p style="font-family: sans-serif;text-align: left;">{{profile_obj.country}}</p>
+                                    </div>
+                                    {% endif %}
+                                    {% if profile_obj.city%}
+                                    <div class="row ml-1 mt-1">
+                                       <i class="fas fa-city mt-1" style="color: #009970;"></i>  &nbsp; &nbsp;
+                                       <p style="font-family: sans-serif;text-align: left;">{{profile_obj.city}}</p>
+                                    </div>
+                                    {% endif %}
+                                    <hr>
+                                    <div class="my-0">
+                                       <p class="mb-2" style="font-family: sans-serif; font-weight: bold;text-align: left;">Bio</p>
+                                    </div>
+                                    <div class="row ml-0">
+                                       {% if profile_obj.city%}
+                                       <p style="font-family: sans-serif;text-align: left;font-size: 1em;">{{profile_obj.bio}}</p>
+                                       {% else %}
+                                       No bio
+                                       {% endif %}
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-lg-5 mb-3">
+                        <div class="row">
+                           <div class="col-lg-12">
+                              <div class="card shadow h-100 py-0">
+                                 <div class="card-body">
+                                    <h5 style="font-family: sans-serif;">Skills</h5>
+                                    <div class="row my-3">
+                                       {% for content in profile_obj.content_types.all %}
+                                       <button class="type-btn mx-2 my-1">{{content}}</button>
+                                       {% endfor %}
+                                    </div>
+                                    <h5 style="font-family: sans-serif">Languages From</h5>
+                                    <div class="row my-3">
+                                       {% for lang in profile_obj.from_languages.all %}
+                                       <button class="type-btn mx-2 my-1">{{lang}}</button>
+                                       {% endfor %}
+                                    </div>
+                                    <h5 style="font-family: sans-serif;">Languages To</h5>
+                                    <div class="row my-3">
+                                       {% for lang in profile_obj.to_languages.all %}
+                                       <button class="type-btn mx-2 my-1">{{lang}}</button>
+                                       {% endfor %}
+                                       </button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row mt-4">
+                           <div class="col-lg-12">
+                              <div class="card shadow h-100 py-0">
+                                 <div class="card-body">
+                                    <div class="h5 font-weight-bold text-uppercase">User Feedback</div>
+                                    <hr>
+                                    <div class="h6 font-weight-bold text-gray-800 my-4"><i class="fas fa-star fa-2x" style="color: #009970;"></i> <i class="fas fa-star fa-2x" style="color: #009970;"></i> <i class="fas fa-star fa-2x" style="color: #009970;"></i> <i class="fas fa-star fa-2x" style="color: #009970;"></i> <i class="fas fa-star fa-2x text-gray-300"></i> </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-lg-4">
+                        <div class="row mb-3">
+                           <div class="col-lg-12">
+                              <div class="card border-left-success shadow h-100 py-0">
+                                 <div class="card-body">
+                                    <div class="row">
+                                       <div class="col">
+                                          <div class="h5 font-weight-bold text-uppercase"><a href="/admin/translator/{{profile_obj.user.username}}/contracts/completed/paid">Total Amount</a></div>
+                                          <br>
+                                          <div class="h5 mb-0 font-weight-bold text-gray-800">${{profile_obj.total_earning}}</div>
+                                       </div>
+                                       <div class="col-auto"> <i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row my-3">
+                           <div class="col-lg-12">
+                              <div class="card border-left-success shadow h-100 py-0">
+                                 <div class="card-body">
+                                    <div class="row">
+                                       <div class="col">
+                                          <div class="h5 font-weight-bold text-uppercase"><a href="/admin/translator/{{profile_obj.user.username}}/contracts/accepted">Accepted Contracts</a></div>
+                                          <br>
+                                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{profile_obj.active_contracts}}</div>
+                                       </div>
+                                       <div class="col-auto"> <i class="fas fa-tasks fa-2x text-gray-300"></i> </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     
+                        <div class="row my-3">
+                           <div class="col-lg-12">
+                              <div class="card border-left-danger shadow h-100 py-0">
+                                 <div class="card-body">
+                                    <div class="row">
+                                       <div class="col">
+                                          <div class="h5 font-weight-bold text-uppercase"><a href="/admin/translator/{{profile_obj.user.username}}/contracts/completed/due">Due Payments</a></div>
+                                          <br>
+                                          <div class="h5 mb-0 font-weight-bold text-gray-800">${{profile_obj.due_earning|floatformat:2}}</div>
+                                       </div>
+                                       <div class="col-auto"> <i class="fas fa-dollar-sign fa-2x text-gray-300"></i> </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer">
+               <div class="container my-auto">
+                  <div class="copyright text-center my-auto">
+                     <span>Copyright &copy; Tergum 2020</span>
+                  </div>
+               </div>
+            </footer>
+            <!-- End of Footer -->
+         </div>
+         <!-- End of Content Wrapper -->
+      </div>
+      <!-- End of Page Wrapper -->
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+      </a>
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'administrator/js/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'administrator/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="{% static 'administrator/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="{% static 'administrator/js/sb-admin-2.min.js' %}"></script>
+      <!-- Page level custom scripts -->
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+      <script src='https://harvesthq.github.io/chosen/chosen.jquery.js'></script>
+   </body>
+</html>

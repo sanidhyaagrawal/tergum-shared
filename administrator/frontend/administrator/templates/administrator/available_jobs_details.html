@@ -1,0 +1,261 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>Available Contracts</title>
+        <!-- Favicons -->
+        <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Custom fonts for this template-->
+      <link href="{% static 'administrator/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+      <link href="{% static 'administrator/css/active_job_details.css' %}" rel="stylesheet">
+      <link href="{% static 'administrator/css/style.css' %}" rel="stylesheet">
+      <link href="{% static 'administrator/css/admin_dashboard.css' %}" rel="stylesheet">
+      <style>
+         .pay-btn {
+         background: rgb(14, 14, 14);
+         color: #fff;
+         width: 100%;
+         border-radius: 6px;
+         border: 2px solid;
+         border-color:  rgb(5, 5, 5);
+         padding: 8px 18px;
+         outline: none;
+         }
+         .job-btn {
+         background:#009970;
+         color: #fff;
+         border-radius: 10px;
+         text-align: right;
+         margin: 0 10px;
+         border: none;
+         padding: 12px 12px;
+         }
+         .assignto-btn {
+         background:black;
+         color: #fff;
+         border-radius: 10px;
+         text-align: right;
+         margin: 0 10px;
+         border: none;
+         padding: 11px 20px;
+         }
+         .scroll {
+         overflow-y: scroll;
+         scroll-behavior: smooth;
+         height: 300px;
+         width: 400px;
+         overflow-x: hidden;
+         }
+         ::-webkit-scrollbar {
+         width: 10px
+         }
+         ::-webkit-scrollbar-track {
+         background: #eee
+         }
+         ::-webkit-scrollbar-thumb {
+         background: #888
+         }
+         ::-webkit-scrollbar-thumb:hover {
+         background: #555
+         }
+      </style>
+   </head>
+   <body id="page-top">
+      <!-- Page Wrapper -->
+      <div id="wrapper">
+         <!-- Sidebar -->
+         {% include 'administrator/sidebar.html' %}
+         <!-- End of Sidebar -->
+         <!-- Content Wrapper -->
+         <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+               <!-- Topbar -->
+               {% include 'base/navbar.html' %}
+               <!-- End of Topbar -->
+               <!-- Begin Page Content -->
+               <div class="container-fluid">
+                  <!-- Content Row -->
+                  <div class="section-title" data-aos="fade-right">
+                     <h2>Jobs#732789</h2>
+                  </div>
+                  <!--jobs listings-->
+                  <div class="row">
+                     {% for contract in contracts%}
+                     <div class= "col-lg-4 my-2">
+                        <div class="card border-left-success shadow h-100 py-0">
+                           <div class="card-body">
+                              <div class="heading">
+                                 <h3 class="text-wrap text-break mx-2">Contract#{{contract.contract_id}}</h3>
+                              </div>
+                              <div class="row">
+                                {% if contract.is_signed %}   
+                                <span class="text-wrap text-break mx-3">Signed by <a href = "/admin/translator/{{contract.profile.username}}/details" >{{contract.profile.username}}</a> on {{contract.signing_date | date:"d F, Y"}}</span>
+                              {% endif %}
+                            </div>
+                              <div class="row my-2">
+                                 <div class="col-lg-6">
+                                    <div class="language-btn mt-3 mb-4" style="text-align: center;"><strong> {{contract.target_language}} </strong></div>
+                                    <div class="type-btn"  style="text-align: center;margin-top: 31px;"><strong>${{contract.contract_price | floatformat:2}}</strong></div>
+                                 </div>
+                                 <div class="col-lg-6">
+                                    <div class="quality-btn my-3" style="text-align: center;"><strong>{{contract.status_verbose}}</strong></div>
+                                    {% if contract.is_signed %}                   
+                                    <div class="job-btn" style="text-align: center;margin-top: 31px;"><strong>Assigned</strong></div>
+                                    {% else %}
+                                    <!-- Topbar -->
+                                    <nav class="navbar navbar-expand navbar-light topbar px-0" >
+                                       <!-- Topbar Navbar -->
+                                       <ul class="navbar-nav px-0" style="width: 100%;">
+                                          <!-- Nav Item - Alerts -->
+                                          <li class="nav-item dropdown no-arrow px-0" style="width: 100%;">
+                                             <a class="nav-link dropdown-toggle px-0 " href="#" id="alertsDropdown" role="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%;">
+                                                <button id = "{{contract.contract_id}}" class="pay-btn mt-1" onclick="">Assign to &nbsp;&nbsp;<i class="fas fa-angle-double-down"></i></button>
+                                                <!-- Counter - Alerts -->
+                                             </a>
+                                             <!-- Dropdown - Alerts -->
+                                             <div class="dropdown-list dropdown-menu dropdown-menu-left shadow animated--grow-in"
+                                                aria-labelledby="alertsDropdown">
+                                                <div class="scroll">
+                                                   <h6 class="dropdown-header">
+                                                      Employees
+                                                   </h6>
+                                                   {% for employee in all_employees %}
+                                                   <div class="employee dropdown-item d-flex align-items-center" id="{{employee.user.username}},{{contract.contract_id}}" >
+                                                      <div class="mr-3">
+                                                         <div class="icon-circle bg-success">
+                                                            <img class="rounded-circle" height="40" src="{{employee.image.url}}"
+                                                               alt="">
+                                                         </div>
+                                                      </div>
+                                                      <div>
+                                                         <div class="small text-gray-500" >{{employee.user.username}} | Active- {{employee.active_contracts}} | Completed- {{employee.completed_contracts}}</div>
+                                                         <span class="font-weight-bold">{{employee.user.get_full_name}}</span>
+                                                      </div>
+                                                   </div>
+                                                   {% endfor %}
+
+
+                                                 
+
+                                                
+
+                                                </div>
+                                             </div>
+                                          </li>
+                                          <div class="topbar-divider d-none d-sm-block"></div>
+                                       </ul>
+                                    </nav>
+                                    <!-- End of Topbar -->
+                                    {% endif %}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!--job listing end-->
+                     {% endfor %}
+                  </div>
+               </div>
+               <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer">
+               <div class="container my-auto">
+                  <div class="copyright text-center my-auto">
+                     <span>Copyright &copy; Tergum 2020</span>
+                  </div>
+               </div>
+            </footer>
+            <!-- End of Footer -->
+         </div>
+         <!-- End of Content Wrapper -->
+      </div>
+      <!-- End of Page Wrapper -->
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+      </a>
+      <!-- Bootstrap core JavaScript-->
+      <script src="{% static 'administrator/js/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'administrator/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="{% static 'administrator/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="{% static 'administrator/js/sb-admin-2.min.js' %}"></script>
+      <!-- Page level custom scripts -->
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+      <script src='https://harvesthq.github.io/chosen/chosen.jquery.js'></script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.js"></script>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script>
+         $(document).ready(function(){
+    $(".employee").on('click', function(){
+            var res = this.id.split(",");
+            var empID = res[0];
+            var cID = res[1];
+      console.log(empID, cID);
+            
+
+
+      var contract = document.getElementById(cID);
+
+       $(contract).prop('disabled', true);
+       $(contract).html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+    
+       $.ajax({
+                type: 'POST',
+                url: "/en/api/contract/assign/",
+                data: {
+                    empID: empID,
+                    cID: cID,
+                    action: 'post'
+                },
+                success: function(data, textStatus, xhr) {
+                    console.log(data);
+                    if(xhr.status == 200) {
+                        $(contract).prop('disabled', false);
+                        $(contract).html('<small>' + data.error + '</small>');
+                        setTimeout(function() {
+                            $(contract).html('Assign to &nbsp;&nbsp;<i class="fas fa-angle-double-down"></i>');
+                        }, 2000);
+                    } else if(xhr.status == 202) {
+                     window.location.reload();
+                    }
+                },
+                error: function(xhr, errmsg, err) {
+                    $(contract).prop('disabled', false);
+                    $(contract).html('<small>Something went wrong, try again later</small>');
+                    setTimeout(function() {
+                        $(contract).html('Assign to &nbsp;&nbsp;<i class="fas fa-angle-double-down"></i>');
+                    }, 2000);
+                },
+            });
+
+      
+        });
+});
+       
+      </script>
+   </body>
+</html>

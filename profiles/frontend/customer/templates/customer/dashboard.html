@@ -1,0 +1,395 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <title>Tergum - Professional Translation Service</title>
+      <meta content="" name="descriptison">
+      <meta content="" name="keywords">
+      {% include "base/exception_head.html" %}
+
+      <!-- Favicons -->
+      <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      <!-- Vendor CSS Files -->
+      <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'home/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+      <link href="{% static 'home/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+      <link href="{% static 'home/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+      <link href="{% static 'home/vendor/venobox/venobox.css' %}" rel="stylesheet">
+      <link href="{% static 'home/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+      <link href="{% static 'home/vendor/aos/aos.css' %}" rel="stylesheet">
+      <!--  Main CSS File -->
+      <link href="{% static 'customer/css/style.css' %}" rel="stylesheet">
+      <style>
+         .container .invoice-stand {
+         background:#DAA520;
+         color: #fff;
+         border-radius: 10px;
+         border: none;
+         margin: 0 3px;
+         padding: 6px 22px;
+         }
+         .container .createbutton {
+         background:  #009970;;
+         color: #fff;
+         border-radius: 20px;
+         border: none;
+         margin: 0 15px;
+         padding: 8px 25px;
+         }
+         .container .invoice-paid {
+         background: #009970;
+         color: #fff;
+         border-radius: 10px;
+         margin: 0 10px;
+         border: none;
+         padding: 8px 25px;
+         }
+         .container .edit-btn {
+         background: #009970;
+         color: #fff;
+         border-radius: 10px;
+         margin: 0 10px;
+         border: none;
+         padding: 8px 25px;
+         }
+         .container .btred {
+         background: #ce0711;
+         color: #fff;
+         border-radius: 10px;
+         margin-right: 10px;
+         border: none;
+         padding: 8px 25px;
+         display: inline-block;
+         }
+         .team .element {
+         position: relative;
+         box-shadow: 4px 2px 10px rgba(213, 214, 213, 0.897); ;
+         padding: 15px;
+         border-radius: 16px;
+         text-align: left;
+         }
+         .button5 {
+         border-radius: 70%;
+         background-color: #fd290d; /* Green */
+         border: none;
+         color: white;
+         padding: 10px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 12px;
+         margin: 4px 2px;
+         cursor: pointer;}
+         table { 
+         border-collapse: collapse; 
+         } 
+         td{padding:3px !important}
+         th{padding:3px !important}
+         .form-control{border-radius:0px !important;}
+      </style>
+   </head>
+   <body>
+      <!--  Header  -->
+      <header id="header" class="fixed-top d-flex align-items-center">
+         <div class="container">
+            <div class="header-container d-flex align-items-center">
+               <div class="logo mr-auto">
+                  <a href="index.html"><img src="{% static '/base/images/tergum_text.png' %}" alt="" class="img-fluid"></a>
+               </div>
+               <nav class="nav-menu d-none d-lg-block">
+                  <ul>
+                     <li class="active"><a href="#header">Dashbaord</a></li>
+                     <li><a href="#">Invoices</a></li>
+                     <li><a href="#">Settings</a></li>
+                     <li class="get-started" style="cursor: pointer;" onclick="window.location.href='/logout';"><a >Logout</a></li>
+                  </ul>
+               </nav>
+            </div>
+         </div>
+      </header>
+      <!-- End Header -->
+      <!--  Hero Section  -->
+      <section id="hero" class="d-flex align-items-center">
+         <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="200">
+            <h1>Welcome {{request.user.first_name}}</h1>
+            <a href='{% url 'services:create_order' %}' class="btn-get-started scrollto">Create Order</a>
+         </div>
+      </section>
+      <!-- End Hero -->
+      <main id="main">
+         <section id="team" class="team section-bg">
+            
+            <!--for active orders-->
+            {% if messages %}
+
+            <div class="container">
+               <div class="row my-2">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible">
+                           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                           <strong>{{ message }}</strong> 
+                        </div>
+                        {% endfor %}
+
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+
+            {% if not active_jobs and not completed_jobs and not draft_jobs %}
+
+            <div class="row">
+               <div class="col-md-6 align-self-center">
+                 {% include 'base/exception.html' %}
+               </div>
+               <div class="col-md-6 align-self-center">
+                 <h2>Looks like you're new here!</h2>
+                 <p>You haven't created an order yet, let's get started-
+                 </p>
+                 <button class="btn green mt-2" onclick="location.href = '{% url 'services:create_order' %}';">CREATE ORDER</button>
+               </div>
+             </div>
+
+             {% else %}
+
+            <!--for active orders-->
+            {% if active_jobs %}
+
+            <div class="container">
+               <div class="row my-2">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                      
+
+                        <h2>Active Orders</h2>
+                        {% for job in active_jobs%}
+                        <!--card-->
+                        <div class="row my-4">
+                           <div class="col-lg-12 justify-content-center ">
+                              <div class="element aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                                 <div class="bg-white rounded">
+                                    <div class = "row">
+                                       <div class="col lg-6">
+                                          <p>Order #{{job.job_id}}</p>
+                                          <p>{{job.posted_date}}</p>
+                                       </div>
+                                       <div class="col text-right pull-right">
+                                          <div class="float-right row">
+                                             <div class="float-right d-none d-md-block ">
+                                                <button class="invoice-stand"> {{job.quality.quality_name}}</button>
+                                             </div>
+                                             <button class="invoice-paid mr-4">{{job.status.get_status_name_display}}</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                       <div class="col-lg-6">
+                                          <table class="table table-borderless">
+                                             <tbody>
+                                                {% for attachment in job.attachments.all %}
+                                                <tr>
+                                                   <th><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
+                                                   <td>{{attachment.word_count}} words</td>
+                                                </tr>
+                                                {% endfor %}
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                       <div class="col-lg-6 text-right pull-right align-self-center">
+                                          <div class="col d-none d-md-block">
+                                             <h5>
+                                                {{job.source_language.language_name}} --> {{job.targetLanguageToString}}
+                                             </h5>
+                                          </div>
+                                          <div class="mt-4">
+                                             <a class="mt-3" href="/jobs/details/{{job.job_id}}">More Details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!--card close-->
+                        {% endfor %}
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+
+            <!--end active orders-->
+            <!--for completed orders-->
+            {% if completed_jobs %}
+
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        <h2>Completed Order</h2>
+                        {% for job in completed_jobs%}
+                        <!--first card-->
+                        <div class="row my-4">
+                           <div class="col-lg-12 justify-content-center ">
+                              <div class="element aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                                 <div class="bg-white rounded">
+                                    <div class = "row">
+                                       <div class="col lg-6">
+                                          <p>Order #{{job.job_id}}</p>
+                                          <p>{{job.posted_date}} - <strong>{{job.status.entry_date}}</strong></p>
+                                       </div>
+                                       <div class="col text-right pull-right">
+                                          <div class="float-right row">
+                                             <div class="float-right d-none d-md-block ">
+                                                <button class="invoice-stand"> {{job.quality.quality_name}}</button>
+                                             </div>
+                                             <button class="invoice-paid"> ${{job.calculate_total_price}}</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                       <div class="col-lg-6">
+                                          <table class="table table-borderless">
+                                             <tbody>
+                                                
+                                                {% for attachment in job.attachments.all %}
+                                                <tr>
+                                                   <th><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
+                                                   <td>{{attachment.word_count}} words</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                       <div class="col-lg-6 text-right pull-right align-self-center">
+                                          <div class="col d-none d-md-block">
+                                             <h5>
+                                                {{job.source_language.language_name}} --> {{job.targetLanguageToString}}
+                                             </h5>
+                                          </div>
+                                          <div class="mt-4">
+                                             <a class="mt-3" href="/jobs/details/{{job.job_id}}">More details</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %}
+                        <!--first card complete-->
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {%endif%}
+
+            <!--end completed orders-->
+
+            <!--fordrafts-->
+            {% if draft_jobs%}
+
+            <div class="container">
+               <div class="row my-4">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        <h2> Drafts</h2>
+                        <!--row-->
+                        <div class="row mt-4">
+                           {% for job in draft_jobs%}
+                           <!--card-->
+                           <div class="col-lg-6 my-2 justify-content-center ">
+                              <div class="element aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                                 <div class="bg-white rounded">
+                                    <div class = "row">
+                                       <div class="col lg-6">
+                                          <p>Order #{{job.job_id}}</p>
+                                          <p>{{job.posted_date}}</p>
+                                       </div>
+                                       <div class="col lg-2 text-right pull-right">
+                                          <button class="edit-btn" style="cursor: pointer;" onclick="window.location.href='/order/step-1/{{job.job_id}}';" >Continue</button>
+                                          <button class="btred mt-1" style="cursor: pointer;"  onclick="window.location.href='/order/delete/{{job.job_id}}';">Delete</button>
+                                       </div>
+                                    </div>
+                                    <div class="row mt-4">
+                                       <div class="col-lg-12">
+                                          <table class="table table-borderless">
+                                             <tbody>
+                                                {% for attachment in job.attachments.all %}
+                                                <tr>
+                                                   <th><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
+                                                   <td>{{attachment.word_count}} words</td>
+                                                </tr>
+                                                {% endfor %}
+                                             </tbody>
+                                          </table>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <!--card close-->
+                           {% endfor %}
+                        </div>
+                        <!--end row-->
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+
+            {% endif %}
+
+            <!--endfordrafts-->
+         </section>
+      </main>
+      <!-- End main -->
+      <!-- Footer -->
+      <footer id="footer">
+         <div class="container d-md-flex py-4">
+            <div class="mr-md-auto text-center text-md-left">
+               <div class="copyright">
+                  &copy; Copyright <strong><span>Tergum</span></strong>. All Rights Reserved
+               </div>
+               <div class="credits">
+               </div>
+            </div>
+            <div class="social-links text-center text-md-right pt-3 pt-md-0">
+               <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+               <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+               <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+               <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+               <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+         </div>
+      </footer>
+      <!-- End Footer -->
+      <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+      <!-- Vendor JS Files -->
+      <script src="{% static 'home/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'home/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'home/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+      <script src="{% static 'home/vendor/php-email-form/validate.js' %}"></script>
+      <script src="{% static 'home/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+      <script src="{% static 'home/vendor/counterup/counterup.min.js' %}"></script>
+      <script src="{% static 'home/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+      <script src="{% static 'home/vendor/venobox/venobox.min.js' %}"></script>
+      <script src="{% static 'home/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'home/vendor/aos/aos.js' %}"></script>
+      <!--  Main JS File -->
+      <script src="{% static 'home/js/main.js' %}"></script>
+      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script href="{% static 'customer/js/dashbaord.js' %}"></script>
+   </body>
+</html>

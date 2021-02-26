@@ -1,0 +1,334 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <title>Tergum - Professional Translation Service</title>
+      <meta content="" name="descriptison">
+      <meta content="" name="keywords">
+      <!-- Favicons -->
+      <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      <!-- Vendor CSS Files -->
+      <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/venobox/venobox.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/aos/aos.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+      <!--  Main CSS File -->
+      <link href="{% static 'order/css/style.css' %}" rel="stylesheet">
+   </head>
+   <body>
+      <!-- ======= Header ======= -->
+      <header id="header" class="fixed-top d-flex align-items-center">
+         <div class="container">
+            <div class="header-container d-flex align-items-center">
+               <div class="logo mr-auto">
+                  <a href="index.html"><img src="{% static '/base/images/tergum_text.png' %}" alt="" class="img-fluid"></a>
+               </div>
+               <nav class="nav-menu d-none d-lg-block">
+                  <ul>
+                     <li><a href="#" style="cursor: pointer;" onclick="window.location.href='/order/delete/{{job_obj.job_id}}';">DISCARD</a></li>
+                     <li class="get-started"><a href="/">SAVE AS DRAFT</a></li>
+                  </ul>
+               </nav>
+            </div>
+         </div>
+      </header>
+      <!-- End Header -->
+      <br><br>
+      <main id="main">
+         <!-- ======= Team Section ======= -->
+         <section id="team" class="team">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        <h2>Step 1</h2>
+                        <div class="row">
+                           <!--your orders list-->
+                           <div class="col-md-4 order-md-2 mb-4 ">
+                              <h4 class="d-flex justify-content-between align-items-center mb-3 testimonial-item">
+                                 <span class="text-muted">Your Order</span>
+                                 <small class="badge badge-secondary badge-pill">
+                                    <p style="font-family:Sans-serif;" id="number_of_attachments">{{job_obj.attachments.count}}</p>
+                                 </small>
+                              </h4>
+                              <div class="member aos-init aos-animate" data-aos="zoom-in" id="order_list" data-aos-delay="100">
+                                 {% if job_obj.attachments.count > 0 %}  
+                                 {% for attachment in job_obj.attachments.all %}
+                                 <p><strong>{{attachment.orignal_filename}}</strong></p>
+                                 <samll>{{attachment.word_count}} words </samll>
+                                 <button class='tn btn-danger btn-sm' style="cursor: pointer;" onclick='delete_attachment("{{attachment.attachment_id}}")'>Delete</button>
+                                 <hr>
+                                 {%endfor%}
+                                 {%else%}
+                                 Add files to translate...
+                                 {% endif %}
+                              </div>
+                              <br>
+                              <label class="ml-1" >Source language for the order </label>
+                              <div class="container my-2">
+                                 <div class="form-group" style="text-align: left;color: #009970 ;">
+                                    <select class="form-control"  type="text"  maxlength="100" name="source_language" id="source_language"  >
+                                       {% for language in languages %}
+                                       <option value="{{language.pk}}">{{language.language_name}}</option>
+                                       {% endfor %}
+                                       {% if job_obj.source_language %}
+                                       <option hidden selected value="{{job_obj.source_language.pk}}" >{{job_obj.source_language}}</option>
+                                       {% endif %}
+                                    </select>
+                                    </label>
+                                 </div>
+                              </div>
+                              {% if job_obj.attachments.count == 0 %}  
+                              <button id="continue-btn" disabled  class="btn btn-continue btn-lg btn-block" type="submit">Continue</button>
+                              {%else%}
+                              <button id="continue-btn" class="btn btn-continue btn-lg btn-block" type="submit">Continue</button>
+                              {% endif %}
+                              <!-- Then put toasts within -->
+                              <br>
+                              <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+                                 <div class="toast-body">
+                                    Something went wrong, please try again.
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- End orders list -->
+                           <div class="col-md-8 order-md-1">
+                              <h4 class="mb-3">What would you like to translate?</h4>
+                              <form id='templateupload' name='templateupload' novalidate>
+                                 {% csrf_token %}
+                                 <input type="hidden" name="job_id" value="{{job_obj.job_id}}">                
+                                 <div class="member aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                                    <div class="member-info">
+                                       <div class="bg-white rounded box-shadow">
+                                          <!--file upload input-->
+                                          <div class="input-group">
+                                             <input type="file" accept=".txt" id="attachment" name="attachment">
+                                          </div>
+                                          <!--end file input-->
+                                          <a  class="text-muted" data-toggle="collapse" href="#file_upload_info" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                             We accept most file types          
+                                             <div class="collapse" id="file_upload_info">
+                                                <div class="card card-body">
+                                                   <button type="button" class="close" data-dismiss="alert">×</button>
+                                                   <h5 class="text-dark">We accept the following files, under 100MB size:</h5>
+                                                   <table class="table">
+                                                      <tbody>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-pdf-o" style="font-size:20px;color:red"></i></td>
+                                                            <td>Acrobat</td>
+                                                            <td>.pdf</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-excel-o" style="font-size:20px;color:green"></i></td>
+                                                            <td>Excel</td>
+                                                            <td>.xls, .xlsx, .xlsm</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-word-o" style="font-size:20px;color:red"></i></td>
+                                                            <td>Open Office</td>
+                                                            <td>.odt</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-powerpoint-o" style="font-size:20px;color:orange"></i></td>
+                                                            <td>PowerPoint</td>
+                                                            <td>.ppt, .pptx</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-text-o" style="font-size:20px;color:gray"></i></td>
+                                                            <td>Plain Text</td>
+                                                            <td>.txt</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-word-o" style="font-size:20px;color:blue"></i></td>
+                                                            <td>Word</td>
+                                                            <td>.doc, .docx</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-text-o" style="font-size:20px;color:red"></i></td>
+                                                            <td>Rich Text Format</td>
+                                                            <td>.rtf</td>
+                                                         </tr>
+                                                      </tbody>
+                                                      <tbody>
+                                                      </tbody>
+                                                   </table>
+                                                   <p>Please note that we cannot accept images or documents where text is contained in an image. For more info, visit our 
+                                          <a href="/" target="_blank">help page.</a></p>
+                                          </div>            </div>
+                                          <div class="mb-2">
+                                             <div class="mx-auto text-center">OR</div>
+                                          </div>
+                                          <textarea class="form-control" id="text_input" name="text_input" rows="10" placeholder="Type or paste your text here"></textarea>
+                                          <a  class="text-muted" data-toggle="collapse" href="#text_input_info" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                          <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                          Wrap [[[text to exclude from translation]]] in triple square brackets</a>
+                                          <div class="collapse" id="text_input_info">
+                                             <div class="card card-body">
+                                                <p>You can exclude text from being translated by putting it in triple square brackets, [[[like this]]]. This text will be visible to the translator, but won’t be included in the word count of your translation.</p>
+                                                <p>This is a great way to include inline comments for the translator, or exclude programming markup from your word count, like html tags or other non-translateable syntax.</p>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="mt-3">
+                                          <button class="btn green-btn btn-lg btn-block" id="add_to_order">Add to order</button>
+                                       </div>
+                              </form>
+                              </div>
+                              </div>                       
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+      <!--  Footer  -->
+      <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+      <!-- Vendor JS Files -->
+      <script src="{% static 'order/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'order/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'order/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+      <script src="{% static 'order/vendor/php-email-form/validate.js' %}"></script>
+      <script src="{% static 'order/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+      <script src="{% static 'order/vendor/counterup/counterup.min.js' %}"></script>
+      <script src="{% static 'order/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+      <script src="{% static 'order/vendor/venobox/venobox.min.js' %}"></script>
+      <script src="{% static 'order/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'order/vendor/aos/aos.js' %}"></script>
+      <!--  Main JS File -->
+      <script src="{% static 'order/js/main.js' %}"></script>
+      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script href="{% static 'order/js/order_step1.js' %}"></script>
+      <script>
+         $('#templateupload').submit(function(e) {
+            e.preventDefault()
+           $form = $(this)
+           document.getElementById("add_to_order").disabled = true;
+           var formData = new FormData(this);
+          $("#add_to_order").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+            $.ajax({
+              url: "/en/api/attchment_api",
+              type: 'POST',
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+         
+              success: function(data, textStatus, xhr) {
+                 if (xhr.status == 202) {
+                   $("#number_of_attachments").text(data.data.length);
+                   $('#add_to_order').prop('disabled', false);
+                   if(data.data.length > 0){
+                     $('#continue-btn').prop('disabled', false);
+                   }
+                   $("#order_list").empty()
+                   $( '#templateupload' ).each(function(){
+                       this.reset();
+                   });
+                     
+                   data.data.forEach(function (arrayItem) {
+                         $("#order_list").append("<p><strong>"+arrayItem.orignal_filename+"</strong></p><samll>"+arrayItem.word_count+" words </samll><button class='tn btn-danger btn-sm' style='cursor: pointer;' onclick='delete_attachment("+'"'+arrayItem.attachment_id+'"'+")'>Delete</button><hr>");
+                     });
+         
+                   $("#add_to_order").html('Add to order');
+                   $("#add_to_order").html('<small>' + data.message + '</small>');
+                     setTimeout(function() {
+                         $("#add_to_order").html('Add to order');
+                     }, 2000);
+                 } 
+         
+             },
+             error: function(xhr, errmsg, err) {
+                 $('#add_to_order').prop('disabled', false);
+                 $("#add_to_order").html('<small>Something went wrong, try again later.</small>');
+                 setTimeout(function() {
+                     $("#add_to_order").html('Add to order');
+                 }, 2000);
+             },
+         
+            });
+         });
+         
+         
+      </script>
+      <script>
+         function delete_attachment(attachment_id){
+           $("#add_to_order").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+         
+              $.ajax({
+                 type: 'DELETE',
+                 url: "/en/api/attchment/"+attachment_id,
+                 success: function(data, textStatus, xhr) {
+                     if (xhr.status == 202) {
+                       $("#number_of_attachments").text(data.length);
+                       $('#add_to_order').prop('disabled', false);
+                       $('#continue-btn').prop('disabled', false);
+                       $("#order_list").empty()
+                     
+                       if(data.length == 0){
+                         $('#continue-btn').prop('disabled', true);
+                       }
+         
+                       data.forEach(function (arrayItem) {
+                             $("#order_list").append("<p><strong>"+arrayItem.orignal_filename+"</strong></p><samll>"+arrayItem.word_count+" words </samll><button class='tn btn-danger btn-sm' style='cursor: pointer;' onclick='delete_attachment("+'"'+arrayItem.attachment_id+'"'+")'>Delete</button><hr>");
+                         });
+         
+                       $("#add_to_order").html('Add to order');
+         
+                     } 
+                 },
+                 error: function(xhr, errmsg, err) {
+                       $("#continue-btn").html('<small>Something went wrong, try again later</small>');
+                       setTimeout(function() {
+                          $("#continue-btn").html('Add to order');
+                       }, 2000);
+                 },
+              })
+         }
+      </script>
+      <script>
+         $('#continue-btn').click(function(e) {
+            e.preventDefault();
+            
+            job_id = $('input[name=job_id]').val(),
+            $("#continue-btn").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+           $.ajax({
+               type: 'PATCH',
+               url: "/api/job/language",
+               data: {
+                   job_id: job_id,
+                   source_language_id: $('#source_language').val(),
+                   csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                   action: 'post'
+               },
+               success: function(data, textStatus, xhr) {
+                  console.log(data);
+                   if (xhr.status == 202) {
+                       window.location.replace('/order/step-2/'+job_id);
+                   }
+               },
+               error: function(xhr, errmsg, err) {
+                   $("#continue-btn").html('<small>Something went wrong, try again later.</small>');
+                   setTimeout(function() {
+                       $("#continue-btn").html('Continue');
+                   }, 2000);
+               },
+           });
+         });
+         
+         
+      </script>
+   </body>
+</html>
