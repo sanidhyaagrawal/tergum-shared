@@ -8,3 +8,5 @@ djangorestframework
 Pillow
 whitenoise
 psycopg2-binary
+mutagen
+pdfminer.six
