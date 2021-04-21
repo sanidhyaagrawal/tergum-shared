@@ -28,3 +28,20 @@ def logout_view(request):
     if request.user.is_active:
         logout(request)
     return redirect("/") #redirect to home screen after log-out       
+
+
+from users.apis import validatePassToken
+
+def recovery(request, token):
+    """
+    log-out user's session.   
+    """
+    if request.user.is_active:
+        return redirect("/dashboard") 
+    else:
+        is_valid, reason, obj = validatePassToken(token)
+        if is_valid:
+            return render(request, 'users/first_time_password_reset.html', {"token":token})
+        else:
+            return render(request, 'users/link_expired.html', {"reason": reason})
+

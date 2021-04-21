@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Dashboard</title>
+	<title>Tergum - Professional Translation Service</title>
 	<!-- Favicons -->
 	<link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
 	<!-- Custom fonts for this template-->{% include "base/exception_head.html" %}
@@ -74,9 +74,17 @@
 								<div class="card-body">
 									<div class="row no-gutters align-items-center">
 										<div class="col mr-2">
-											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> User Feedback </div>
-											<div class="h6 mb-0 font-weight-bold text-gray-800"><i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star" style="color: #009970;"></i> <i class="fas fa-star text-gray-300"></i> </div>
-										</div>
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"><a href="/contracts/feedback">User Feedback</a> </div>
+											<div class="h6 mb-0 ml-1 font-weight-bold text-gray-800">
+												{% if stars %}
+												{%for star in stars%}
+												<i class="fas fa-star" style="color: #009970;"></i> 
+												{%endfor%} 
+												{% else %}
+												no ratings
+												{%endif%}
+												</div>
+											</div>
 										<div class="col-auto"> <i class="fas fa-user fa-2x text-gray-300"></i> </div>
 									</div>
 								</div>
@@ -88,16 +96,16 @@
 								<div class="card-body">
 									<div class="row no-gutters align-items-center">
 										<div class="col mr-2">
-											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Pending Requests </div>
-											<div class="h5 mb-0 font-weight-bold text-gray-800">8</div>
+											<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Completed Contracts </div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800">{{completed_contracts}}</div>
 										</div>
-										<div class="col-auto"> <i class="fas fa-comments fa-2x text-gray-300"></i> </div>
+										<div class="col-auto"> <i class="fas fa-file fa-2x text-gray-300"></i> </div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					 {%if not translation_contracts and not proofreading_contracts%}
+					 {%if not translation_contracts and not proofreading_contracts and not transcribing_contracts and not interpretation_contracts%}
 					<div class="row">
 						<div class="col-md-6 align-self-center"> {% include 'base/exception.html' %} </div>
 						<div class="col-md-6 align-self-center">
@@ -106,6 +114,8 @@
 						</div>
 					</div> 
 					{%else%} 
+
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 					{%if translation_contracts%}
 					<div class="section-title" data-aos="fade-right">
 						<h3>Translation Contracts</h3> </div>
@@ -130,7 +140,13 @@
 										<div class="col-lg-6"> {% for attachment in contract.job.attachments.all %}
 											<div class="row my-2">
 												<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
-												<div class="col-lg-6"> {{attachment.word_count}} words </div>
+												
+												{% if contract.job.job_type.job_type == "Interpretation" or contract.job.job_type.job_type == "Transcribing" %}
+												<div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+												{% else%}
+												<div class="col-lg-6"> {{attachment.word_count}} words</div>
+												{% endif%}    
+
 											</div> {% endfor %} </div>
 										<div class="col-lg-6 text-right pull-right px-4 my-auto">
 											<h2>${{contract.contract_price|floatformat:2 }}</h2> </div>
@@ -144,7 +160,10 @@
 							</div>
 						</div> {% endfor %} </div>
 					<!--job listing end-->
-					<br> {% endif %} {%if proofreading_contracts%}
+					<br> 
+					{% endif %} 
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->		
+					{%if proofreading_contracts%}
 					<div class="section-title" data-aos="fade-right">
 						<h3>Proof-Reading Contracts</h3> </div>
 					<!--Contracts listings-->
@@ -167,7 +186,12 @@
 										<div class="col-lg-6"> {% for attachment in contract.job.attachments.all %}
 											<div class="row my-2">
 												<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
-												<div class="col-lg-6"> {{attachment.word_count}} words </div>
+												{% if contract.job.job_type.job_type == "Interpretation" or contract.job.job_type.job_type == "Transcribing" %}
+												<div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+												{% else%}
+												<div class="col-lg-6"> {{attachment.word_count}} words</div>
+												{% endif%}    
+
 											</div> {% endfor %} </div>
 										<div class="col-lg-6 text-right pull-right px-4 my-auto">
 											<h2>${{contract.contract_price|floatformat:2 }}</h2> </div>
@@ -179,7 +203,104 @@
 									</div>
 								</div>
 							</div>
-						</div> {% endfor %} </div> {% endif %} {% endif %}
+						</div> {% endfor %} </div> {% endif %}
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+{%if transcribing_contracts%}
+<div class="section-title" data-aos="fade-right">
+	<h3>Transcribing Contracts</h3> </div>
+<!--contracts listings-->
+<div class="row"> {%for contract in transcribing_contracts%}
+	<div class="col-lg-6 my-2">
+		<div class="card border-left-success shadow h-100 py-0">
+			<div class="card-body">
+				<div class="row mb-3">
+					<div class="col sm-4">
+						<!--<p>Job #{{contract.job.job_id}}</p>-->
+						<p>#c{{contract.contract_id}}</p>
+						<p>{{contract.job.posted_date | date:"d F, Y"}}</p>
+					</div>
+					<div class="col-sm-8 text-right pull-right">
+						<button class="language-btn mt-1">{{contract.job.source_language}} -> {{contract.target_language}}</button>
+						<button class="type-btn mt-1">{{contract.job.content}}</button>
+						<button class="quality-btn mt-1">{{contract.status_verbose}}</button>
+					</div>
+				</div>
+				<div class="row my-3">
+					<div class="col-lg-6"> {% for attachment in contract.job.attachments.all %}
+						<div class="row my-2">
+							<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
+
+
+							{% if contract.job.job_type.job_type == "Interpretation" or contract.job.job_type.job_type == "Transcribing" %}
+							<div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+							{% else%}
+							<div class="col-lg-6"> {{attachment.word_count}} words</div>
+							{% endif%}    
+
+						</div> {% endfor %} </div>
+					<div class="col-lg-6 text-right pull-right px-4 my-auto">
+						<h2>${{contract.contract_price|floatformat:2 }}</h2> </div>
+				</div>
+				<div class="row mt-2">
+					<div class="col lg-12 text-right pull-right mr-2">
+						<button id="jobaccept" class="accept-btn" data-toggle="modal" data-target="#exampleModalCenter" value="{{contract.contract_id}}">Accept Contract</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> {% endfor %} </div>
+<!--job listing end-->
+<br> {% endif %} 						
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+{%if interpretation_contracts%}
+<div class="section-title" data-aos="fade-right">
+	<h3>Interpretation Contracts</h3> </div>
+<!--contracts listings-->
+<div class="row"> {%for contract in interpretation_contracts%}
+	<div class="col-lg-6 my-2">
+		<div class="card border-left-success shadow h-100 py-0">
+			<div class="card-body">
+				<div class="row mb-3">
+					<div class="col sm-4">
+						<!--<p>Job #{{contract.job.job_id}}</p>-->
+						<p>#c{{contract.contract_id}}</p>
+						<p>{{contract.job.posted_date | date:"d F, Y"}}</p>
+					</div>
+					<div class="col-sm-8 text-right pull-right">
+						<button class="language-btn mt-1">{{contract.job.source_language}} -> {{contract.target_language}}</button>
+						<button class="type-btn mt-1">{{contract.job.content}}</button>
+						<button class="quality-btn mt-1">{{contract.status_verbose}}</button>
+					</div>
+				</div>
+				<div class="row my-3">
+					<div class="col-lg-6"> {% for attachment in contract.job.attachments.all %}
+						<div class="row my-2">
+							<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
+
+
+							{% if contract.job.job_type.job_type == "Interpretation" or contract.job.job_type.job_type == "Transcribing" %}
+							<div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+							{% else%}
+							<div class="col-lg-6"> {{attachment.word_count}} words</div>
+							{% endif%}    
+
+
+						</div> {% endfor %} </div>
+					<div class="col-lg-6 text-right pull-right px-4 my-auto">
+						<h2>${{contract.contract_price|floatformat:2 }}</h2> </div>
+				</div>
+				<div class="row mt-2">
+					<div class="col lg-12 text-right pull-right mr-2">
+						<button id="jobaccept" class="accept-btn" data-toggle="modal" data-target="#exampleModalCenter" value="{{contract.contract_id}}">Accept Contract</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> {% endfor %} </div>
+<!--job listing end-->
+<br> {% endif %} 					
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->				
+						{% endif %}
 					<!--model start-->
 					<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered" role="document">

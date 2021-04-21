@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Completed Contracts list</title>
+	<title>Tergum - Professional Translation Service</title>
 	<!-- Favicons -->
 	<link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
 	<!-- Custom fonts for this template-->
@@ -66,7 +66,8 @@
 				<!-- End of Topbar -->
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
-					<!-- Content Row -->{% if not completed_contracts %}
+					<!-- Content Row -->
+					{% if not completed_contracts %}
 					<div class="row">
 						<div class="col-md-6 align-self-center"> {% include 'base/exception.html' %} </div>
 						<div class="col-md-6 align-self-center">
@@ -74,10 +75,15 @@
 							<p>You can find contracts available according to your skill sets if any in your dashboard. </p>
 							<button class="btn green mt-2" onclick=" window.history.back();">GO BACK</button>
 						</div>
-					</div> {% else %}
+					</div>
+					{% else %}
+
 					<div class="section-title" data-aos="fade-right">
-						<h2>Completed Contracts</h2> </div>
-					<div class="row "> {% for contract in completed_contracts %}
+						<h2>Completed Contracts</h2> 
+					</div>
+
+					<div class="row "> 
+						{% for contract in completed_contracts %}
 						<div class="col-lg-6 mb-3 ">
 							<div class="card border-left-success shadow h-100 pb-0">
 								<div class="card-body pb-1">
@@ -92,12 +98,17 @@
 											</div>
 										</div>
 										<div class="col text-right pull-right px-4 my-auto">
-											<h2>$59.08</h2> </div>
+											<h2>${{ contract.contract_price | floatformat:2}}</h2> </div>
 									</div>
 									<div class="row my-2">
 										<div class="col-lg-6 my-2">
 											<div class="language-btn my-3" style="text-align: center;"><strong>{{ contract.job.source_language }} -> {{ contract.target_language }} </strong></div>
+											{% if contract.paid %}
+											<div class="paid-btn" style="text-align: center;"><strong>Paid</strong></div>
+
+											{% else%}
 											<div class="due-btn" style="text-align: center;"><strong>Payment Pending</strong></div>
+											{% endif %}
 										</div>
 										<div class="col-lg-6 my-2">
 											<div class="type-btn my-3" style="text-align: center;"><strong>{{contract.status_verbose }}</strong></div>
@@ -106,7 +117,14 @@
 									</div>
 								</div>
 							</div>
-						</div> {% endfor %} </div> {% endif %} </div>
+						</div> 
+						{% endfor %} 
+					</div> 
+<!--end for translation and proofreading contracts-->
+
+
+					{% endif %} 
+				</div>
 				<!-- /.container-fluid -->
 			</div>
 			<!-- End of Main Content -->

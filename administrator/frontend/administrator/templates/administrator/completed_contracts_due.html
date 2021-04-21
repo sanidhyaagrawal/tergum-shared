@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>Completed Contracts</title>
+      <title>Tergum - Professional Translation Service</title>
       <!-- Custom fonts for this template-->
       <link href="{% static 'administrator/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
       <link
@@ -86,7 +86,8 @@
                      </div>
                   </div>
                   {% else %}
-                  <!--jobs listings-->
+<!--for translation-->
+
                   <div class="row ">
                      {% for contract in completed_contracts_due%}
                      <div class="col-lg-6 mb-3 ">
@@ -113,7 +114,7 @@
                                     <div class="due-btn" style="text-align: center;"><strong>Payment Pending</strong></div>
                                  </div>
                                  <div class="col-lg-6 my-2">
-                                    <div class="type-btn my-3" style="text-align: center;"><strong>{{contract.job.quality}}</strong></div>
+                                    <div class="type-btn my-3" style="text-align: center;"><strong>{{contract.status_verbose}}</strong></div>
                                     <button class="pay-btn" style="text-align: center;" style="cursor: pointer;" data-toggle="modal" data-target="#exampleModalCenter" value = "{{contract.contract_id}}"><strong>Pay Now</strong></button>
                                  </div>
                               </div>
@@ -121,8 +122,10 @@
                         </div>
                      </div>
                      {% endfor %}
-                     <!--job listing end-->
                   </div>
+<!--for translation end-->
+
+
                   {% endif %}
                   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                      <div class="modal-dialog modal-dialog-centered" role="document">

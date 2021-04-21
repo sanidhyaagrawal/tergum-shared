@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Accepted Contracts</title>
+	<title>Tergum - Professional Translation Service</title>
 	  <!-- Favicons -->
 	  <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
 	<!-- Custom fonts for this template-->
@@ -19,7 +19,14 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script> {% include "base/exception_head.html" %}
 	<!-- Custom styles for this template-->
-	<link href="{% static 'employee/css/style.css' %}" rel="stylesheet"> </head>
+	<link href="{% static 'employee/css/style.css' %}" rel="stylesheet"> 
+<style>
+	audio {
+		width:  90%;
+		height: 60px;
+	}
+</style>
+</head>
 
 <body id="page-top">
 	<!-- Page Wrapper -->
@@ -44,7 +51,12 @@
 						</div>
 					</div> {% else %}
 					<div class="section-title" data-aos="fade-right">
-						<h2>Accepted Contracts</h2> </div> {% for contract in accepted_contracts %}
+						<h2>Accepted Contracts</h2> 
+					</div>
+						
+				<!--for translation-->
+				
+				{% for contract in accepted_contracts %}
 					<div class="row">
 						<div class="col-lg-12 my-2">
 							<div class="card border-left-success shadow h-100 py-0">
@@ -65,7 +77,11 @@
 										<div class="col "> {% for attachment in contract.job.attachments.all %}
 											<div class="row my-2">
 												<div class="col-lg-6" style="color:#009970;"> <a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a> </div>
-												<div class="col-lg-6"> {{attachment.word_count}} words </div>
+												{% if contract.job.job_type.job_type == "Interpretation" or contract.job.job_type.job_type == "Transcribing" %}
+												<div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+												{% else%}
+												<div class="col-lg-6"> {{attachment.word_count}} words</div>
+												{% endif%}    
 											</div> {% endfor %} </div>
 										<div class="col text-right pull-right px-4 my-auto">
 											<h2>${{contract.contract_price | floatformat:2}}</h2> </div>
@@ -78,7 +94,15 @@
 								</div>
 							</div>
 						</div>
-					</div> {% endfor %} {% endif %} </div>
+					</div> 
+				{% endfor %}
+				<!--end for translation-->
+
+					
+					
+					{% endif %} 
+				
+				</div>
 				<!-- /.container-fluid -->
 			</div>
 			<!-- End of Main Content -->

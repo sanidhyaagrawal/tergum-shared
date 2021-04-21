@@ -1,0 +1,556 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <title>Tergum - Professional Translation Service</title>
+      <meta content="" name="descriptison">
+      <meta content="" name="keywords">
+      <!-- Favicons -->
+      <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      <!-- Vendor CSS Files -->
+      <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/venobox/venobox.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/aos/aos.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css'>
+      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css'>
+      
+      <!--  Main CSS File -->
+      <link href="{% static 'order/css/style.css' %}" rel="stylesheet">
+      <style>
+
+.progress{
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: center;
+}
+.timeslieder {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 300px;
+  height: 5px;
+  padding: 0;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin: 10px 20px;
+}
+
+/*thumb*/
+.timeslieder::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-border-radius: 5px;
+  height: 16px;
+  width: 16px;
+  border-radius: 5px;
+  background: #e7e7e7;
+  border: 1px solid #c5c5c5;
+}
+
+.control-icon i{
+  color:primary;
+}
+.control-icon {
+  color:secondary!;
+  cursor:pointer;
+  transition: 1s;
+}
+.control-icon:hover {
+  color:black;
+}
+
+/*FILE Upload*/
+.file-upload {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    width: 60%;
+    max-width: 100%;
+    min-height: 20px;
+    padding: 15px 10px;
+    font-size: 1rem;
+    text-align: center;
+    color: #ccc;
+    transition: 1s;
+}
+.file-upload:hover {
+box-shadow: 0px 0px 5px -10px  #00cc95;;
+}
+.file-upload-wrapper .card.card-body input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 5;
+}
+      </style>
+   </head>
+   <body>
+      <!-- ======= Header ======= -->
+      <header id="header" class="fixed-top d-flex align-items-center">
+         <div class="container">
+            <div class="header-container d-flex align-items-center">
+               <div class="logo mr-auto">
+                  <a href="index.html"><img src="{% static '/base/images/tergum_text.png' %}" alt="" class="img-fluid"></a>
+               </div>
+               <nav class="nav-menu d-none d-lg-block">
+                  <ul>
+                     <li><a href="#" style="cursor: pointer;" onclick="window.location.href='/order/delete/{{job_obj.job_id}}';">DISCARD</a></li>
+                  </ul>
+               </nav>
+            </div>
+         </div>
+      </header>
+      <!-- End Header -->
+      <br><br>
+      <main id="main">
+         <!-- ======= Team Section ======= -->
+         <section id="team" class="team">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        <h2>Step 1</h2>
+                        <div class="row">
+                            <h4 class="ml-3" >Which service would you like to use? </h4>
+                            <div class="container my-2">
+                               <div class="form-group" style="text-align: left;color: #009970 ;">
+                                 <select class="form-control"  onchange="location = this.value;" type="text"  maxlength="100" name="job_type" id="job_type"  >
+                                    <option value="/order/interpretation/step-1/{{job_obj.job_id}}">Interpretation</option>
+                                    <option value="/order/step-1/{{job_obj.job_id}}">Translation and Proofreading</option>
+                                    <option value="/order/transcribing/step-1/{{job_obj.job_id}}">Transcribing</option>
+                                </select>
+                                  </label>
+                               </div>
+                            </div>
+                           <!--your orders list-->
+                           <div class="col-md-4 order-md-2 mb-4 ">
+                              <h4 class="d-flex justify-content-between align-items-center mb-3 testimonial-item">
+                                 <span class="text-muted">Your Order</span>
+                                 <small class="badge badge-secondary badge-pill">
+                                    <p style="font-family:Sans-serif;" id="number_of_attachments">{{job_obj.attachments.count}}</p>
+                                 </small>
+                              </h4>
+                              <div class="member aos-init aos-animate" data-aos="zoom-in" id="order_list" data-aos-delay="100">
+                                 {% if job_obj.attachments.count > 0 %}  
+                                 {% for attachment in job_obj.attachments.all %}
+                                 <p class="text-wrap text-break"><strong>{{attachment.orignal_filename}}</strong></p>
+                                 <samll>{{attachment.word_count}} seconds </samll>
+                                 <button class='tn btn-danger btn-sm' style="cursor: pointer;" onclick='delete_attachment("{{attachment.attachment_id}}")'>Delete</button>
+                                 <hr>
+                                 {%endfor%}
+                                 {%else%}
+                                 Add files to translate...
+                                 {% endif %}
+                              </div>
+                              <br>
+                              <label class="ml-1" >Source language for the order </label>
+                              <div class="container my-2">
+                                 <div class="form-group" style="text-align: left;color: #009970 ;">
+                                    <select class="form-control"  type="text"  maxlength="100" name="source_language" id="source_language"  >
+                                       {% for language in languages %}
+                                       <option value="{{language.pk}}">{{language.language_name}}</option>
+                                       {% endfor %}
+                                       {% if job_obj.source_language %}
+                                       <option hidden selected value="{{job_obj.source_language.pk}}" >{{job_obj.source_language}}</option>
+                                       {% endif %}
+                                    </select>
+                                    </label>
+                                 </div>
+                              </div>
+                              {% if job_obj.attachments.count == 0 %}  
+                              <button id="continue-btn" disabled  class="btn btn-continue btn-lg btn-block" type="submit">Continue</button>
+                              {%else%}
+                              <button id="continue-btn" class="btn btn-continue btn-lg btn-block" type="submit">Continue</button>
+                              {% endif %}
+                              <!-- Then put toasts within -->
+                              <br>
+                              <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+                                 <div class="toast-body">
+                                    Something went wrong, please try again.
+                                 </div>
+                              </div>
+                           </div>
+                           <!-- End orders list -->
+                           <div class="col-md-8 order-md-1">
+                          
+                              <h4 class="mb-3">What would you like to Interpret?</h4>
+                              <form id='templateupload' name='templateupload' novalidate>
+                                 {% csrf_token %}
+                                 <input type="hidden" name="job_id" value="{{job_obj.job_id}}">                
+                                 <div class="member aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
+                                    <div class="member-info">
+                                       <div class="bg-white rounded box-shadow">
+                                        <div class="col-md-12">
+                                            <div class="file-upload-wrapper">
+                                               <div class="card card-body w-100 view file-upload">
+                                                  <input type="file" id="audiofile" name="attachment" class="file_upload" type="audio/mp3" accept=".mp3, .ogg, .ogv">
+                                                  <p class="file-upload-infos-message">Audio upload - Drag and drop or click</p>
+                                               </div>
+                                            </div>
+                                         </div>
+                                         <div class="col-md-12">
+                                         <div class="mx-auto my-4">
+                                            <audio id="track" src="" type="audio/mp3" accept=".mp3"></audio>
+                                            <div class="player d-none">
+                                               <div class="progress p-1">
+                                                  <input id="timeslieder" class="timeslieder my-4" type="range" value="0" min="0" max="100" step="0.001" />
+                                                  <div class="time d-flex justify-content-around" style="width:100%;">
+                                                     <span id="currentTime" style="width: 30px;">00:00:00</span>
+                                                     <div id="pause" class="control-icon d-none my-2"><i class="fas fa-pause"></i></div>
+                                                     <div id="start" class="control-icon my-2"><i class="fas fa-play"></i></div>
+                                                     <div id="reset" class="control-icon my-2"><i class="fas fa-redo-alt"></i></div>
+                                                     <div id="remove" class="control-icon my-2"><i class="fas fa-times"></i></div>
+
+                                                     <span id="duration">00:00:00</span>
+                                                  </div>
+                                               </div>
+                                            </div>
+                                         </div>
+</div>
+                                          <a  class="text-muted mt-5 px-2" data-toggle="collapse" href="#file_upload_info" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                             Accepted file types          
+                                             <div class="collapse" id="file_upload_info">
+                                                <div class="card card-body">
+                                                   <button type="button" class="close" data-dismiss="alert">×</button>
+                                                   <h5 class="text-dark">We accept the following files, under 100MB size:</h5>
+                                                   <table class="table">
+                                                      <tbody>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-audio-o" style="font-size:20px;color:red"></i></td>
+                                                            <td>Audio file</td>
+                                                            <td>.mp3</td>
+                                                         </tr>
+                                                         <tr>
+                                                            <td><i class="fa fa-file-audio-o" style="font-size:20px;color:#009970"></i></td>
+                                                            <td>Audio file</td>
+                                                            <td>.ogg</td>
+                                                         </tr>
+                                                      </tbody>
+                                                      <tbody>
+                                                      </tbody>
+                                                   </table>
+                                                  
+
+                                                   <p>If your file type not supported, please use free online tools to convert your file to .txt or .docx format. 
+                                          <a href="/" target="_blank"></a></p>
+                                          </div>            
+                                       
+                                       </div>
+                                      
+                                 
+  </a>
+                                       <div class="mt-3 px-2">
+                                          <button class="btn green-btn btn-lg btn-block" id="add_to_order">Add to order</button>
+                                       </div>
+                              </form>
+                              </div>
+                              </div>                       
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </section>
+      </main>
+      <!--  Footer  -->
+      <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+      <!-- Vendor JS Files -->
+      <script src="{% static 'order/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'order/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'order/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+      <script src="{% static 'order/vendor/php-email-form/validate.js' %}"></script>
+      <script src="{% static 'order/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+      <script src="{% static 'order/vendor/counterup/counterup.min.js' %}"></script>
+      <script src="{% static 'order/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+      <script src="{% static 'order/vendor/venobox/venobox.min.js' %}"></script>
+      <script src="{% static 'order/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'order/vendor/aos/aos.js' %}"></script>
+      <!--  Main JS File -->
+      <script src="{% static 'order/js/main.js' %}"></script>
+      <script src ="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/js/bootstrap.min.js'></script>
+      
+      <script href="{% static 'order/js/order_step1.js' %}"></script>
+      <script>
+          /* Audio enable & disable switch */
+$("#audioUploadSwitch").change((e)=>{
+  var value = e.target.checked;
+  var sampleUrl = "https://upload.wikimedia.org/wikipedia/commons/f/f3/Anthem_of_Europe_%28US_Navy_instrumental_short_version%29.ogg";
+  if(value == true){
+    $("#track").attr("src", sampleUrl);
+    document.getElementById("track").load();
+    $("div.player").toggleClass('d-none');
+    $(".file-upload-wrapper").toggleClass('d-none');
+  }else{
+    $("div.player").toggleClass('d-none');
+    $(".file-upload-wrapper").toggleClass('d-none');
+  }
+});
+
+
+
+/* upload audio file */
+function handleFiles(event) {
+    var files = event.target.files;
+    $("#track").attr("src", URL.createObjectURL(files[0]));
+    document.getElementById("track").load();
+    console.log(event);
+    $("div.player").toggleClass('d-none');
+    $(".file-upload-wrapper").toggleClass('d-none');
+}
+document.getElementById("audiofile").addEventListener("change", handleFiles, false);
+
+$('#track').each(function(index, audio) {
+    $(audio).on('canplay', function() {
+        console.log(audio.duration);
+        $("#duration")[0].innerHTML = sec2time(audio.duration);
+        $("#timeslieder")[0].max = audio.duration * 1000;
+    });
+});
+
+/* start button */
+$("#start").click(function() {
+    $("#track")[0].play();
+    $(this).toggleClass('d-none');
+    $("#pause").toggleClass('d-none');
+});
+
+$("#remove").click(function() {
+   $( '#templateupload' ).each(function(){
+                 this.reset();
+             });
+    $("div.player").toggleClass('d-none');
+    $(".file-upload-wrapper").toggleClass('d-none');
+});
+
+/* pause button */
+$("#pause").click(function() {
+    $("#track")[0].pause();
+    $(this).toggleClass('d-none');
+    $("#start").toggleClass('d-none');
+});
+/* reset button */
+$("#reset").click(function() {
+    $("#track")[0].load();
+    $("#start").toggleClass('d-none');
+    $("#pause").toggleClass('d-none');
+});
+/* timeupdate log */
+$("#track")[0].addEventListener('timeupdate', function() {
+    var currentTimeSec = this.currentTime;
+    var currentTimeMs = this.currentTime * 1000;
+    $("#currentTime")[0].innerHTML = sec2time(currentTimeSec);
+    $("#timeslieder")[0].value = currentTimeMs;
+    initRangeEl();
+    var arrayTime = [sec2time(currentTimeSec), currentTimeMs];
+    console.log(currentTimeMs);
+}, false);
+
+function sec2time(timeInSeconds) {
+    var pad = function(num, size) {
+            return ('000' + num).slice(size * -1);
+        },
+        time = parseFloat(timeInSeconds).toFixed(3),
+        hours = Math.floor(time / 60 / 60),
+        minutes = Math.floor(time / 60) % 60,
+        seconds = Math.floor(time - minutes * 60),
+        milliseconds = time.slice(-3);
+    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
+}
+
+
+/* timeline slieder */
+function valueTotalRatio(value, min, max) {
+    return ((value - min) / (max - min)).toFixed(2);
+}
+
+function getLinearGradientCSS(ratio, leftColor, rightColor) {
+    return [
+        '-webkit-gradient(',
+        'linear, ',
+        'left top, ',
+        'right top, ',
+        'color-stop(' + ratio + ', ' + leftColor + '), ',
+        'color-stop(' + ratio + ', ' + rightColor + ')',
+        ')'
+    ].join('');
+}
+
+function updateRangeEl(rangeEl) {
+    var ratio = valueTotalRatio(rangeEl.value, rangeEl.min, rangeEl.max);
+    rangeEl.style.backgroundImage = getLinearGradientCSS(ratio, '#3b87fd', '#fffcfc');
+}
+
+function initRangeEl() {
+    var rangeEl = document.getElementById("timeslieder");
+    updateRangeEl(rangeEl);
+    rangeEl.addEventListener("input", function(e) {
+        updateRangeEl(e.target);
+    });
+}
+
+$("#timeslieder")[0].addEventListener("input", function(e) {
+    updateRangeEl(e.target);
+    this.value = e.target.value;
+    $("#track")[0].currentTime = e.target.value / 1000;
+});
+      </script>
+ 
+
+ <script>
+   $('#templateupload').submit(function(e) {
+      e.preventDefault()
+     $form = $(this)
+     document.getElementById("add_to_order").disabled = true;
+     var formData = new FormData(this);
+    $("#add_to_order").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+      $.ajax({
+        url: "/en/api/attchment_api",
+        type: 'POST',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+   
+        success: function(data, textStatus, xhr) {
+           if (xhr.status == 202) {
+             $("#number_of_attachments").text(data.data.length);
+             $('#add_to_order').prop('disabled', false);
+             if(data.data.length > 0){
+               $('#continue-btn').prop('disabled', false);
+             }
+             $("#order_list").empty()
+             $( '#templateupload' ).each(function(){
+                 this.reset();
+             });
+             $("div.player").toggleClass('d-none');
+             $(".file-upload-wrapper").toggleClass('d-none');
+               
+             data.data.forEach(function (arrayItem) {
+                   $("#order_list").append("<p class='text-wrap text-break'><strong>"+arrayItem.orignal_filename+"</strong></p><samll>"+arrayItem.word_count+" seconds </samll><button class='tn btn-danger btn-sm' style='cursor: pointer;' onclick='delete_attachment("+'"'+arrayItem.attachment_id+'"'+")'>Delete</button><hr>");
+               });
+   
+             $("#add_to_order").html('Add to order');
+             $("#add_to_order").html('<small>' + data.message + '</small>');
+               setTimeout(function() {
+                   $("#add_to_order").html('Add to order');
+               }, 2000);
+           } 
+   
+       },
+       error: function(xhr, errmsg, err) {
+           $('#add_to_order').prop('disabled', false);
+           $("#add_to_order").html('<small>Something went wrong, try again later.</small>');
+           setTimeout(function() {
+               $("#add_to_order").html('Add to order');
+           }, 2000);
+       },
+   
+      });
+   });
+   
+   
+</script>
+<script>
+   function delete_attachment(attachment_id){
+     $("#add_to_order").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+   
+        $.ajax({
+           type: 'DELETE',
+           url: "/en/api/attchment/"+attachment_id,
+           success: function(data, textStatus, xhr) {
+               if (xhr.status == 202) {
+                 $("#number_of_attachments").text(data.length);
+                 $('#add_to_order').prop('disabled', false);
+                 $('#continue-btn').prop('disabled', false);
+                 $("#order_list").empty()
+               
+                 if(data.length == 0){
+                   $('#continue-btn').prop('disabled', true);
+                 }
+   
+                 data.forEach(function (arrayItem) {
+                       $("#order_list").append("<p class='text-wrap text-break'><strong>"+arrayItem.orignal_filename+"</strong></p><samll>"+arrayItem.word_count+" seconds </samll><button class='tn btn-danger btn-sm' style='cursor: pointer;' onclick='delete_attachment("+'"'+arrayItem.attachment_id+'"'+")'>Delete</button><hr>");
+                   });
+   
+                 $("#add_to_order").html('Add to order');
+   
+               } 
+           },
+           error: function(xhr, errmsg, err) {
+                 $("#continue-btn").html('<small>Something went wrong, try again later</small>');
+                 setTimeout(function() {
+                    $("#continue-btn").html('Add to order');
+                 }, 2000);
+           },
+        })
+   }
+</script>
+<script>
+   $('#continue-btn').click(function(e) {
+      e.preventDefault();
+      
+      job_id = $('input[name=job_id]').val(),
+      $("#continue-btn").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+     $.ajax({
+         type: 'PATCH',
+         url: "/api/job/language",
+         data: {
+             job_id: job_id,
+             source_language_id: $('#source_language').val(),
+             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+             action: 'post'
+         },
+         success: function(data, textStatus, xhr) {
+            console.log(data);
+             if (xhr.status == 202) {
+                 window.location.replace('/order/interpretation/step-2/'+job_id);
+             }
+         },
+         error: function(xhr, errmsg, err) {
+             $("#continue-btn").html('<small>Something went wrong, try again later.</small>');
+             setTimeout(function() {
+                 $("#continue-btn").html('Continue');
+             }, 2000);
+         },
+     });
+   });
+   
+   
+</script>
+
+
+   </body>
+</html>

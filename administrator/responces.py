@@ -1,15 +1,13 @@
 from rest_framework.response import Response
 from rest_framework import status
 
-
-#centralized responces for all the APIs for this app (users)
-#is used for internationalization of responses
+#centralized responces for all the APIs for this app
+#used for internationalization of responses
 def getResponce(*args):
     responces = {
     "en" : {
         "contract_alredy_signed" : Response({'error': "This contract is alredy signed, please refresh."}, status=status.HTTP_200_OK),
         "contract_not_complete" : Response({'error': "This contract is not yet completed, please look into logs."}, status=status.HTTP_200_OK),
-       
         },
     }
     if responces.get(args[0]) != None: #ISO Code Exists

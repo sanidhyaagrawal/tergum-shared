@@ -15,21 +15,6 @@ class Content(models.Model):
     def __str__(self):
         return self.content_name
 
-
-# class Status(models.Model):
-#     status_name = models.CharField(max_length=50)
-#     progress = models.DecimalField(max_digits=5, decimal_places=2)
-
-#     class Meta:
-#         verbose_name = "status"
-#         verbose_name_plural = "status"
-
-#     # TO STRING METHOD
-#     def __str__(self):
-#         return self.status_name
-#  #TODO now this is part of job itself so no need may be
-
-
 class JobType(models.Model):
     job_type = models.CharField(max_length=50,unique=True)
 
@@ -73,11 +58,17 @@ class Status(models.Model):
         return self.status_name
 
 from django.core.exceptions import ValidationError
+def placeholder_path_name(instance, filename):
+    placeholder_path_name = "base/placeholder.png"
+    return placeholder_path_name 
+
 class Variables(models.Model):
     base_price = models.FloatField() #defaut price
     company_share = models.IntegerField() #30% of the total price paid by the employeer
     translator_share = models.IntegerField() #70% of the amount remaing after company_share
     proofreader_share = models.IntegerField() #30% of the amount remaing after company_share
+    placeholder = models.ImageField(upload_to = placeholder_path_name, null=True) #default profile pic
+
     #content_expert_bonus = models.IntegerField() #10% subtracted from proofreader_share and added to translator_share
     def clean(self):
         if self.translator_share + self.proofreader_share != 100:
@@ -94,20 +85,40 @@ class Language(models.Model):
         verbose_name = "language"
         verbose_name_plural = "languages"
 
+
+
     def save(self, *args, **kwargs):
         #We automaticlly create "Rates" for all the possible combinations of
         #languages and job_types using defalut base price which can be edited 
         # from admin pannel. 
+
+        print("Updating languages...")
         all_languages = Language.objects.all()
-        all_job_types = JobType.objects.all()
-        perm = permutations(all_languages, 2)  
+        job_transcribing_obj = JobType.objects.get(job_type="Transcribing")
+        all_job_types = JobType.objects.all().exclude(pk=job_transcribing_obj.pk)
         base_price = Variables.objects.last().base_price
-        for job_type in all_job_types:
-            for langs in list(perm):   
-                if Rate.objects.all().filter(source_language= langs[0], target_language=langs[1], job_type=job_type).exists():
-                    pass
+        print(all_job_types)
+        for langs in all_languages:   
+                if Rate.objects.all().filter(source_language= langs, target_language=langs, job_type=job_transcribing_obj).exists():
+                    continue
                 else:
+                    print("Creating...")
+                    Rate.objects.create(source_language= langs, target_language=langs, base_rate=base_price, job_type=job_transcribing_obj)
+
+        for job_type in all_job_types:
+            perm = permutations(all_languages, 2)  
+            #print(job_type)   
+            #print(perm)   
+
+            for langs in list(perm):
+                #print(langs, job_type)   
+                if Rate.objects.all().filter(source_language= langs[0], target_language=langs[1], job_type=job_type).exists():
+                    continue
+                else:
+                    print("Creating...")
                     Rate.objects.create(source_language= langs[0], target_language= langs[1], base_rate=base_price, job_type=job_type)     
+        
+
         super(Language, self).save(*args, **kwargs)
  
     # TO STRING METHOD
@@ -150,7 +161,6 @@ class Rate(models.Model):
 #A As the Attachments most needed with the Job, Having the Job have a 
 #ManyToMany relation with aatchments will be more efficent otherwise we'll have to 
 #reverse look-up evertime to get a Job's attachments.
-
 
 from common.verifiers import create_attachment_id, create_file_name
 def content_file_name(instance, filename):
@@ -197,3 +207,16 @@ class Attachment(models.Model):
         self.attachment_id = create_attachment_id() 
         super(Attachment, self).save(*args, **kwargs)
  
+
+class Notifications(models.Model):
+    target = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.CharField(max_length=50)
+    icon = models.CharField(max_length=30)
+    colour = models.CharField(max_length=30)
+
+    link = models.CharField(max_length=500, blank=False, null=False)
+    creation_date =  models.DateTimeField(auto_now_add = False, blank=True, null=True)
+
+    # TO STRING METHOD
+    def __str__(self):
+        return self.target

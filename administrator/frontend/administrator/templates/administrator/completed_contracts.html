@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Completed Contracts</title>
+    <title>Tergum - Professional Translation Service</title>
  <!-- Favicons -->
  <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
     <!-- Custom fonts for this template-->
@@ -203,13 +203,13 @@
                               <div class="card-body pb-1">
                                     <div class="heading">
                                     <div class="text-wrap text-break" ><h3>Contract#{{contract.contract_id}}</h3>   </div>
-                                    <span><a href = "/admin/jobs/details/{{contract.job.job_id}}">Job#{{contract.job.job_id}}</a></span>
+                                    <span><a href = "/jobs/details/{{contract.job.job_id}}">Job#{{contract.job.job_id}}</a></span>
                                   </div>
                                  
                             <div class="row">
                                <div class="col">
                                  <div class="row ml-1">
-                                    <span>Signed by <a href = "/admin/translator/{{contract.profile.username}}/details" >{{contract.profile.username}}</a><br> on {{contract.signing_date | date:"d F, Y"}}</span>
+                                    <span>Signed by<a href = "/admin/translator/{{contract.profile.username}}/details" >{{contract.profile.username}}</a><br> on {{contract.signing_date | date:"d F, Y"}}</span>
                                  </div>
                                  <div class="row ml-1">
                                   <span>Created on {{contract.job.posted_date | date:"d F, Y"}}</span>
@@ -249,9 +249,9 @@
                         {%endfor%}
 
                     </div>
-{% endif %}
+                   {% endif %}
 
-{% if payment_completed %}
+                   {% if payment_completed %}
                     <div class="section-title" data-aos="fade-right">
                         <h3>Paid</h3>
                 </div>
@@ -261,14 +261,14 @@
                             <div class="card border-left-success shadow h-100 pb-0">
                                <div class="card-body pb-1">
                                 <div class="heading">
-                                  <a href="contract_details" class="text-wrap text-break"><h3>Contract#{{contract.contract_id}}</h3>   </a>
-                                  <span><a href = "/admin/jobs/details/{{contract.job.job_id}}">Job#{{contract.job.job_id}}</a></span>
+                                 <h3>Contract#{{contract.contract_id}}</h3>   
+                                  <span><a href = "/jobs/details/{{contract.job.job_id}}">Job#{{contract.job.job_id}}</a></span>
                                 </div>
                                   
                              <div class="row">
                                 <div class="col">
                                   <div class="row ml-1">
-                                    <span>Signed by <a href = "/admin/translator/{{contract.profile.username}}/details" ></a>{{contract.profile.username}}</a><br> on {{contract.signing_date | date:"d F, Y"}}</span>
+                                    <span>Signed by<a href = "/admin/translator/Hritika/details" >{{contract.profile.username}}</a><br> on {{contract.signing_date | date:"d F, Y"}}</span>
                                   </div>
                                   <div class="row ml-1">
                                      <p>Completed on {{contract.completion_date | date:"d F, Y"}}</p>

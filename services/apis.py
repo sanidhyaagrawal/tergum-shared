@@ -15,7 +15,7 @@ from common.models import Attachment
 from rest_framework import status
 import re
 import services.serializers as serializers
-
+import mutagen
 #function to create file name based on text
 from services.verifiers import create_file_name
 
@@ -24,6 +24,7 @@ from services.verifiers import create_file_name
 #we have to exempt csrf validation for these perticular apis in order to achive this functionality.
 from core.authenticators import CsrfExemptSessionAuthentication
 
+    
 @api_view(['POST', 'DELETE'])
 @throttle_classes([AnonRateThrottle]) #Limiting number of API calls a user can make.
 @authentication_classes([CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication])
@@ -38,97 +39,200 @@ def attchment_api(request, attachment_id=None):
         job_id = data.get('job_id')
         attachment = data.get('attachment')
         text_input = data.get('text_input')
-        
+
         #get Job object from databse for the job_id
         job_obj = Job.objects.get(job_id=job_id)
 
-        #word count for text area input
-        input_word_count = 0
-        lines_in_text_input = text_input.split('\n')
-        for lines in lines_in_text_input:
-            first, _, rest = lines.partition('[[[')
-            _, _, rest = rest.partition(']]]')
-            line = ' '.join([first.strip(), rest.strip()])            
-            input_word_count += len(line.split())
 
-        hasText = False #flag for if user has input text in textarea
-        hasFile = False #flag for if user has uploaded a file.
+        if job_obj.job_type == JobType.objects.get(job_type="Interpretation") or job_obj.job_type == JobType.objects.get(job_type="Transcribing"): 
+            serailzed_data = serializers.attachmentSerializer(job_obj.attachments.all(), many=True).data      
+            if len(attachment) == 0:
+                return Response({"message": "Please add a file..", "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
 
-
-        from django.core.files.base import ContentFile
-        import datetime
-        input_text_file_name = "{}.txt".format(datetime.datetime.now()) #placeholder name if we are unable to create one from the input text
-        if input_word_count > 0:
-            #if user has input text in textarea, then create a .txt file form user's input    
-            hasText = True    
-
-            #craete a file name based on input text
-            input_text_file_name = create_file_name(lines_in_text_input)
-            
-            #create and add attachment to the Job
-            attachment_obj = Attachment.objects.create(owner=request.user, word_count=input_word_count, orignal_filename=input_text_file_name)    
-            encoded_text = text_input.encode('utf-8', 'replace')
-            print(encoded_text)
-            attachment_obj.file.save(input_text_file_name, ContentFile(encoded_text))
-            job_obj.attachments.add(attachment_obj)
-
-
-        error = None
-        message = "Added to order ✔️"
-        if len(attachment) > 0:
-            #if user has uploded a file
-            hasFile = True
-
-            file_words = 0
-            filename = str(attachment)
-            if filename.lower().endswith(('.txt')):
-                #if the uploaded file is .txt file
-                for line in attachment:
-                    #exclude the words between "[[[" and "]]]" from the word count.
-                    try:
-                        first, _, rest = line.decode('utf8').partition('[[[')
-                        _, _, rest = rest.partition(']]]')
-                        line = ' '.join([first.strip(), rest.strip()])     
-                        file_words += len(line.split())
-                    except UnicodeDecodeError:
-                        #file file not utf8 encoded.
-                        error= "File not supported!"
-            if error == None:
-                #add attachment to the Job
-                attachment_obj = Attachment.objects.create(owner=request.user, word_count=file_words, orignal_filename=str(attachment), file = attachment)    
+            audio_file = mutagen.File(attachment.open())
+            if audio_file == None:
+                return Response({"message": "Please add an audio file..", "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
+            else:
+                duration = audio_file.info.length
+                print(duration)
+                attachment_obj = Attachment.objects.create(owner=request.user, word_count=duration, orignal_filename=str(attachment), file = attachment)    
                 job_obj.attachments.add(attachment_obj) 
                 message = "Added to order ✔️" 
-            else:
-                message = error
-
-        #get serialized data for attachment including the newly attached ones       
-        serailzed_data = serializers.attachmentSerializer(job_obj.attachments.all(), many=True).data      
-        if hasFile == True or hasText == True:
-            #if user uploaded any one of text or file.
+            serailzed_data = serializers.attachmentSerializer(job_obj.attachments.all(), many=True).data      
             return Response({"message": message, "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
-        else:  
-            #if user uploaded nothing           
-            return Response({"message": "Add a .txt file or plain text", "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
 
-    elif request.method == 'DELETE': #api/attchment/<str:attachment_id>
-        '''
-        remove(Delete) an attachment from a Job
-        '''
-        #get the Attachment object
-        attachement_obj = Attachment.objects.get(attachment_id=attachment_id)  
-        
-        #Job of which this attachment was a part of
-        related_job = attachement_obj.job_attachments.get()
-   
-        #delete the attachment
-        attachement_obj.delete()
 
-        #get the attachment left after deleting the one
-        remaining_attachments = related_job.attachments.all()
+        elif job_obj.job_type == JobType.objects.get(job_type="Translation"):
+            #word count for text area input
+            input_word_count = 0
+            lines_in_text_input = text_input.split('\n')
+            for lines in lines_in_text_input:
+                first, _, rest = lines.partition('[[[')
+                _, _, rest = rest.partition(']]]')
+                line = ' '.join([first.strip(), rest.strip()])            
+                input_word_count += len(line.split())
 
-        #get serialized data for attachments       
-        serailzed_data = serializers.attachmentSerializer(remaining_attachments, many=True).data
-        return Response(serailzed_data, status=status.HTTP_202_ACCEPTED)
+            hasText = False #flag for if user has input text in textarea
+            hasFile = False #flag for if user has uploaded a file.
+
+
+            from django.core.files.base import ContentFile
+            import datetime
+            input_text_file_name = "{}.txt".format(datetime.datetime.now()) #placeholder name if we are unable to create one from the input text
+            if input_word_count > 0:
+                #if user has input text in textarea, then create a .txt file form user's input    
+                hasText = True    
+
+                #craete a file name based on input text
+                input_text_file_name = create_file_name(lines_in_text_input)
+                
+                #create and add attachment to the Job
+                attachment_obj = Attachment.objects.create(owner=request.user, word_count=input_word_count, orignal_filename=input_text_file_name)    
+                encoded_text = text_input.encode('utf-8', 'replace')
+                print(encoded_text)
+                attachment_obj.file.save(input_text_file_name, ContentFile(encoded_text))
+                job_obj.attachments.add(attachment_obj)
+
+
+            error = None
+            message = "Added to order ✔️"
+            if len(attachment) > 0:
+                #if user has uploded a file
+                hasFile = True
+
+                file_words = 0
+                filename = str(attachment)
+                if filename.lower().endswith(('.txt')):
+                    #if the uploaded file is .txt file
+                    for line in attachment:
+                        #exclude the words between "[[[" and "]]]" from the word count.
+                        try:
+                            first, _, rest = line.decode('utf8').partition('[[[')
+                            _, _, rest = rest.partition(']]]')
+                            line = ' '.join([first.strip(), rest.strip()])     
+                            file_words += len(line.split())
+                        except UnicodeDecodeError:
+                            #file file not utf8 encoded.
+                            error= "File not supported!"
+
+
+                elif filename.lower().endswith(('.docx'))  :
+                
+                    try:
+                        from xml.etree.cElementTree import XML
+                    except ImportError:
+                        from xml.etree.ElementTree import XML
+                    import zipfile
+
+                    WORD_NAMESPACE = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
+                    PARA = WORD_NAMESPACE + 'p'
+                    TEXT = WORD_NAMESPACE + 't'
+
+                    document = zipfile.ZipFile(attachment)
+                    #document= attachment
+                    xml_content = document.read('word/document.xml')
+                    document.close()
+                    tree = XML(xml_content)
+
+                    paragraphs = []
+                    for paragraph in tree.getiterator(PARA):
+                        texts = [node.text
+                                for node in paragraph.getiterator(TEXT)
+                                if node.text]
+                        if texts:
+                            paragraphs.append(''.join(texts))
+                    
+                    for line in paragraphs:
+                        #exclude the words between "[[[" and "]]]" from the word count.
+                        try:
+                            first, _, rest = line.partition('[[[')
+                            _, _, rest = rest.partition(']]]')
+                            line = ' '.join([first.strip(), rest.strip()])     
+                            file_words += len(line.split())
+                        except UnicodeDecodeError:
+                            #file file not utf8 encoded.
+                            error= "File not supported!"
+                    
+                elif filename.lower().endswith(('.pdf')) :
+                    # importing required modules  
+                    from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+                    from pdfminer.converter import TextConverter
+                    from pdfminer.layout import LAParams
+                    from pdfminer.pdfpage import PDFPage
+                    from io import StringIO
+
+                    rsrcmgr = PDFResourceManager()
+                    retstr = StringIO()
+                    codec = 'utf-8'
+                    laparams = LAParams()
+                    device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
+                    fp = attachment
+                    interpreter = PDFPageInterpreter(rsrcmgr, device)
+                    password = ""
+                    maxpages = 0
+                    caching = True
+                    pagenos=set()
+
+                    for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password,caching=caching, check_extractable=True):
+                        interpreter.process_page(page)
+
+                    text = retstr.getvalue()
+
+                    #fp.close()
+                    device.close()
+                    retstr.close()
+                    #print())
+                    for line in text.split('\n'):
+                        #exclude the words between "[[[" and "]]]" from the word count.
+                        try:
+                            first, _, rest = line.partition('[[[')
+                            _, _, rest = rest.partition(']]]')
+                            line = ' '.join([first.strip(), rest.strip()])     
+                            file_words += len(line.split())
+                        except UnicodeDecodeError:
+                            #file file not utf8 encoded.
+                            error= "File not supported!"
+
+                else:
+                    error= "File type not supported!"
+
+
+                if error == None:
+                    #add attachment to the Job
+                    attachment_obj = Attachment.objects.create(owner=request.user, word_count=file_words, orignal_filename=str(attachment), file = attachment)    
+                    job_obj.attachments.add(attachment_obj) 
+                    message = "Added to order ✔️" 
+                else:
+                    message = error
+
+            #get serialized data for attachment including the newly attached ones       
+            serailzed_data = serializers.attachmentSerializer(job_obj.attachments.all(), many=True).data      
+            if hasFile == True or hasText == True:
+                #if user uploaded any one of text or file.
+                return Response({"message": message, "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
+            else:  
+                #if user uploaded nothing           
+                return Response({"message": "Add a .txt file or plain text", "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
+
+        elif request.method == 'DELETE': #api/attchment/<str:attachment_id>
+            '''
+            remove(Delete) an attachment from a Job
+            '''
+            #get the Attachment object
+            attachement_obj = Attachment.objects.get(attachment_id=attachment_id)  
+            
+            #Job of which this attachment was a part of
+            related_job = attachement_obj.job_attachments.get()
+    
+            #delete the attachment
+            attachement_obj.delete()
+
+            #get the attachment left after deleting the one
+            remaining_attachments = related_job.attachments.all()
+
+            #get serialized data for attachments       
+            serailzed_data = serializers.attachmentSerializer(remaining_attachments, many=True).data
+            return Response(serailzed_data, status=status.HTTP_202_ACCEPTED)
 
  
 from common.models import Language, Quality, Content
@@ -154,6 +258,7 @@ def job_api(request):
         set source language of a job
         '''
         data = request.data
+        print(data)
         job_id = data.get('job_id')
         source_language_id = data.get('source_language_id')
 
@@ -181,12 +286,13 @@ def job_api(request):
         #this API defaults to job_type="Translation" which needs to exists in database
         #for this API to work, it is auto created with the server is started, only way this
         #expetion can be triggested is if the job_type was manually deleted by admin.
+        '''
         try:
             job_obj.job_type = JobType.objects.get(job_type="Translation")
         except:
             print('job_type="Translation" does not exist, everything will fail until this is fixed.')
             #TODO further handeling
-            
+        '''    
         job_obj.quality = Quality.objects.get(pk = selected_quality_pk)
         job_obj.content = Content.objects.get(pk = selected_conten_type_pk)
         
@@ -213,7 +319,7 @@ def job_api(request):
             language_total = 0 #total price of attachment
             translation_submission_obj_list = []
             proofreading_submission_obj_list = []
-
+            print(job_obj.job_type)
             for attachment in job_obj.attachments.all():
                 rate_obj = Rate.objects.get(source_language = job_obj.source_language, target_language = target_language, job_type= job_obj.job_type)
                 attachment_price_for_perticular_language = rate_obj.base_rate * job_obj.quality.rate_multiplier * attachment.word_count
@@ -245,12 +351,18 @@ def job_api(request):
                     proofreader_contract_obj.submissions.add(submission_obj)
 
             else:
+                if job_obj.job_type == JobType.objects.get(job_type="Transcribing"):
+                    status_code = "TS"
+                elif job_obj.job_type == JobType.objects.get(job_type="Interpretation"):
+                    status_code = "IN"
+                else:
+                    status_code = "TR"
                 company_gets = (company_share/100)*language_total
                 remaining = language_total - company_gets
-                translation_contract_obj = Contract.objects.create(final = True, job=job_obj, target_language=target_language, status="TR", contract_price = remaining)
+                translation_contract_obj = Contract.objects.create(final = True, job=job_obj, target_language=target_language, status=status_code, contract_price = remaining)
                 for submission_obj in translation_submission_obj_list:
                     translation_contract_obj.submissions.add(submission_obj)
-        
+    
         
         
         #add each attachment individually to the stripe order for 
@@ -279,11 +391,9 @@ def job_api(request):
             line_items.append(data) #add attachment to order
 
         scheme = request.is_secure() and "https" or "http"
-        from django.contrib.sites.models import Site
-        current_site = Site.objects.get_current()
-        YOUR_DOMAIN = scheme+"://"+current_site.domain
+        YOUR_DOMAIN = scheme+"://"+request.META['HTTP_HOST']
         
-
+        print(YOUR_DOMAIN, request.is_secure())
         try:
             #create checkout_session for stripe
             checkout_session = stripe.checkout.Session.create(
@@ -294,11 +404,11 @@ def job_api(request):
                 mode='payment',
                 
                 #redirect to create order step-2 screen if user cancel the payment
-                cancel_url="{DOMAIN}/{ISO}/order/step-2/{JOB_ID}".format(DOMAIN=YOUR_DOMAIN, ISO=ISO, JOB_ID=job_id),
+                cancel_url="{DOMAIN}/en/order/step-2/{JOB_ID}".format(DOMAIN=YOUR_DOMAIN, ISO=ISO, JOB_ID=job_id),
                 #if the payment is successfully "processed" (might or might not be received , to verify 
                 #if payment is received  is listen to stripe's webhook [in payment_gateway app] for confirmation) 
                 #unique and temporary payment_token is passed in success_url to ensure security.  
-                success_url="{DOMAIN}/{ISO}/order/success/{JOB_ID}/{TOKEN}".format(DOMAIN=YOUR_DOMAIN, ISO=ISO, JOB_ID=job_id, TOKEN=verifiers.create_payment_token(job_obj)),
+                success_url="{DOMAIN}/en/order/success/{JOB_ID}/{TOKEN}".format(DOMAIN=YOUR_DOMAIN, ISO=ISO, JOB_ID=job_id, TOKEN=verifiers.create_payment_token(job_obj)),
             )
             return Response({'id': checkout_session.id}, status=status.HTTP_202_ACCEPTED)
         except Exception as e:

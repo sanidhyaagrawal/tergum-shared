@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Accepted job</title>
+	<title>Tergum - Professional Translation Service</title>
     <!-- Favicons -->
     <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
 	<!-- Custom fonts for this template-->
@@ -223,6 +223,10 @@
 		padding: 8px 8px;
 		outline: none;
 	}
+
+	audio{
+		width: 95%;
+	}
 	</style>
 </head>
 
@@ -283,7 +287,7 @@
 												<input type="hidden" id="attachment_id" name="attachment_id" value="{{submission.refrence_attachment.attachment_id}}">
 												<input type="hidden" id="contract_id" name="contract_id" value="{{contract.contract_id}}"> {% if submission.is_submitted %} <a href="{{submission.submission_file.url}}" target="_blank">  {{submission.submission_filename}} </a>
 												<br> {% endif %}
-												<input type="file" accept=".txt" id="submission" name="submission">
+												<input type="file" accept=".txt, .pdf, .docx, .mp3, .ogg, .ogv " id="submission" name="submission">
 										</div>
 										<div class="col-lg-2 ml-1">
 											<button class="upload-btn" value="{{submission.refrence_attachment.attachment_id}}">Upload</button>
@@ -297,8 +301,11 @@
 							</div>
 						</div>
 					</div> {%else%}
+
+
+<!-- for translation contracts-->
 					<div class="row mb-2">
-						<div class="col-lg-4 mb-4">
+						<div class="col-lg-6 mb-4">
 							<div class="card border-left-success shadow h-100 py-2">
 								<div class="card-body">
 									<div class="row d-flex">
@@ -311,36 +318,16 @@
 										<div class="col-auto my-auto ">
 											<a href="{{submission.refrence_attachment.file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
 										</div>
-										<div class="col-auto my-auto mx-1">
+								<!--		<div class="col-auto my-auto mx-1">
 											<a> <i class="fas fa-check fa-2x text-green-300"></i></a>
 										</div>
+									-->
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 mb-4">
-							<div class="card border-left-success shadow h-100 py-2">
-								<div class="card-body">
-									<div class="row d-flex">
-										<div class="col ml-2">
-											<h6 class="mb-0" style="font-family: sans-serif;"> <strong>{{submission.submission_dependency.filename}}</strong></h6>
-											<div style="color: #999;">
-												<p>Translated on {{submission.submission_dependency.submit_date}}</p>
-											</div>
-										</div> {% if submission.is_submitted %}
-										<div class="col-auto my-auto ">
-											<a href="{{submission.submission_dependency.submission_file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
-										</div>
-										<div class="col-auto my-auto mx-1">
-											<a href="{{submission.submission_file.url}}" download> <i class="fas fa-check fa-2x text-green-300"></i></a>
-										</div> {% else %}
-										<div class="col-auto my-auto mx-3">
-											<a href="{{submission.submission_dependency.submission_file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
-										</div> {% endif %} </div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 mb-4">
+					
+						<div class="col-lg-6 mb-4">
 							<div class="card border-left-success shadow h-100">
 								<div class="card-body pr-1">
 									<div class="row no-gutters align-items-center my-3 mx-2 ">
@@ -363,8 +350,63 @@
 							</div>
 						</div>
 					</div>
-					<!--row end-->{%endif%}
-					<!--row end-->{% endfor %} {% if contract.all_submitted %} {% if not contract.completed %}
+					<!--row end-->
+<!--end for translation contracts-->					
+
+<!-- for transcribing/interpretation contracts-->
+	<div class="row mb-2">
+		<div class="col-lg-6 mb-4">
+			<div class="card border-left-success shadow h-100 py-2">
+				<div class="card-body">
+					<div class="row d-flex">
+						<div class="col ml-2">
+							<audio controls>
+								<source src="{% static 'employee/horse.ogv' %}" type="audio/mpeg">
+							  </audio>
+							<div style="color: #999;">
+								<p>Posted on {{contract.job.posted_date}} </p>
+							</div>
+						</div>
+					<!--	<div class="col-auto my-auto ">
+							<a href="{{submission.refrence_attachment.file.url}}" download> <i class="fas fa-download fa-2x text-gray-300"></i></a>
+						</div>  -->
+						
+					<!--	<div class="col-auto my-auto mx-1">
+							<a> <i class="fas fa-check fa-2x text-green-300"></i></a>
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-lg-6 mb-4">
+			<div class="card border-left-success shadow h-100">
+				<div class="card-body pr-1">
+					<div class="row no-gutters align-items-center my-3 mx-2 ">
+						<div class="col-lg-8 ml-1">
+							<form id='{{submission.refrence_attachment.attachment_id}}' name='{{submission.refrence_attachment.attachment_id}}' novalidate>
+								<input type="hidden" id="attachment_id" name="attachment_id" value="{{submission.refrence_attachment.attachment_id}}">
+								<input type="hidden" id="contract_id" name="contract_id" value="{{contract.contract_id}}"> {% if submission.is_submitted %} <a href="{{submission.submission_file.url}}" target="_blank">  {{submission.submission_filename}} </a>
+								<br> {% endif %}
+								<input type="file" accept=".txt" id="submission" name="submission">
+						</div>
+						<div class="col-lg-2 ml-1">
+							<button class="upload-btn" value="{{submission.refrence_attachment.attachment_id}}">Upload</button>
+						</div>
+						</form>
+						<div class="col-auto mx-2" style="margin-top: 0;">
+							<p class="file-return-{{submission.refrence_attachment.attachment_id}}"> </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--row end-->
+<!--end for transcribing/interpretation contracts-->					
+					{%endif%}
+					<!--row end-->{% endfor %} 
+					{% if contract.all_submitted %} {% if not contract.completed %}
 					<div class="row no-gutters align-items-center justify-content-center align-content-center my-3 mx-2">
 						<div class="col-lg-10">
 							<button class="submit-btn" id="mark_resolved" style="text-align: center;" value="{{contract.contract_id}}"><strong>Mark Completed</strong> </div>
@@ -421,7 +463,16 @@
 									<div class="card border-left-success shadow h-100 pb-0">
 										<div class="card-body pb-1">
 											<div class="heading">
+
+												{% if contract.paid %}
+												<h3></h3> <span>paid ✔️</span> </div>
+
+												{%else%}
 												<h3></h3> <span>pending</span> </div>
+
+												{%endif%}
+
+												
 											<div class="row my-4">
 												<div class="col mr-2">
 													<div class="text-xs font-weight-bold text-success text-uppercase mb-1"> Amount </div>

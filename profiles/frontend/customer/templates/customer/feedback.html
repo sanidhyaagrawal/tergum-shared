@@ -1,0 +1,900 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Tergum - Professional Translation Service</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'administrator/js/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+<link href="{% static 'administrator/css/active_job_details.css' %}" rel="stylesheet">
+    <link href="{% static 'administrator/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'administrator/css/admin_dashboard.css' %}" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<style>
+.glyphicon-lg{font-size:3em}
+.blockquote-box{border-right:5px solid #E6E6E6;margin-bottom:25px}
+.blockquote-box .square{width:100px;min-height:50px;margin-right:22px;text-align:center!important;background-color:#E6E6E6;padding:20px 0}
+.blockquote-box.blockquote-primary{border-color:#357EBD}
+.blockquote-box.blockquote-primary .square{background-color:#428BCA;color:#FFF}
+.blockquote-box.blockquote-success{border-color:#4CAE4C}
+.blockquote-box.blockquote-success .square{background-color:#5CB85C;color:#FFF}
+.blockquote-box.blockquote-info{border-color:#46B8DA}
+.blockquote-box.blockquote-info .square{background-color:#5BC0DE;color:#FFF}
+.blockquote-box.blockquote-warning{border-color:#EEA236}
+.blockquote-box.blockquote-warning .square{background-color:#F0AD4E;color:#FFF}
+.blockquote-box.blockquote-danger{border-color:#D43F3A}
+.blockquote-box.blockquote-danger .square{background-color:#D9534F;color:#FFF}
+
+
+.rating-loading {
+    width: 25px;
+    height: 25px;
+    font-size: 0px;
+    color: #fff;
+    background: transparent url('../img/loading.gif') top left no-repeat;
+    border: none;
+}
+/*
+ * Stars
+ */
+.rating-gly {
+    font-family: 'Glyphicons Halflings';
+}
+.rating-gly-star {
+    font-family: 'Glyphicons Halflings';
+    padding-left: 2px;
+}
+
+.rating-gly-star .rating-stars:before {
+    padding-left: 2px;
+}
+
+.rating-lg .rating-gly-star, .rating-lg .rating-gly-star .rating-stars:before {
+    padding-left: 4px;
+}
+
+.rating-xl .rating-gly-star, .rating-xl .rating-gly-star .rating-stars:before {
+    padding-left: 2px;
+}
+
+.rating-active {
+    cursor: default;
+}
+
+.rating-disabled {
+    cursor: not-allowed;
+}
+
+.rating-uni {
+    font-size: 1.2em;
+    margin-top: -5px;
+}
+
+.rating-container {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    color: #e3e3e3;
+    overflow: hidden;
+}
+
+.rating-container:before {
+    content: attr(data-content);
+}
+
+.rating-container .rating-stars {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #009970;
+    transition: all 0.25s ease-out;
+    -o-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    -webkit-transition: all 0.25s ease-out;
+}
+
+.rating-container .rating-stars:before {
+    content: attr(data-content);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.rating-container-rtl {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    overflow: hidden;
+    color: #009970;
+}
+
+.rating-container-rtl:before {
+    content: attr(data-content);
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+}
+
+.rating-container-rtl .rating-stars {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #e3e3e3;
+    transition: all 0.25s ease-out;
+    -o-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    -webkit-transition: all 0.25s ease-out;
+}
+
+.rating-container-rtl .rating-stars:before {
+    content: attr(data-content);
+}
+
+/**
+ * Rating sizes
+ */
+.rating-xl {
+    font-size: 4.89em;
+}
+
+.rating-lg {
+    font-size: 3.91em;
+}
+
+.rating-md {
+    font-size: 3.13em;
+}
+
+.rating-sm {
+    font-size: 2.5em;
+}
+
+.rating-xs {
+    font-size: 2em;
+}
+
+/**
+ * Clear rating button
+ */
+.star-rating .clear-rating, .star-rating-rtl .clear-rating {
+    color: #aaa;
+    cursor: not-allowed;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 60%;
+}
+
+.clear-rating-active {
+    cursor: pointer !important;
+}
+
+.clear-rating-active:hover {
+    color: #009970;
+}
+
+.star-rating .clear-rating {
+    padding-right: 5px;
+}
+
+.star-rating .caption, .star-rating-rtl .caption {
+    color: #999;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 70%;
+    margin-left: 20px;
+    font-family: sans-serif;
+}
+
+.star-rating .caption {
+    padding-left: 5px;
+}
+
+.star-rating-rtl .caption {
+    padding-right: 5px;
+}
+.pay-btn {
+      background: rgb(14, 14, 14);
+      color: #fff;
+      width: 100%;
+      border-radius: 6px;
+      border: 2px solid;
+      border-color:  rgb(5, 5, 5);
+      padding: 8px 18px;
+      outline: none;
+      }
+     .job-btn {
+  background:#009970;
+  color: #fff;
+  border-radius: 10px;
+  text-align: right;
+  margin: 0 10px;
+  border: none;
+  padding: 10px 12px;
+  }
+  .quality-btn {
+        background: #fff;
+        color:#DAA520;
+        border-radius: 6px;
+        margin: 0 2px;
+        border: 2px solid;
+        border-color: #DAA520;
+        padding: 8px 8px;
+        outline: 0;
+        }
+        
+  
+  .assignto-btn {
+  background:black;
+  color: #fff;
+  border-radius: 10px;
+  text-align: right;
+  margin: 0 10px;
+  border: none;
+  padding: 11px 20px;
+  }
+
+
+  .scroll {
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    height: 300px;
+    width: 400px;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px
+}
+
+::-webkit-scrollbar-track {
+    background: #eee
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555
+}
+.due-btn {
+      background: rgb(218, 63, 63);
+      color: #fff;
+      border-radius: 6px;
+      border: 2px solid;
+      border-color:  rgb(218, 63, 63);
+      padding: 8px 18px;
+      outline: none;
+      }
+
+      .paid-btn {
+      background: #009970;
+      color: #fff;
+      border-radius: 6px;
+      border: 2px solid;
+      border-color:  #009970;
+      padding: 8px 18px;
+      outline: none;
+      }
+
+</style>
+
+</head>
+
+
+<body id="page-top" style="background-color: #f8f9fc;">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+   
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                
+            
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Content Row -->
+                    <div class="section-title" data-aos="fade-right">
+                        <h2>Feedback</h2>
+                </div>
+
+
+          
+    
+               <div class="row align-items-center justify-content-center text-align-center">
+                <div class= "col-lg-6 my-2">
+                   <div class="card border-left-success shadow h-100 py-0">
+                      <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                            <h3 class="ml-4">Contract#{{contract_obj.contract_id}}</h3>   
+                        </div>
+                        <input type="hidden" id="contract_id" name="contract_id" value="{{contract_obj.contract_id}}">
+                        <input type="hidden" id="job_id" name="job_id" value="{{contract_obj.job.job_id}}">
+                          
+                        <div class="col-lg-6 text-right pull-right mt-3">
+                                <button class="language-btn mt-1">{{contract_obj.job.source_language}} -> {{contract_obj.target_language}}</button>
+                                <button class="type-btn mt-1">{{contract_obj.job.content}}</button>
+                                <button class="quality-btn mt-1">{{contract_obj.job.quality}}</button>
+                            </div>
+                         </div>
+                         <hr>
+                         <div class="row mx-3">
+                            <table width="100%" border="0">
+                                <div class="col-md-12 col-md-offset-0">
+                                  <tr>
+                                      <td width="100%">
+                                  <div class="">
+                                    <fieldset>
+                                        <input type="hidden" id="rating_stars" name="rating_stars" value="0"> 
+
+                                      <!-- Message body -->
+                                      <div class="form-group my-2">
+                                        <label class="col-md-2 control-label" for="message" style="font-family: sans-serif;font-size:medium;">Feedback</label>
+                                        <div class="col-md-8 my-2">
+                                          <textarea class="form-control" id="message" name="message" placeholder="Please enter your feedback here..." rows="5" style="font-family: sans-serif;"></textarea>
+                                        </div>
+                                      </div>
+                          
+                          
+                                      <!-- Rating -->
+                                      <div class="form-group my-2 my-5">
+                                        <label class="col-md-2 control-label ml-3" for="message" style="font-family: sans-serif;font-size: medium;">Your rating</label>
+                                        <div class="col-md-8">
+                                          <input id="input-21e" value="0" type="number" class="rating ml-2" min=0 max=5 step=0.5 data-size="xs" >
+                                        </div>
+                                      </div>
+                            
+                     
+                                      <!-- Form actions -->
+                                      <div class="form-group my-5">
+                                        <div class="col-md-8 text-center my-2">
+                                          <button type="submit" id="submit" class="btn send-btn btn-md mx-3 mb-3" style="width: 100%;">Submit</button>
+                                         
+                                        </div>
+                                        <div class="col-md-4 text-center my-2">
+                                            <button type="reset" class="btn btn-default btn-md mx-3 mb-3" style="width: 100%;">Clear</button>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+                                  </div>
+                              </div>
+                              </td>
+                              </tr>
+                              </table>
+                         </div>
+                        
+                      </div>
+               
+                </div>
+          
+             </div>
+
+            
+</div>
+    
+
+                    
+
+                 
+
+</div>
+ <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'administrator/js/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'administrator/js/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'administrator/js/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'administrator/js/sb-admin-2.min.js' %}"></script>
+
+
+    <!-- Page level custom scripts -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+     <script src='https://harvesthq.github.io/chosen/chosen.jquery.js'></script>
+
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.js"></script>
+
+<script>
+    (function ($) {
+    var DEFAULT_MIN = 0;
+    var DEFAULT_MAX = 5;
+    var DEFAULT_STEP = 0.5;
+
+    var isEmpty = function (value, trim) {
+        return typeof value === 'undefined' || value === null || value === undefined || value == []
+            || value === '' || trim && $.trim(value) === '';
+    };
+
+    var validateAttr = function ($input, vattr, options) {
+        var chk = isEmpty($input.data(vattr)) ? $input.attr(vattr) : $input.data(vattr);
+        if (chk) {
+            return chk;
+        }
+        return options[vattr];
+    };
+
+    var getDecimalPlaces = function (num) {
+        var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+        if (!match) {
+            return 0;
+        }
+        return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+    };
+
+    var applyPrecision = function (val, precision) {
+        return parseFloat(val.toFixed(precision));
+    };
+
+    // Rating public class definition
+    var Rating = function (element, options) {
+        this.$element = $(element);
+        this.init(options);
+    };
+
+    Rating.prototype = {
+        constructor: Rating,
+        _parseAttr: function (vattr, options) {
+            var self = this, $input = self.$element;
+            if ($input.attr('type') === 'range' || $input.attr('type') === 'number') {
+                var val = validateAttr($input, vattr, options);
+                var chk = DEFAULT_STEP;
+                if (vattr === 'min') {
+                    chk = DEFAULT_MIN;
+                }
+                else if (vattr === 'max') {
+                    chk = DEFAULT_MAX;
+                }
+                else if (vattr === 'step') {
+                    chk = DEFAULT_STEP;
+                }
+                var final = isEmpty(val) ? chk : val;
+                return parseFloat(final);
+            }
+            return parseFloat(options[vattr]);
+        },
+        /**
+         * Listens to events
+         */
+        listen: function () {
+            var self = this;
+            self.$rating.on("click", function (e) {
+                if (!self.inactive) {
+                    w = e.pageX - self.$rating.offset().left;
+                    self.setStars(w);
+                    self.$element.trigger('change');
+                    self.$element.trigger('rating.change', [self.$element.val(), self.$caption.html()]);
+                    $("#rating_stars").val(self.$element.val())
+                }
+            });
+            self.$clear.on("click", function (e) {
+                if (!self.inactive) {
+                    self.clear();
+                }
+            });
+            $(self.$element[0].form).on("reset", function (e) {
+                if (!self.inactive) {
+                    self.reset();
+                }
+            });
+        },
+        initSlider: function (options) {
+            var self = this;
+            if (isEmpty(self.$element.val())) {
+                self.$element.val(0);
+            }
+            self.initialValue = self.$element.val();
+            self.min = (typeof options.min !== 'undefined') ? options.min : self._parseAttr('min', options);
+            self.max = (typeof options.max !== 'undefined') ? options.max : self._parseAttr('max', options);
+            self.step = (typeof options.step !== 'undefined') ? options.step : self._parseAttr('step', options);
+            if (isNaN(self.min) || isEmpty(self.min)) {
+                self.min = DEFAULT_MIN;
+            }
+            if (isNaN(self.max) || isEmpty(self.max)) {
+                self.max = DEFAULT_MAX;
+            }
+            if (isNaN(self.step) || isEmpty(self.step) || self.step == 0) {
+                self.step = DEFAULT_STEP;
+            }
+            self.diff = self.max - self.min;
+        },
+        /**
+         * Initializes the plugin
+         */
+        init: function (options) {
+            var self = this;
+            self.options = options;
+            self.initSlider(options);
+            self.checkDisabled();
+            $element = self.$element;
+            self.containerClass = options.containerClass;
+            self.glyphicon = options.glyphicon;
+            var defaultStar = (self.glyphicon) ? '\ue006' : '\u2605';
+            self.symbol = isEmpty(options.symbol) ? defaultStar : options.symbol;
+            self.rtl = options.rtl || self.$element.attr('dir');
+            if (self.rtl) {
+                self.$element.attr('dir', 'rtl');
+            }
+            self.showClear = options.showClear;
+            self.showCaption = options.showCaption;
+            self.size = options.size;
+            self.stars = options.stars;
+            self.defaultCaption = options.defaultCaption;
+            self.starCaptions = options.starCaptions;
+            self.starCaptionClasses = options.starCaptionClasses;
+            
+            self.clearButtonTitle = options.clearButtonTitle;
+            self.clearButtonBaseClass = !isEmpty(options.clearButtonBaseClass) ? options.clearButtonBaseClass : 'clear-rating';
+            self.clearButtonActiveClass = !isEmpty(options.clearButtonActiveClass) ? options.clearButtonActiveClass : 'clear-rating-active';
+            self.clearCaption = options.clearCaption;
+            self.clearCaptionClass = options.clearCaptionClass;
+            self.clearValue = options.clearValue;
+            self.$element.removeClass('form-control').addClass('form-control');
+            self.$clearElement = isEmpty(options.clearElement) ? null : $(options.clearElement);
+            self.$captionElement = isEmpty(options.captionElement) ? null : $(options.captionElement);
+            if (typeof self.$rating == 'undefined' && typeof self.$container == 'undefined') {
+                self.$rating = $(document.createElement("div")).html('<div class="rating-stars"></div>');
+                self.$container = $(document.createElement("div"));
+                self.$container.before(self.$rating);
+                self.$container.append(self.$rating);
+                self.$element.before(self.$container).appendTo(self.$rating);
+            }
+            self.$stars = self.$rating.find('.rating-stars');
+            self.generateRating();
+            self.$clear = !isEmpty(self.$clearElement) ? self.$clearElement : self.$container.find('.' + self.clearButtonBaseClass);
+            self.$caption = !isEmpty(self.$captionElement) ? self.$captionElement : self.$container.find(".caption");
+            self.setStars();
+            self.$element.hide();
+            self.listen();
+            if (self.showClear) {
+                self.$clear.attr({"class": self.getClearClass()});
+            }
+            self.$element.removeClass('rating-loading');
+        },
+        checkDisabled: function () {
+            var self = this;
+            self.disabled = validateAttr(self.$element, 'disabled', self.options);
+            self.readonly = validateAttr(self.$element, 'readonly', self.options);
+            self.inactive = (self.disabled || self.readonly);
+        },
+        getClearClass: function () {
+            return this.clearButtonBaseClass + ' ' + ((this.inactive) ? '' : this.clearButtonActiveClass);
+        },
+        generateRating: function () {
+            var self = this, clear = self.renderClear(), caption = self.renderCaption(),
+                css = (self.rtl) ? 'rating-container-rtl' : 'rating-container',
+                stars = self.getStars();
+            css += (self.glyphicon) ? ((self.symbol == '\ue006') ? ' rating-gly-star' : ' rating-gly') : ' rating-uni';
+            self.$rating.attr('class', css);
+            self.$rating.attr('data-content', stars);
+            self.$stars.attr('data-content', stars);
+            var css = self.rtl ? 'star-rating-rtl' : 'star-rating';
+            self.$container.attr('class', css + ' rating-' + self.size);
+
+            if (self.inactive) {
+                self.$container.removeClass('rating-active').addClass('rating-disabled');
+            }
+            else {
+                self.$container.removeClass('rating-disabled').addClass('rating-active');
+            }
+
+            if (typeof self.$caption == 'undefined' && typeof self.$clear == 'undefined') {
+                if (self.rtl) {
+                    self.$container.prepend(caption).append(clear);
+                }
+                else {
+                    self.$container.prepend(clear).append(caption);
+                }
+            }
+            if (!isEmpty(self.containerClass)) {
+                self.$container.removeClass(self.containerClass).addClass(self.containerClass);
+            }
+        },
+        getStars: function () {
+            var self = this, numStars = self.stars, stars = '';
+            for (var i = 1; i <= numStars; i++) {
+                stars += self.symbol;
+            }
+            return stars;
+        },
+        renderClear: function () {
+            var self = this;
+            if (!self.showClear) {
+                return '';
+            }
+            var css = self.getClearClass();
+            if (!isEmpty(self.$clearElement)) {
+                self.$clearElement.removeClass(css).addClass(css).attr({"title": self.clearButtonTitle});
+        
+                return '';
+            }
+            return '<div class="' + css + '" title="' + self.clearButtonTitle + '">'  + '</div>';
+        },
+        renderCaption: function () {
+            var self = this, val = self.$element.val();
+            if (!self.showCaption) {
+                return '';
+            }
+            var html = self.fetchCaption(val);
+            if (!isEmpty(self.$captionElement)) {
+                self.$captionElement.removeClass('caption').addClass('caption').attr({"title": self.clearCaption});
+                self.$captionElement.html(html);
+                return '';
+            }
+            return '<div class="caption">' + html + '</div>';
+        },
+        fetchCaption: function (rating) {
+            var self = this;
+            var val = parseFloat(rating), css, cap;
+            if (typeof(self.starCaptionClasses) == "function") {
+                css = isEmpty(self.starCaptionClasses(val)) ? self.clearCaptionClass : self.starCaptionClasses(val);
+            } else {
+                css = isEmpty(self.starCaptionClasses[val]) ? self.clearCaptionClass : self.starCaptionClasses[val];
+            }
+            if (typeof(self.starCaptions) == "function") {
+                var cap = isEmpty(self.starCaptions(val)) ? self.defaultCaption.replace(/\{rating\}/g, val) : self.starCaptions(val);
+            } else {
+                var cap = isEmpty(self.starCaptions[val]) ? self.defaultCaption.replace(/\{rating\}/g, val) : self.starCaptions[val];
+            }
+            var caption = (val == self.clearValue) ? self.clearCaption : cap;
+            return '<span class="' + css + '">' + caption + '</span>';
+        },
+        getValueFromPosition: function (pos) {
+            var self = this, precision = getDecimalPlaces(self.step),
+                percentage, val, maxWidth = self.$rating.width();
+            percentage = (pos / maxWidth);
+            if (self.rtl) {
+                val = (self.min + Math.floor(self.diff * percentage / self.step) * self.step);
+            }
+            else {
+                val = (self.min + Math.ceil(self.diff * percentage / self.step) * self.step);
+            }
+            if (val < self.min) {
+                val = self.min;
+            }
+            else if (val > self.max) {
+                val = self.max;
+            }
+            val = applyPrecision(parseFloat(val), precision);
+            if (self.rtl) {
+                val = self.max - val;
+            }
+            return val;
+        },
+        setStars: function (pos) {
+            var self = this, min = self.min, max = self.max, step = self.step,
+                val = arguments.length ? self.getValueFromPosition(pos) : (isEmpty(self.$element.val()) ? 0 : self.$element.val()),
+                width = 0, maxWidth = self.$rating.width(), caption = self.fetchCaption(val);
+            width = (val - min) / max * 100;
+            if (self.rtl) {
+                width = 100 - width;
+            }
+            self.$element.val(val);
+            width += '%';
+            self.$stars.css('width', width);
+            self.$caption.html(caption);
+        },
+        clear: function () {
+            var self = this;
+            var title = '<span class="' + self.clearCaptionClass + '">' + self.clearCaption + '</span>';
+            self.$stars.removeClass('rated');
+            if (!self.inactive) {
+                self.$caption.html(title);
+            }
+            self.$element.val(self.clearValue);
+            self.setStars();
+            self.$element.trigger('rating.clear');
+        },
+        reset: function () {
+            var self = this;
+            self.$element.val(self.initialValue);
+            self.setStars();
+            self.$element.trigger('rating.reset');
+        },
+        update: function (val) {
+            if (arguments.length > 0) {
+                var self = this;
+                self.$element.val(val);
+                self.setStars();
+            }
+        },
+        refresh: function (options) {
+            var self = this;
+            if (arguments.length) {
+                var cap = '';
+                self.init($.extend(self.options, options));
+                if (self.showClear) {
+                    self.$clear.show();
+                }
+                else {
+                    self.$clear.hide();
+                }
+                if (self.showCaption) {
+                    self.$caption.show();
+                }
+                else {
+                    self.$caption.hide();
+                }
+            }
+        }
+    };
+
+    //Star rating plugin definition
+    $.fn.rating = function (option) {
+        var args = Array.apply(null, arguments);
+        args.shift();
+        return this.each(function () {
+            var $this = $(this),
+                data = $this.data('rating'),
+                options = typeof option === 'object' && option;
+
+            if (!data) {
+                $this.data('rating', (data = new Rating(this, $.extend({}, $.fn.rating.defaults, options, $(this).data()))));
+            }
+
+            if (typeof option === 'string') {
+                data[option].apply(data, args);
+            }
+        });
+    };
+
+    $.fn.rating.defaults = {
+        stars: 5,
+        glyphicon: true,
+        symbol: null,
+        disabled: false,
+        readonly: false,
+        rtl: false,
+        size: 'md',
+        showClear: true,
+        showCaption: true,
+        defaultCaption: '{rating} Stars',
+        starCaptions: {
+            0.5: 'Half Star',
+            1: 'One Star',
+            1.5: 'One & Half Star',
+            2: 'Two Stars',
+            2.5: 'Two & Half Stars',
+            3: 'Three Stars',
+            3.5: 'Three & Half Stars',
+            4: 'Four Stars',
+            4.5: 'Four & Half Stars',
+            5: 'Five Stars'
+        },
+        starCaptionClasses: {
+            0.5: 'label label-danger',
+            1: 'label label-danger',
+            1.5: 'label label-warning',
+            2: 'label label-warning',
+            2.5: 'label label-info',
+            3: 'label label-info',
+            3.5: 'label label-primary',
+            4: 'label label-primary',
+            4.5: 'label label-success',
+            5: 'label label-success'
+        },
+        
+        clearButtonTitle: 'Clear',
+        clearButtonBaseClass: 'clear-rating',
+        clearButtonActiveClass: 'clear-rating-active',
+        clearCaption: 'Not Rated',
+        clearCaptionClass: 'label label-default',
+        clearValue: 0,
+        captionElement: null,
+        clearElement: null,
+        containerClass: null
+    };
+
+
+    /**
+     * Convert automatically number inputs with class 'rating'
+     * into the star rating control.
+     */
+    $('input.rating').addClass('rating-loading');
+
+    $(document).ready(function () {
+        var $input = $('input.rating'), 
+        count = Object.keys($input).length;
+        if (count > 0) {
+            $input.rating();
+        }
+    });
+    
+}(jQuery));
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script>
+
+$('#submit').click(function(e) {
+    e.preventDefault();
+    $('#submit').prop('disabled', true);
+		$("#submit").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');
+		$.ajax({
+			type: 'POST',
+			url: "/en/api/contract/feedback/",
+			data: {
+				contract_id: $("#contract_id").val(),
+                rating: $("#rating_stars").val(),
+                message: $("#message").val(),
+
+				action: 'post'
+			},
+			success: function(data, textStatus, xhr) {
+				console.log(data);
+				if(xhr.status == 200) {
+					$('#submit').prop('disabled', false);
+					$("#submit").html('<small>' + data.error + '</small>');
+					setTimeout(function() {
+						$("#submit").html('<strong>Submit</strong>');
+					}, 2000);
+				} else if(xhr.status == 202) {
+					window.location.replace('/jobs/details/' + $("#job_id").val());
+				}
+			},
+			error: function(xhr, errmsg, err) {
+				$('#submit').prop('disabled', false);
+				$("#submit").html('<small>Something went wrong, try again later.</small>');
+				setTimeout(function() {
+					$("#submit").html('<strong>Submit</strong>');
+				}, 2000);
+			},
+		});
+
+});
+</script>
+
+
+</body>
+
+</html>

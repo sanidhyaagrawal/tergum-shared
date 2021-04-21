@@ -12,7 +12,7 @@ def submission_file_name(instance, filename):
     random_file_name = create_file_name()
     file_path = '{owner}/'.format(owner=instance.refrence_attachment.owner.pk) 
     #here instance.user.pk is uysed rather then reverse lookup for related user becuase this file is created before assinging the verificationDocument object to user's document thus no results will be found in reverse lookup    
-    orignal_name = instance.refrence_attachment.orignal_filename.split(".")[0]+"_{}".format(str(instance.target_language.language_name))+"_{}".format("Proofreaded")
+    orignal_name = instance.refrence_attachment.orignal_filename.split(".")[0]+"_{}".format(str(instance.target_language.language_name)) #+"_{}".format("Translated")
     extention = instance.refrence_attachment.orignal_filename.split(".")[-1]
     exist = os.path.isfile(settings.MEDIA_ROOT+'/'+orignal_name +'_'+ random_file_name+"."+extention)
     new_path = file_path+'/'+orignal_name+'_'+random_file_name+"."+extention
@@ -56,9 +56,11 @@ class Submissions(models.Model):
     def __str__(self):
         return self.refrence_attachment.orignal_filename
 
+'''
 class Notifications(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     creation_date =  models.DateTimeField(auto_now_add = False, verbose_name="Submission date", blank=True, null=True)
     link = models.CharField(max_length=300) #Defalut windows file name length
     text = models.CharField(max_length=100) #Defalut windows file name length
     read = models.BooleanField(default=False)
+'''

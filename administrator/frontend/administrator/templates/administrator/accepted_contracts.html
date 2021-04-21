@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>Accepted Contracts</title>
+      <title>Tergum - Professional Translation Service</title>
        <!-- Favicons -->
        <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
       <!-- Custom fonts for this template-->
@@ -181,6 +181,9 @@
                      </div>
                   </div>
                   {% else %}
+
+                  <!--for translation contracts-->
+                  
                   <div class="row my-3">
                      {% for contract in accepted_contracts%}
                      <div class="col-lg-6 mb-3 ">
@@ -188,7 +191,7 @@
                            <div class="card-body pb-1">
                               <div class="heading">
                                  <h4 class="text-wrap text-break mx-2">Contract#{{contract.contract_id}}</h4>
-                                 <span><a href = "/admin/jobs/details/{{contract.job.job_id}}">Job#{{contract.job.job_id}}</a></span>
+                                 <span><a href = "/jobs/details/{{contract.job.job_id}}">Job#{{contract.job.job_id}}</a></span>
                               </div>
                               <div class="row">
                                  <div class="col">
@@ -196,7 +199,7 @@
                                        <span>Created on {{contract.job.posted_date | date:"d F, Y"}}</span>
                                     </div>
                                     <div class="row ml-1">
-                                       <p>Signed by <a href = "/admin/translator/{{contract.profile.username}}/details" >{{contract.profile.username}}</a> </p>
+                                       <p>Signed by<a href = "/admin/translator/{{contract.profile.username}}/details" >{{contract.profile.username}}</a> </p>
                                     </div>
                                     <div class="row ml-1">
                                        <p> on {{contract.signing_date | date:"d F, Y"}}</p>
@@ -221,6 +224,9 @@
                      </div>
                      {% endfor %}
                   </div>
+                  <!--end of translation contracts-->
+
+
                   {% endif %}
                </div>
                <!-- /.container-fluid -->

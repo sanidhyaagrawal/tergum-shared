@@ -4,6 +4,9 @@ from django.db import models
 class stripe_keys(models.Model):
     api_key = models.CharField(max_length=500,null=True, blank=True)
     endpoint_secret = models.CharField(max_length=500,null=True, blank=True)
+    publishable_key = models.CharField(max_length=500,null=True, blank=True)
+
+
     class Meta:
         verbose_name = 'Stripe Key'
         verbose_name_plural = 'Stripe Keys'

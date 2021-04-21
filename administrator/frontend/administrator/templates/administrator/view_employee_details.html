@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>View Employee</title>
+      <title>Tergum - Professional Translation Service</title>
         <!-- Favicons -->
         <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
       <!-- Custom fonts for this template-->
@@ -172,7 +172,13 @@
                <div class="container-fluid">
                   <!-- Content Row -->
                   <div class="row">
+                     {% if request.user.is_superuser %}
+
                      <div class="col-lg-3 mb-3">
+                        {% else %}
+                        <div class="col-lg-5 mb-3">
+
+                      {%endif %}
                         <div class="card shadow h-100 py-0">
                            <div class="card-body">
                               <div class="text-center card-box">
@@ -223,7 +229,13 @@
                            </div>
                         </div>
                      </div>
+                     {% if request.user.is_superuser %}
+
                      <div class="col-lg-5 mb-3">
+                      {% else %}
+                      <div class="col-lg-7 mb-3">
+
+                      {%endif %}
                         <div class="row">
                            <div class="col-lg-12">
                               <div class="card shadow h-100 py-0">
@@ -263,6 +275,7 @@
                            </div>
                         </div>
                      </div>
+                     {% if request.user.is_superuser %}
                      <div class="col-lg-4">
                         <div class="row mb-3">
                            <div class="col-lg-12">
@@ -272,7 +285,7 @@
                                        <div class="col">
                                           <div class="h5 font-weight-bold text-uppercase"><a href="/admin/translator/{{profile_obj.user.username}}/contracts/completed/paid">Total Amount</a></div>
                                           <br>
-                                          <div class="h5 mb-0 font-weight-bold text-gray-800">${{profile_obj.total_earning}}</div>
+                                          <div class="h5 mb-0 font-weight-bold text-gray-800">${{profile_obj.total_earning | floatformat:2}}</div>
                                        </div>
                                        <div class="col-auto"> <i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
                                     </div>
@@ -316,6 +329,7 @@
                      </div>
                   </div>
                </div>
+               {% endif %}
                <!-- /.container-fluid -->
             </div>
             <!-- End of Main Content -->

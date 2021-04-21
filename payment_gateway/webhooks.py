@@ -27,7 +27,7 @@ def order_mark_accepted(session):
     job_obj.save()
 
 def email_customer_about_failed_payment(session):
-  # TODO: send email to user about payment failed
+  #TODO: send email to user about payment failed
   print("Emailing customer")
 
 @csrf_exempt

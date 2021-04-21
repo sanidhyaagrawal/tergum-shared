@@ -10,6 +10,10 @@ urlpatterns = [
     path('order/create', views.create_order, name='create_order'), #Initiate (start) a new order
     path('order/step-1/<str:job_id>', views.order_step1, name='order_step1'), #Step-1 of creating an order
     path('order/step-2/<str:job_id>', views.order_step2, name='order_step2'), #Step-2 of creating an order
+    path('order/transcribing/step-1/<str:job_id>', views.transcribing_step1, name='transcribing_step1'),
+    path('order/transcribing/step-2/<str:job_id>', views.transcribing_step2, name='transcribing_step2'), 
+    path('order/interpretation/step-1/<str:job_id>', views.interpretation_step1, name='interpretation_step1'),
+    path('order/interpretation/step-2/<str:job_id>', views.interpretation_step2, name='interpretation_step2'), 
     path('order/delete/<str:job_id>', views.order_delete, name='order_delete'), #delete DRAFT order
     path('order/success/<str:job_id>/<str:token>', views.order_success, name='order_success'), #Stripe's redirect URL if the payment was "processed" successfully 
 

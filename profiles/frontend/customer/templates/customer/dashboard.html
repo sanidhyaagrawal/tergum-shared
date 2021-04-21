@@ -8,22 +8,23 @@
       <title>Tergum - Professional Translation Service</title>
       <meta content="" name="descriptison">
       <meta content="" name="keywords">
-      {% include "base/exception_head.html" %}
 
       <!-- Favicons -->
       <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
-      <!-- Google Fonts -->
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
       <!-- Vendor CSS Files -->
       <link href="{% static 'base/css/bootstrap.min.css' %}" rel="stylesheet">
-      <link href="{% static 'home/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
-      <link href="{% static 'home/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-      <link href="{% static 'home/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
-      <link href="{% static 'home/vendor/venobox/venobox.css' %}" rel="stylesheet">
-      <link href="{% static 'home/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-      <link href="{% static 'home/vendor/aos/aos.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/venobox/venobox.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+      <link href="{% static 'order/vendor/aos/aos.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
       <!--  Main CSS File -->
       <link href="{% static 'customer/css/style.css' %}" rel="stylesheet">
+
       <style>
          .container .invoice-stand {
          background:#DAA520;
@@ -91,9 +92,83 @@
          td{padding:3px !important}
          th{padding:3px !important}
          .form-control{border-radius:0px !important;}
+
+
+
+
+ul {
+  list-style-type: none;
+  -webkit-padding-start: 35px;
+          padding-inline-start: 35px;
+}
+
+svg {
+  width: 100%;
+  visibility: hidden;
+}
+
+h1 {
+  font-size: 7.5em;
+  margin: 15px 0px;
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+
+.btn {
+  z-index: 1;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+  padding: 8px 50px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1em;
+  letter-spacing: 2px;
+  transition: 0.2s ease;
+  font-weight: bold;
+  margin: 5px 0px;
+}
+.btn.green {
+    background-color:  #f8f9fc;
+    color: #009970;
+    border-radius: 6px;
+    margin: 0 2px;
+    border: 2px solid;
+    border-color: #009970;
+    padding: 8px 25px;
+}
+
+.btn.green:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0%;
+  height: 100%;
+  background: #009970;
+  z-index: -1;
+  transition: 0.2s ease;
+}
+
+.btn.green:hover {
+  color: #fff;
+  background: #009970;
+  border: 2px solid;
+    border-color: #009970;
+  transition: 0.2s ease;
+}
+.btn.green:hover:before {
+  width: 100%;
+}
       </style>
+
    </head>
    <body>
+      
       <!--  Header  -->
       <header id="header" class="fixed-top d-flex align-items-center">
          <div class="container">
@@ -104,8 +179,6 @@
                <nav class="nav-menu d-none d-lg-block">
                   <ul>
                      <li class="active"><a href="#header">Dashbaord</a></li>
-                     <li><a href="#">Invoices</a></li>
-                     <li><a href="#">Settings</a></li>
                      <li class="get-started" style="cursor: pointer;" onclick="window.location.href='/logout';"><a >Logout</a></li>
                   </ul>
                </nav>
@@ -144,6 +217,28 @@
                </div>
             </div>
             {% endif %}
+
+
+            {% if notifications %}
+
+            <div class="container">
+               <div class="row my-2">
+                  <div class="col-lg-12">
+                     <div class="section-title" data-aos="fade-right">
+                        {% for notification in notifications %}
+                        <div class="alert alert-success alert-dismissible">
+                           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                           <a href="{{notification.link}}"><strong>{{notification.creation_date}} : </strong> {{notification.text}}</a>
+                        </div>
+                        {% endfor %}
+
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+            {% endif %}
+            
 
             {% if not active_jobs and not completed_jobs and not draft_jobs %}
 
@@ -197,8 +292,17 @@
                                              <tbody>
                                                 {% for attachment in job.attachments.all %}
                                                 <tr>
-                                                   <th><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
-                                                   <td>{{attachment.word_count}} words</td>
+                                                   <th class="text-wrap text-break"><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
+
+                                                   {% if job.job_type.job_type == "Interpretation" or job.job_type.job_type == "Transcribing" %}
+                                                   <div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+                                                   {% else%}
+                                                   <div class="col-lg-6"> {{attachment.word_count}} words</div>
+                                                   {% endif%}    
+
+
+
+
                                                 </tr>
                                                 {% endfor %}
                                              </tbody>
@@ -264,8 +368,15 @@
                                                 
                                                 {% for attachment in job.attachments.all %}
                                                 <tr>
-                                                   <th><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
-                                                   <td>{{attachment.word_count}} words</td>
+                                                   <th class="text-wrap text-break"><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
+
+                                                   {% if job.job_type.job_type == "Interpretation" or job.job_type.job_type == "Transcribing" %}
+                                                   <div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+                                                   {% else%}
+                                                   <div class="col-lg-6"> {{attachment.word_count}} words</div>
+                                                   {% endif%}    
+
+
                                                 </tr>
                                                 {% endfor %}
 
@@ -297,57 +408,7 @@
 
             <!--end completed orders-->
 
-            <!--fordrafts-->
-            {% if draft_jobs%}
-
-            <div class="container">
-               <div class="row my-4">
-                  <div class="col-lg-12">
-                     <div class="section-title" data-aos="fade-right">
-                        <h2> Drafts</h2>
-                        <!--row-->
-                        <div class="row mt-4">
-                           {% for job in draft_jobs%}
-                           <!--card-->
-                           <div class="col-lg-6 my-2 justify-content-center ">
-                              <div class="element aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">
-                                 <div class="bg-white rounded">
-                                    <div class = "row">
-                                       <div class="col lg-6">
-                                          <p>Order #{{job.job_id}}</p>
-                                          <p>{{job.posted_date}}</p>
-                                       </div>
-                                       <div class="col lg-2 text-right pull-right">
-                                          <button class="edit-btn" style="cursor: pointer;" onclick="window.location.href='/order/step-1/{{job.job_id}}';" >Continue</button>
-                                          <button class="btred mt-1" style="cursor: pointer;"  onclick="window.location.href='/order/delete/{{job.job_id}}';">Delete</button>
-                                       </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                       <div class="col-lg-12">
-                                          <table class="table table-borderless">
-                                             <tbody>
-                                                {% for attachment in job.attachments.all %}
-                                                <tr>
-                                                   <th><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
-                                                   <td>{{attachment.word_count}} words</td>
-                                                </tr>
-                                                {% endfor %}
-                                             </tbody>
-                                          </table>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <!--card close-->
-                           {% endfor %}
-                        </div>
-                        <!--end row-->
-                     </div>
-                  </div>
-               </div>
-            </div>
-            {% endif %}
+       
 
             {% endif %}
 

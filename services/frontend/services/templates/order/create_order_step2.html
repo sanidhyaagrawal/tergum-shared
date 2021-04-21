@@ -247,7 +247,6 @@
                </div>
                <nav class="nav-menu d-none d-md-block">
                   <ul>
-                     <li><a href="#" style="cursor: pointer;" onclick="window.location.href='/';">SAVE AS DRAFT</a></li>
                      <li><a href="#" style="cursor: pointer;" onclick="window.location.href='/order/delete/{{job_obj.job_id}}';">DISCARD</a></li>
                      <li class="get-started"><a href="/order/step-1/{{job_obj.job_id}}">Add more files</a></li>
                   </ul>
@@ -289,7 +288,13 @@
                                                 <path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/>
                                              </svg>
                                           </div>
-                                          <label class="radio-tile-label">1 translator</label>
+                                         
+                                          
+                                          <label class="radio-tile-label">1 translator <br>{% if quality.proofreading %}
+                                             +1 Proofreader
+                                             {%endif%}</label>
+                                             
+                                             
                                           <div class ="mt-3">
                                              <label  class="radio-tile-subheading">x{{quality.rate_multiplier}}</label>
                                           </div>
@@ -354,7 +359,7 @@
                                                 {% for attachment in job_obj.attachments.all %}
                                                 <div class="row">
                                                    <div class="col" style="vertical-align : middle">
-                                                      <strong>{{attachment.orignal_filename}}</strong> <br>({{job_obj.source_language.language_name}})
+                                                      <div class="text-wrap text-break"><strong>{{attachment.orignal_filename}}</strong></div> ({{job_obj.source_language.language_name}})
                                                    </div>
                                                    <div class="col d-none d-md-block langs langs_{{ forloop.counter0 }}">
                                                       <div class="row mx-auto">
@@ -694,7 +699,7 @@
             selectedLanguageIDs().forEach(function(selected_lang_ids) {
               target_lang_pks.push(key_language_relation[selected_lang_ids]["value"])
             })
-            var stripe = Stripe("pk_test_51HyPQKKiFsp51XcEyyYSe5iSj4wkCsznU46BDLkJ729PwmVysGZo5hx4p2odgDd1A0cDRpZPxW4zIblYLgM64eJ400zATUFI4i");
+            var stripe = Stripe("{{stripe_key}}");
             var quality = $("input[name=quality]");
             var quality_pk= quality.filter(":checked").attr('id');
             $("#checkout-button").html('<div class="spinner-border" style="width: 1.25rem; height: 1.25rem;" role="status"></div>');

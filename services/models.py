@@ -26,9 +26,14 @@ class Contract(models.Model):
 
     TRANSLATING = 'TR'
     PROOFREADING = 'PF'
+    INTERPRETATION = 'IN'
+    TRANSCRIBING = 'TS'
+
     STATUS_CHOICES = [
         (TRANSLATING, 'Translation'),
         (PROOFREADING, 'Proofreading'),
+        (INTERPRETATION, 'Interpretation'),
+        (TRANSCRIBING, 'Transcribing'),
     ]
 
     status =   models.CharField(max_length=2,
@@ -107,10 +112,10 @@ class Job(models.Model):
     instruction = models.TextField(blank=True, null=True)
     content =  models.ForeignKey('common.Content', on_delete=models.CASCADE, blank=True, null=True)
     attachments = models.ManyToManyField('common.Attachment',related_name='job_attachments')
-    accepted =  models.BooleanField(default=False)
-    paid =  models.BooleanField(default=False)
+    accepted =  models.BooleanField(default=False) #draft --> pending
+    paid =  models.BooleanField(default=False) #pending --> paid
     status = models.ForeignKey('common.Status', on_delete=models.CASCADE, null=True)
-    chat = models.ManyToManyField('services.Message',related_name='chat_message')
+    chat = models.ManyToManyField('services.Message',related_name='chat_message', blank=True)
     class Meta:
         verbose_name = 'job'
         verbose_name_plural = 'jobs'

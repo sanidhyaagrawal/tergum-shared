@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <title>View Employee</title>
+      <title>Tergum - Professional Translation Service</title>
        <!-- Favicons -->
        <link rel="shortcut icon" href="{% static 'base/images/favicon.ico' %}" />
       <!-- Custom fonts for this template-->
@@ -210,7 +210,7 @@
                                     </div>
                                 <br>
                                     {% if profile.due_earning > 0 %}
-                                    <a href="/admin/translator/{{profile.user.username}}/contracts/completed/due"><button class="due-btn">Due - ${{profile.due_earning}}</button></a>
+                                    <a href="/admin/translator/{{profile.user.username}}/contracts/completed/due"><button class="due-btn">Due - ${{profile.due_earning | floatformat:2 }}</button></a>
                                     {% elif profile.completed_contracts > 0 %}
                                     <a href="/admin/translator/{{profile.user.username}}/contracts/completed/paid"><button class="by-btn">Paid</button></a>
                                     {%endif %}

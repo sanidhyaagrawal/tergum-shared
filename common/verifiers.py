@@ -15,7 +15,6 @@ def create_attachment_id():
         is_taken, attachment_obj = attachment_id_is_valid(attachment_id)
     return attachment_id
 
-
 def attachment_id_is_valid(attachment_id):
     '''
     check if a attachment_obj exists realted to given attachment_id
@@ -26,8 +25,5 @@ def attachment_id_is_valid(attachment_id):
     except:
             return (False, None)    
 
-        
 def create_file_name():
     return urandom(3).hex()
-    #secrets.token_urlsafe(5) #2848 bits 
-  

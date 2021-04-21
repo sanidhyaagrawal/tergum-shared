@@ -16,10 +16,8 @@ def getResponce(*args):
         "signup_password_not_match" : Response({'error': "Password does not mach"}, status=status.HTTP_200_OK),
         "account_not_active" : Response({'error': "Your account is not activated, please contact admin."}, status=status.HTTP_200_OK),
         "username_unavaiable" : Response({'error': "This username is not available"}, status=status.HTTP_200_OK),
-
         "email_not_sent" : Response({'error': "Couldn't send email, please try again."}, status=status.HTTP_200_OK),
-
-      
+        "invalid_email" : Response({'error': "No account associated with this email."}, status=status.HTTP_200_OK),
         },
     }
     if responces.get(args[0]) != None: #ISO Code Exists

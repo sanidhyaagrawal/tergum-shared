@@ -8,11 +8,9 @@ from django.contrib.auth.admin import UserAdmin
 from .models import *
 from services.models import *
 from common.models import *
-# from employees.models import *
 from profiles.models import *
 from users.models import *
 
-# Register your models here.
 admin.site.register(Content)
 admin.site.register(Status)
 admin.site.register(JobType)
@@ -22,11 +20,9 @@ admin.site.register(Rate)
 admin.site.register(Attachment)
 admin.site.register(Contract)
 admin.site.register(Company)
-# admin.site.register(Employee)
 admin.site.register(Variables)
-
-#admin.site.register(Skill)
 admin.site.register(User)
+
 class UserAdmin(UserAdmin):
     readonly_fields = [
         'date_joined',

@@ -1,20 +1,21 @@
 from django.shortcuts import render, redirect
-
-# Create your views here.
 from services.models import Contract
+
 def accepted_contracts(request):
     if request.user.is_staff and request.user.is_active:
         accepted_contracts = Contract.objects.all().filter(profile=request.user, completed=False)
+        from common.models import Notifications
+        notifications = Notifications.objects.all().filter(target=request.user)
         return render(request, 'employee/accepted_contracts.html', {"accepted_contracts":accepted_contracts})
     else:
-        return redirect("/login") #TODO replace with view url lookups.      
+        return redirect("/login")       
 
 def completed_contracts(request):
     if request.user.is_staff and request.user.is_active:
         completed_contracts = Contract.objects.all().filter(profile=request.user, completed=True)
         return render(request, 'employee/completed_contracts.html', {"completed_contracts": completed_contracts})
     else:
-        return redirect("/login") #TODO replace with view url lookups.      
+        return redirect("/login")       
 
 from profiles.models import Profile
 def settings(request):
@@ -22,23 +23,14 @@ def settings(request):
         profile = Profile.objects.get(user=request.user)
         return render(request, 'employee/settings.html', {"profile":profile})
     else:
-        return redirect("/login") #TODO replace with view url lookups.      
+        return redirect("/login")       
 
-
-'''          
-def accepted_contracts_details(request, job_id):
+def feedback(request):
     if request.user.is_staff and request.user.is_active:
-        return render(request, 'employee/accepted_contracts_details.html')
+        completed_contracts = Contract.objects.all().filter(profile=request.user, completed=True)
+        return render(request, 'employee/view_feedback.html', {"completed_contracts":completed_contracts})
     else:
-        return redirect("/login") #TODO replace with view url lookups.      
-            
-            
-def completed_contracts_details(request, job_id):
-    if request.user.is_staff and request.user.is_active:
-        return render(request, 'employee/completed_contracts_details.html')
-    else:
-        return redirect("/login") #TODO replace with view url lookups.      
-'''
+        return redirect("/login")       
 
 from services.verifiers import contract_id_is_valid       
 def contract_details(request, contract_id):
@@ -46,10 +38,6 @@ def contract_details(request, contract_id):
         is_vaild, contract_obj = contract_id_is_valid(contract_id)
         if  is_vaild:
             if contract_obj.is_signed and contract_obj.profile == request.user or request.user.is_superuser:
-                #if contract_obj.completed:
-
-                    #return render(request, 'employee/completed_contracts_details.html', {"contract":contract_obj})
-                #else:
                 if contract_obj.dependency and contract_obj.dependency.completed ==  False:
                     return render(request, 'employee/500_translation_incomplete.html', {"contract_obj":contract_obj})
                 else:
@@ -59,13 +47,11 @@ def contract_details(request, contract_id):
         else:
             return render(request, 'base/404.html', {"contract_id":contract_id})
     else:
-        return redirect("/login") #TODO replace with view url lookups.      
-      
-            
+        return redirect("/login")       
+       
 def invite_link_expired(request):
     return render(request, 'employee/link_expired.html')
   
-
 from users.models import User
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login

@@ -26,6 +26,7 @@ def image_file_name(instance, filename):
     return new_path 
 from PIL import Image
 from services.models import Contract
+import requests
 
 class Profile(TimestampedModel):
     TRANSLATOR = "TR"
@@ -93,7 +94,13 @@ class Profile(TimestampedModel):
 
     def save(self, *args, **kwargs):
         super().save()
-        img = Image.open(self.image.path)
+        
+        url = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+        img = Image.open(requests.get(url, stream=True).raw)
+
+            
+        
+        
         width, height = img.size  # Get dimensions
 
         if width > 300 and height > 300:
@@ -121,22 +128,4 @@ class Profile(TimestampedModel):
             img.thumbnail((300, 300))
 
         img.save(self.image.path)
-    #TODO  property or something to return the skills a profile have 
-    #TODO  property or something to return the earning (total value) a profile earned
-    #TODO  
 
-'''
-## Skill model was copied from Employee app since we don't need it anymore      
-class Skill(models.Model):
-    profile = models.ForeignKey("profiles.Profile", on_delete=models.CASCADE)
-    language = models.ForeignKey("common.Language", on_delete=models.CASCADE)
-    # TODO  skill level here is required, some sort of Intermidiate, Professional and Expert. Think about this
-
-    class Meta:
-        verbose_name = "skill"
-        verbose_name_plural = "skills"
-
-    # TO STRING METHOD
-    def __str__(self):
-        return self.profile.first_name
-'''

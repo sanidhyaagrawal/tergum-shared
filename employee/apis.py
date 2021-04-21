@@ -10,7 +10,6 @@ from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework import status
 
-
 #centralized responces for all the APIs for this app (users)
 #is used for internationalization of responses
 from users.responces import getResponce
@@ -21,6 +20,7 @@ from users.models import User
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login
 from administrator.models import invite_links
+from common.models import Notifications
 
 @api_view(['POST'])
 @authentication_classes([CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication])
@@ -40,11 +40,9 @@ def accpet_invite(request):
             if len(password)==0:
                 return getResponce(ISO, 'signup_no_password')
 
-
             elif len(password)<5:
                 return getResponce(ISO, 'signup_short_password')
 
-            
             elif password != repassword:
                 return getResponce(ISO, 'signup_password_not_match')
 
@@ -81,13 +79,10 @@ def sign_contract(request):
     else:
         return getResponce(ISO, 'invalid_contract_id')
 
-
-
 from services.verifiers import contract_id_is_valid
 from django.utils import timezone
 from profiles.models import Profile
 from users.username_validator import check_or_get_username
-
 @api_view(['POST'])
 @authentication_classes([CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication])
 def edit_profile_details(request):
@@ -133,13 +128,6 @@ def edit_profile_details(request):
     profile_obj.save()
     return Response(status=status.HTTP_202_ACCEPTED)
 
-
-
-
-
-
-
-
 from common.models import Attachment
 @api_view(['POST'])
 @authentication_classes([CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication])
@@ -167,23 +155,9 @@ def create_submission(request):
                     file_words = 0
                     filename = str(submission)
                     print(filename)
-                    if filename.lower().endswith(('.txt')):
-                        #if the uploaded file is .txt file
-                        for line in submission:
-                            #exclude the words between "[[[" and "]]]" from the word count.
-                            try:
-                                first, _, rest = line.decode('utf8').partition('[[[')
-                                _, _, rest = rest.partition(']]]')
-                                line = ' '.join([first.strip(), rest.strip()])     
-                                file_words += len(line.split())
-                            except UnicodeDecodeError:
-                                #file file not utf8 encoded.
-                                error= "File not supported!"
+                    if filename.lower().endswith(('.txt', '.pdf', '.docx', '.mp3', '.ogg', '.ogv')): 
+                    
                         if error == None:
-                            #add submission to the Job
-                            #submission_obj = Attachment.objects.create(owner=request.user, word_count=file_words, orignal_filename=str(submission), file = submission)    
-                            #job_obj.submissions.add(submission_obj) 
-                            #print(submission_obj)
                             submission_obj.submission_filename = str(submission)
                             submission_obj.submission_file = submission
                             submission_obj.submited_by = request.user
@@ -199,22 +173,19 @@ def create_submission(request):
                             return Response({"message": message}, status=status.HTTP_202_ACCEPTED)
                     else:  
                         #if user uploaded nothing           
-                        return Response({"message": "Add a .txt file"}, status=status.HTTP_200_OK)
+                        return Response({"message": "Add '.txt', '.pdf', '.docx', '.mp3', '.ogg', or '.ogv' file"}, status=status.HTTP_200_OK)
                 else:  
                     #if user uploaded nothing           
-                    return Response({"message": "Add a .txt file"}, status=status.HTTP_200_OK)
-
-                                
+                    return Response({"message": "Add attach a file"}, status=status.HTTP_200_OK)
             else:
                 return getResponce(ISO, 'invalid_contract_id')
         else:
             return getResponce(ISO, 'invalid_contract_id')
     else:
         return getResponce(ISO, 'invalid_contract_id')
- 
-    
-
-from common.models import Attachment
+     
+from common.models import Attachment, Status
+from users.models import User
 @api_view(['POST'])
 @authentication_classes([CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication])
 def mark_contract_completed(request):
@@ -230,6 +201,19 @@ def mark_contract_completed(request):
                     contract_obj.completed = True
                     contract_obj.completion_date = timezone.now()
                     contract_obj.save()
+                    #print(contract_obj.job.total_contracts, contract_obj.job.completed_contracts)
+                    if contract_obj.job.total_contracts() == contract_obj.job.completed_contracts():
+                        contract_obj.job.status = Status.objects.create(status_name="DN", comment="Job has been completed.")
+                        contract_obj.job.save()
+                        admins = User.objects.all().filter(is_superuser=True)
+                        for admin in admins:
+                            Notifications.objects.create(target=admin, creation_date=timezone.now(), text="Job has been completed.", icon="fas fa-check", colour="success", link="/jobs/details/{}".format(contract_obj.job.job_id))
+                        Notifications.objects.create(target=contract_obj.job.employeer, creation_date=timezone.now(), text="Job has been completed.", icon="fas fa-check", colour="success", link="/jobs/details/{}".format(contract_obj.job.job_id))
+                    else:
+                        Notifications.objects.create(target=contract_obj.job.employeer, creation_date=timezone.now(), text="We've made progress with your job!", icon="fas fa-tasks", colour="success", link="/jobs/details/{}".format(contract_obj.job.job_id))
+                        admins = User.objects.all().filter(is_superuser=True)
+                        for admin in admins:
+                            Notifications.objects.create(target=admin, creation_date=timezone.now(), text="Job has progressed.", icon="fas fa-tasks", colour="success", link="/jobs/details/{}".format(contract_obj.job.job_id))
                     return Response(status=status.HTTP_202_ACCEPTED)
 
                 else:
