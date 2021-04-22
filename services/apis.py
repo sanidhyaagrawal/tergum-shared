@@ -214,7 +214,7 @@ def attchment_api(request, attachment_id=None):
                 #if user uploaded nothing           
                 return Response({"message": "Add a .txt file or plain text", "data": serailzed_data}, status=status.HTTP_202_ACCEPTED)
 
-        elif request.method == 'DELETE': #api/attchment/<str:attachment_id>
+    elif request.method == 'DELETE': #api/attchment/<str:attachment_id>
             '''
             remove(Delete) an attachment from a Job
             '''

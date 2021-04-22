@@ -26,28 +26,41 @@
       <link href="{% static 'customer/css/style.css' %}" rel="stylesheet">
 
       <style>
-         .container .invoice-stand {
+           .type-btn {
+      background: #fff;
+      color: #009970;
+      border-radius: 10px;
+      margin: 0 2px;
+      border: 2px solid;
+      border-color: #009970;
+      padding: 8px 8px;
+      }
+      
+      .invoice-paid {
+         background: #009970;
+         color: #fff;
+         border-radius: 10px;
+         margin: 0 2px;
+         border: none;
+         padding: 8px 18px;
+         }
+
+         .invoice-stand {
          background:#DAA520;
          color: #fff;
          border-radius: 10px;
          border: none;
-         margin: 0 3px;
-         padding: 6px 22px;
+         margin: 0 2px;
+         padding: 8px 18px;
          }
+
+       
          .container .createbutton {
          background:  #009970;;
          color: #fff;
          border-radius: 20px;
          border: none;
          margin: 0 15px;
-         padding: 8px 25px;
-         }
-         .container .invoice-paid {
-         background: #009970;
-         color: #fff;
-         border-radius: 10px;
-         margin: 0 10px;
-         border: none;
          padding: 8px 25px;
          }
          .container .edit-btn {
@@ -277,12 +290,11 @@ h2 {
                                           <p>Order #{{job.job_id}}</p>
                                           <p>{{job.posted_date}}</p>
                                        </div>
-                                       <div class="col text-right pull-right">
+                                       <div class="col text-right pull-right mr-3">
                                           <div class="float-right row">
-                                             <div class="float-right d-none d-md-block ">
-                                                <button class="invoice-stand"> {{job.quality.quality_name}}</button>
-                                             </div>
-                                             <button class="invoice-paid mr-4">{{job.status.get_status_name_display}}</button>
+                                             <button class="type-btn d-none d-md-block mt-2">{{job.job_type.job_type}}</button>
+                                             <button class="invoice-stand d-none d-md-block mt-2 ml-2"> {{job.quality.quality_name}}</button>
+                                             <button class="invoice-paid mt-2 ml-2">{{job.status.get_status_name_display}}</button>
                                           </div>
                                        </div>
                                     </div>
@@ -295,14 +307,10 @@ h2 {
                                                    <th class="text-wrap text-break"><a href="{{attachment.file.url}}" download>{{attachment.orignal_filename}}</a></th>
 
                                                    {% if job.job_type.job_type == "Interpretation" or job.job_type.job_type == "Transcribing" %}
-                                                   <div class="col-lg-6"> {{attachment.word_count}} seconds </div>
+                                                   <th class="text-wrap text-break">{{attachment.word_count}} seconds</th>
                                                    {% else%}
-                                                   <div class="col-lg-6"> {{attachment.word_count}} words</div>
+                                                   <th class="text-wrap text-break">{{attachment.word_count}} words</th>
                                                    {% endif%}    
-
-
-
-
                                                 </tr>
                                                 {% endfor %}
                                              </tbody>
