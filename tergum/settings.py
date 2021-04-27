@@ -11,10 +11,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "*!&w5_h_csw8#uj=u*^hh$dw)-4q56!ty389kiysoa-z!%l#mr"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if 'HOSTNAME' in os.environ else True
 
-#"*" means all hosts are allowed. Must change in production.
-ALLOWED_HOSTS = ["*"]
+
+# "*" means all hosts are allowed. Must change in production.
+ALLOWED_HOSTS = ['128.199.53.184', 'localhost', 'www.tergum.xyz',
+                 'tergum.xyz'] if 'HOSTNAME' in os.environ else ["*"]
 
 
 # Application definition
@@ -26,13 +28,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    #whitenoise
+    # whitenoise
     "whitenoise.runserver_nostatic",
 
-    #packages
+    # packages
     "django.contrib.sites",   # <--
 
-    #for sign-in with google
+    # for sign-in with google
     "allauth",   # <--
     "allauth.account",   # <--
     "allauth.socialaccount",   # <--
@@ -40,28 +42,28 @@ INSTALLED_APPS = [
 
     "rest_framework",
 
-    #package to automatically delete the actual files present on
-    #the server when it's entry on the databse is deleted.
-    #helps to free up server space
+    # package to automatically delete the actual files present on
+    # the server when it's entry on the databse is deleted.
+    # helps to free up server space
     'django_cleanup',
 
-    #apps
-    "users", #login-signup related
+    # apps
+    "users",  # login-signup related
     "services",
     "profiles",
     "common",
-    "payment_gateway", #stripe integration related
+    "payment_gateway",  # stripe integration related
     "administrator",
     "employee",
 ]
 
 AUTHENTICATION_BACKENDS = (
- "django.contrib.auth.backends.ModelBackend",
- "allauth.account.auth_backends.AuthenticationBackend",
- )
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 
-#allauth releated settings
+# allauth releated settings
 SITE_ID = 1
 LOGIN_REDIRECT_URL = "/"
 
@@ -77,9 +79,9 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-#suppoerted ISO codes
+# suppoerted ISO codes
 LANGUAGES = (
-('en','English'),
+    ('en', 'English'),
 )
 
 MIDDLEWARE = [
@@ -98,12 +100,12 @@ MIDDLEWARE = [
 ]
 
 LOCALE_PATHS = (
-os.path.join(BASE_DIR, 'locale/'),
+    os.path.join(BASE_DIR, 'locale/'),
 )
 
 ROOT_URLCONF = "tergum.urls"
 
-#frontend template paths
+# frontend template paths
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -114,7 +116,8 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'profiles/frontend/customer/templates'),
             os.path.join(BASE_DIR, 'profiles/frontend/employees/templates'),
             os.path.join(BASE_DIR, 'users/frontend/users/templates'),
-            os.path.join(BASE_DIR, 'administrator/frontend/administrator/templates'),
+            os.path.join(
+                BASE_DIR, 'administrator/frontend/administrator/templates'),
             os.path.join(BASE_DIR, 'employee/frontend/employee/templates'),
             os.path.join(BASE_DIR, 'core/frontend/templates'),
 
@@ -152,9 +155,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
 AUTH_USER_MODEL = "users.User"
 REST_FRAMEWORK = {
@@ -166,7 +169,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-#API rate limiting
+# API rate limiting
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -198,9 +201,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-#frontend template paths
+# frontend template paths
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'core/frontend/static'), #base static files
+    os.path.join(BASE_DIR, 'core/frontend/static'),  # base static files
     os.path.join(BASE_DIR, 'common/frontend/common/static'),
     os.path.join(BASE_DIR, 'services/frontend/services/static'),
     os.path.join(BASE_DIR, 'users/frontend/users/static'),
@@ -208,18 +211,17 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'administrator/frontend/administrator/static'),
     os.path.join(BASE_DIR, 'employee/frontend/employee/static'),
 
-] #directories where the static files are located.
+]  # directories where the static files are located.
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-#path where user uploaded files are stored
+# path where user uploaded files are stored
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'sujatisamaj@gmail.com'
-EMAIL_HOST_PASSWORD = 'sus07091969'
+EMAIL_HOST_USER = 'milbawilba@gmail.com'
+EMAIL_HOST_PASSWORD = 'MilbaWilba1!'
