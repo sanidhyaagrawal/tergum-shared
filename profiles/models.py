@@ -95,12 +95,13 @@ class Profile(TimestampedModel):
     def save(self, *args, **kwargs):
         super().save()
         
-        url = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-        img = Image.open(requests.get(url, stream=True).raw)
-
-            
-        
-        
+        if self.image:
+            img = Image.open(self.image.file)
+            print(img)
+        else:
+            url = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+            img = Image.open(requests.get(url, stream=True).raw)
+                 
         width, height = img.size  # Get dimensions
 
         if width > 300 and height > 300:
@@ -129,3 +130,4 @@ class Profile(TimestampedModel):
 
         img.save(self.image.path)
 
+        

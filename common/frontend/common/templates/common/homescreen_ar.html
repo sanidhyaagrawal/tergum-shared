@@ -68,22 +68,20 @@
 
         <nav class="nav-menu d-none d-lg-block">
           <ul>
-            <li class="active"><a href="#header">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="#contact">Contact</a></li>
-<li class="mx-3 mb-1">
-  <div class="form-group" style="text-align: left;">
-     <select class="form-control"  onchange="location = this.value;" type="text"  maxlength="100" name="job_type" id="job_type"  >
-        <option value="" class="get-started">English</option>
-        <option value="/ar" class="get-started">Amharic</option>
-
-    </select>
-     </label>
-</div>
-</li>
-            <li class="get-started"><a href="{% url 'users:login' %}">Login</a></li>
+            <li class="active"><a href="#header">ቤት</a></li>
+            <li><a href="#about">ስለ</a></li>
+            <li><a href="#services">አገልግሎቶች</a></li>
+            <li><a href="#team">ሰራተኞቻችን</a></li>
+            <li><a href="#contact">አግኙን</a></li>
+            <li class="mx-3 mb-1">
+                <div class="form-group" style="text-align: left;color: #009970 ;">
+                   <select class="form-control"  onchange="location = this.value;" type="text"  maxlength="100" name="job_type" id="job_type"  >
+                    <option value="">Amharic</option>
+                    <option value="/" class="get-started">English</option>
+                  </select>
+                   </label>
+              </div></li>
+            <li class="get-started"><a href="{% url 'users:login' %}">ይግቡ</a></li>
           </ul>
         </nav><!-- .nav-menu -->
       </div><!-- End Header Container -->
@@ -93,8 +91,8 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="200">
-      <h1>Professional translations within hours</h1>
-      <a href="#about" class="btn-get-started scrollto">Order Now</a>
+      <h1>ደረጃዉን የጠበቀ ትርጉም በሳዕታት ዉስጥ</h1>
+      <a href="#about" class="btn-get-started scrollto">አሁኑኑ ይዘዙ</a>
     </div>
   </section><!-- End Hero -->
 
@@ -109,8 +107,8 @@
 
         <div class="row content">
           <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
-            <h2>Order Now</h2>
-            <h3>You need an account to get started!</h3>
+            <h2>አሁኑኑ ይዘዙ</h2>
+            <h3>ለመጀመረ መመዝገብ ያስፈልጎታል</h3>
           </div>
           <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left" data-aos-delay="200">
            
@@ -124,18 +122,18 @@
            <form action="#!" class="php-email-form mt-4">
               {% csrf_token %}
               <div class="form-group">
-                 <label for="email" class="sr-only">Email</label>
-                 <input type="email" name="email" id="email" class="form-control big" placeholder="Email" autocomplete="email">
+                 <label for="email" class="sr-only">ኢሜል</label>
+                 <input type="email" name="email" id="email" class="form-control big" placeholder="ኢሜል" autocomplete="email">
               </div>
               <div class="form-group mb-4">
-                 <label for="password" class="sr-only">Password</label>
-                 <input type="password" name="password" id="password" class="form-control big" placeholder="Password" autocomplete="current-password">
+                 <label for="password" class="sr-only">ምአለፊያዎን ረሱ</label>
+                 <input type="password" name="password" id="password" class="form-control big" placeholder="ምአለፊያዎን ረሱ" autocomplete="current-password">
               </div>
-              <button class="btn btn-block login-btn mb-0" name="login" id="login" id="add_to_order">Login</button>
+              <button class="btn btn-block login-btn mb-0" name="login" id="login" id="add_to_order">ይግቡ</button>
            </form>
 
-           <a href="#" id="forget_password" class="forgot-password-link">Forgot password?</a>
-           <p class="login-card-footer-text">Don't have an account?<a href="{% url 'users:signup' %}" class="forgot-password-link">Sign Up here.</a></p>
+           <a href="#" id="forget_password" class="forgot-password-link">ምአለፊያዎን ረሱ</a>
+           <p class="login-card-footer-text"> <a href="{% url 'users:signup' %}" class="forgot-password-link">(ይመዝገቡ)?</a></p>
           
        
           </div>
@@ -152,22 +150,22 @@
 
           <div class="col-lg-3 col-6 text-center">
             <span data-toggle="counter-up">232</span>
-            <p>Clients</p>
+            <p>ደምበኞቻችን</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
             <span data-toggle="counter-up">521</span>
-            <p>Projects</p>
+            <p>ፕሮጀክቶች</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
             <span data-toggle="counter-up">1,463</span>
-            <p>Hours Of Support</p>
+            <p>አጠቃላይ ሰአታት</p>
           </div>
 
           <div class="col-lg-3 col-6 text-center">
             <span data-toggle="counter-up">15</span>
-            <p>Hard Workers</p>
+            <p> ጠንካራ ሰራተኞች</p>
           </div>
 
         </div>
@@ -178,13 +176,14 @@
     <!-- ======= Why Us Section ======= -->
     <section id="why-us" class="why-us">
       <div class="container">
-       
+
         <div class="row">
           <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-right">
             <div class="content">
-              <h4>Why Choose Tergum ?</h4>
+              <h4>ለምን ዘትርጉም?</h4>
               <p>
-                Rewriting in different words requires many high-level skills that only human experts have. Our crowd of native workers carefully transforms complicated text—supplied by the customer into short, digestible summaries, saving you time and preventing information overload when sharing with clients, colleagues and others.              </p>
+                ተመሳሳይ ይዘት በተለያየ ቋንቋ መጻፍ ከፍተኛ የቋንቋ እና የዘርፍ እዉቀትን ይጠይቃል። የአፍ መፍቻ በሆነው ቋንቋቸው የሚሰሩ መርካታ ሰራተኞቻችን ከባድ እና ዉስብስብ ይዘት ያለዉን ዶኩመንት አጭር እና ለአረዳድ በሚቀል መልኩ ይተረጉሙሎታል። የዘትርጉም አባሎች በሁሉም ሀጉር ስላሉ ትርጉም እና ተመሳሳይ ስራዎችን በማናቸው ሰሀት ሊያገኙ ይችላሉ።
+              </p>
             
             </div>
           </div>
@@ -194,22 +193,22 @@
                 <div class="col-xl-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
                   <div class="icon-box mt-4 mt-xl-0">
                     <i class="bx bx-receipt"></i>
-                    <h4>Fast turnaround</h4>
-                    <p>Our transparent per-word pricing is a fraction of the cost of traditional agencies so you can drive business in new markets at competitive rates.</p>
+                    <h4> ፈጣን አገልግሎች</h4>
+                    <p>ግልጽ እና ፈጠአን የሆነው አገልግሎታችን ተርጓሚ ፍለጋ የሚያጠፉትን ግዜ ማሳጠር ብቻ ሳይሆን በዋጋም ተወዳዳሪ ነው</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
                   <div class="icon-box mt-4 mt-xl-0">
                     <i class="bx bx-cube-alt"></i>
-                    <h4>Efficiency</h4>
-                    <p>With 150+ certified translators working across all major time zones, we can comfortably keep pace with your content needs, no matter the volume</p>
+                    <h4> ውጤታማነት</h4>
+                    <p>ከ150 በላይ ብቃት ያላቸው ተርጓሚዎቻችን በማናቸውም ግዜ ደረጃዉን የጠበቀ አገልግሎች ለመስጠት ዝግጁ ናቸ። </p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
                   <div class="icon-box mt-4 mt-xl-0">
                     <i class="bx bx-images"></i>
-                    <h4>Human quality</h4>
-                    <p>Our integrated API and built-in quality tools eliminate workflow inefficiency and boost consistency and quality across projects.</p>
+                    <h4>በሰዎች የሚተረጎም</h4>
+                    <p>ተመሳሳይ እና ተከታታይ ትርጉሞችን ወጥነት ለመጠበቅ የሚያስችል ሶፍትዋር ስላለን ስራ ለማፋጠን እና ጥራቱን ለመጠበቅ ያስችለናል</p>
                   </div>
                 </div>
               </div>
@@ -230,9 +229,8 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="section-title" data-aos="fade-right">
-              <h2>Services</h2>
-              <p>Order professional translation servicdes at the most competitive
-                rates in the industry.</p>
+              <h2>አገልግሎቶች</h2>
+              <p>በባለሙያ የተደገፈ የትርጉም ስራ በተመጣጣኝ ክፍያ ከፈለጉ አሁኑን ይዘዙ</p>
             </div>
           </div>
           <div class="col-lg-8">
@@ -240,15 +238,15 @@
               <div class="col-md-6 d-flex align-items-stretch">
                 <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
                   <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                  <h4><a href="#">Translations</a></h4>
-                  <p>Order professional translation services at the most competitive rates in the industry.</p>
+                  <h4><a href="#">ትርጉም</a></h4>
+                  <p>በባለሙያ የተደገፈ የትርጉም ስራ በተመጣጣኝ ክፍያ ከፈለጉ አሁኑን ይዘዙ</p>
                 </div>
               </div>
 
               <div class="col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
                 <div class="icon-box" data-aos="zoom-in" data-aos-delay="200">
                   <div class="icon"><i class="bx bx-file"></i></div>
-                  <h4><a href="#">Proofreading</a></h4>
+                  <h4><a href="#">አርታኢ</a></h4>
                   <p>Professional, effective and mistake-free proofreading services</p>
                 </div>
               </div>
@@ -286,7 +284,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="section-title" data-aos="fade-right">
-              <h2>Testimonials</h2>
+              <h2>ምስክሮች</h2>
               <p>Magnam dolores commodi suscipit uisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
             </div>
           </div>
@@ -362,7 +360,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="section-title" data-aos="fade-right">
-              <h2>Team</h2>
+              <h2>ቡድን</h2>
               <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem.</p>
             </div>
           </div>
@@ -509,21 +507,21 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Useful Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#header">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#team">Team </a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contact</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">ቤት</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">ስለ</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">አገልግሎቶች</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">ሰራተኞቻችን</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">አግኙን</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Our Services</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Translations</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Proofreading</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Transcribing</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Interpretation</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">ትርጉም</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">አርታኢ</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Content summarization</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Content categorization</a></li>
             </ul>
           </div>
 

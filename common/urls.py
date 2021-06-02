@@ -8,4 +8,5 @@ app_name = 'common'
 
 urlpatterns = [
     path('', views.index, name='index'), #landing page of the site
+    #path('/ar', views.amharic, name='amharic'),
 ]

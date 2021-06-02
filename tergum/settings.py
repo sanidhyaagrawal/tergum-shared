@@ -82,6 +82,8 @@ SOCIALACCOUNT_PROVIDERS = {
 # suppoerted ISO codes
 LANGUAGES = (
     ('en', 'English'),
+    ('ar', 'Amharic'),
+
 )
 
 MIDDLEWARE = [
